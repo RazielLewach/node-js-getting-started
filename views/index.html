@@ -19,12 +19,9 @@
 			var socket = io();
 			
 			// Señales de lógica enviadas.
-			$(function(){
-				// Hacemos click
-				$("#showData").click(function (e) {
-					console.log("Clicked");
-					socket.emit("onRequest");
-				});
+			$("#showData").click(function (e) {
+				console.log("Clicked");
+				socket.emit("onRequest");
 			});
 			
 			// Señales de lógica recibidas.
