@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 // Sockets.
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio.listen(app)
 
 // PostgreSQL.
 /*const path = require('path')
@@ -29,11 +29,9 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.render('index');
 });
-app.get('/db', (req, res) => {
+/*app.get('/db', (req, res) => {
     res.render('db');
-});
-
-server.listen(port);
+});*/
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
