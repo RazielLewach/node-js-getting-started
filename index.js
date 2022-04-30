@@ -3,11 +3,6 @@ const express = require('express');
 const port = process.env.PORT || 5000;
 
 // Sockets.
-/*const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);*/
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
