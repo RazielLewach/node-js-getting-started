@@ -5,30 +5,7 @@
 
 <body>
 
-<script>
-	const pool = new Pool({
-	  connectionString: process.env.DATABASE_URL,
-	  ssl: {
-		rejectUnauthorized: false
-	  }
-	});
-	
-	async function initDB (req, res) {
-		try {
-			console.log("VAMOS!");
-			const client = await pool.connect();
-			const result = await client.query('SELECT * FROM test_table');
-			const results = { 'results': (result) ? result.rows : null};
-			res.render('pages/db', results );
-			client.release();
-		} catch (err) {
-			console.error(err);
-			res.send("Error " + err);
-		}
-	};
-	
-	initDB();
-</script>
+<button onclick="onRequest()">Show data!</button>
 
 </body>
 </html>
