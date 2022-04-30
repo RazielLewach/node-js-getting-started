@@ -22,12 +22,12 @@ express()
 
 
 io.on('connection', (socket) => {
-    /*socket.on('onRequest', (data) => {
+    socket.on('onRequest', (data) => {
 		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
             console.log("Resultados",res);
         });
 		client.end();
-    });*/
-}
+    });
+});
