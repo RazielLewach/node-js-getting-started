@@ -4,6 +4,7 @@ heroku login
 
 - OPEN DATABASE TO DO QUERIES
 heroku pg:psql
+\q para cerrar
 
 - COMMIT, PUSH AND DEPLOY
 git add . & git commit -m "justcommitdamnit" & git push origin main & git push heroku main

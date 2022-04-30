@@ -4,13 +4,14 @@ const app = express();
 const server = app.listen(puerto);
 const io = require('socket.io').listen(server);
 const path = require('path')
-const { Pool } = require('pg');
-const pool = new Pool({
+const { Client } = require('pg');
+const client = new Client({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
 		rejectUnauthorized: false
 	}
 });
+client.connect();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -23,12 +24,10 @@ express()
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
-		pool.getConnection((errDoFromUsuario, con) => {
-        if (errDoFromUsuario) throw errDoFromUsuario;
-        con.query("SELECT * FROM test_table;", (errSelectDoFromUsuario, resultSelectDoFromUsuario) => {
-            if (errSelectDoFromUsuario) throw errSelectDoFromUsuario;
-            console.log("Resultados",resultSelectDoFromUsuario);
+		client.query("SELECT * FROM test_table;", (err, res) => {
+            if (err) throw err;
+            console.log("Resultados",res);
         });
-        con.release();
+		client.end();
     });
 }
