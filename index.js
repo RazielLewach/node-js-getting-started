@@ -32,11 +32,15 @@ io.on("connection", (socket) => {
 	console.log("a user connected");
     socket.on("onRequest", (data) => {
 		console.log("EXITO server");
-		client.connect();
-		client.query("SELECT * FROM test_table;", (err, res) => {
-            if (err) throw err;
-			socket.emit("exito",res);
-        });
-		client.end();
+		try {
+			const client = await pool.connect();
+			const result = await client.query('SELECT * FROM test_table;');
+			const results = { 'results': (result) ? result.rows : null};
+			socket.emit("exito",results);
+			client.release();
+		} catch (err) {
+			console.error(err);
+			res.send("Error " + err);
+		}
     });
 });
