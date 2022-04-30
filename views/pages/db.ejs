@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%- include ("../partials/header.ejs") %>
 </head>
 
 <body>
 
-<%- include ("../partials/nav.ejs") %>
-
-<div class="container">
-<h2>Database Results</h2>
-
-<ul>
-    <% results.forEach(function(r) { %>
-        <li><%= r.id %> - <%= r.name %></li>
-    <% }); %>
-</ul>
-
-</div>
+<script>
+	try {
+		console.log("VAMOS!");
+		const client = await pool.connect();
+		const result = await client.query('SELECT * FROM test_table');
+		const results = { 'results': (result) ? result.rows : null};
+		res.render('pages/db', results );
+		client.release();
+    } catch (err) {
+		console.error(err);
+		res.send("Error " + err);
+    }
+</script>
 
 </body>
 </html>
