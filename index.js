@@ -3,7 +3,8 @@ const express = require('express');
 const puerto = process.env.PORT || 5000;
 
 // Sockets.
-//const io = require('socket.io')(puerto);
+import { Server } from "socket.io";
+const io = new Server(puerto);
 
 // PostgreSQL.
 const path = require('path')
@@ -26,7 +27,7 @@ express()
 
 
 // Socket events.
-/*io.on('connection', (socket) => {
+io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
 		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
@@ -35,4 +36,4 @@ express()
         });
 		client.end();
     });
-});*/
+});
