@@ -9,8 +9,8 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);*/
 const app = express();
-const server = app.listen(port);
-const io = require('socket.io').listen(server);
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -34,12 +34,13 @@ app
 
 // Escuchar el puerto adecuado
 server.listen(port, function() {
-     console.log("La aplicación está ejecutándose en el puerto " + port);
+     console.log("Tomato server running on port " + port);
 });
 
 // Socket events.
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
+		console.log("Tomato user connected");
 		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
