@@ -10,13 +10,12 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 // PostgreSQL.
-const path = require('path')
-const { Client } = require('pg');
-const client = new Client({
-	connectionString: process.env.DATABASE_URL,
-	ssl: {
-		rejectUnauthorized: false
-	}
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Rutas para inicializar la ventana
@@ -40,7 +39,6 @@ io.on("connection", async (socket) => {
 			client.release();
 		} catch (err) {
 			console.error(err);
-			res.send("Error " + err);
 		}
     });
 });
