@@ -6,7 +6,7 @@
 <body>
 
 <script>
-	function async initDB (req, res) => {
+	async function initDB (req, res) => {
 		try {
 			console.log("VAMOS!");
 			const client = await pool.connect();
