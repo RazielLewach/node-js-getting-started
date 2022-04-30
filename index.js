@@ -21,7 +21,7 @@ const client = new Client({
 
 // Rutas para inicializar la ventana
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 server.listen(port, () => {
