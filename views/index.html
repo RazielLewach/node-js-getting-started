@@ -16,5 +16,19 @@
 		
 		<button id="showData">Show data!</button>
 		
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+			
+			// Señales de lógica enviadas.
+			$(function(){
+				// Hacemos click
+				$("#showData").click(function (e) {
+					console.log("Clicked");
+					socket.emit('onRequest');
+				});
+			});
+		</script>
+		
 	</body>
 </html>

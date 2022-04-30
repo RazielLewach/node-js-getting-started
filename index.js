@@ -19,25 +19,17 @@ const client = new Client({
 	}
 });*/
 
-// Template para el engine ejs
-app.set('view engine', 'ejs');
-
-// Middlewares
-app.use(express.static('public'));
-
 // Rutas para inicializar la ventana
 app.get('/', (req, res) => {
-    res.render('index');
+  res.sendFile(__dirname + '/index.html');
 });
-/*app.get('/db', (req, res) => {
-    res.render('db');
-});*/
 
 server.listen(port, () => {
   console.log('listening on port');
 });
 
 io.on('connection', (socket) => {
+	console.log('a user connected');
     socket.on('onRequest', (data) => {
 		/*client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
@@ -45,6 +37,5 @@ io.on('connection', (socket) => {
             console.log("Resultados",res);
         });
 		client.end();*/
-		console.log("Request llegada");
     });
 });
