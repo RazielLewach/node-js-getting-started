@@ -4,11 +4,9 @@ const socket = require("socket.io");
 const port = process.env.PORT || 5000;
 
 // Sockets.
-const app = express();
-const server = app.listen(port, function () {
-  console.log(`Listening on port ${port}`);
-});
-const io = socket(server);
+var app = require('express')();
+var http = require('https').Server(app);
+var io = require('socket.io')(http);
 
 // PostgreSQL.
 const path = require('path')
