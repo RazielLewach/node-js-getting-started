@@ -1,8 +1,15 @@
+// Init.
 const express = require('express');
 const puerto = process.env.PORT || 5000;
+
+// Sockets.
 const app = express();
-const server = app.listen(puerto);
-const io = require('socket.io').listen(server);
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+// PostgreSQL.
 const path = require('path')
 const { Client } = require('pg');
 const client = new Client({
@@ -12,6 +19,7 @@ const client = new Client({
 	}
 });
 
+// Launch and link pages.
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -21,6 +29,7 @@ express()
   .listen(puerto, () => console.log(`Listening on ${ puerto }`))
 
 
+// Socket events.
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
 		client.connect();
