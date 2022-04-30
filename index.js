@@ -5,7 +5,7 @@ const port = process.env.PORT || 5000;
 
 // Sockets.
 var app = require('express')();
-var http = require('https').Server(app);
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 // PostgreSQL.
