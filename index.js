@@ -9,7 +9,6 @@ const server = http.createServer(app);
 server.listen(port);
 const { Server } = require("socket.io");
 const io = new Server(server);
-io.listen(server);
 
 // PostgreSQL.
 const path = require('path')
