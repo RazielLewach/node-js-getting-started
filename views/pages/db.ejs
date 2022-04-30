@@ -8,9 +8,10 @@
 
 <button id="showData">Show data!</button>
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-	const socket = io();
+<script type="module">
+  import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+
+  const socket = io();
 </script>
  <script>
 	$(function(){
