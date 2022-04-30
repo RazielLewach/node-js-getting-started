@@ -1,13 +1,13 @@
 // Init.
 const express = require('express');
 const http = require("http");
+const socketio = require('socket.io');
 const port = process.env.PORT || 5000;
 
 // Sockets.
 const app = express();
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const io = socketio(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -32,6 +32,8 @@ app.get('/', (req, res) => {
 app.get('/db', (req, res) => {
     res.render('db');
 });
+
+server.listen(port);
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
