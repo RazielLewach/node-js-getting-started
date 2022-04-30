@@ -5,7 +5,8 @@ const port = process.env.PORT || 5000;
 // Sockets.
 const app = express();
 const server = app.listen(port);
-const io = require('socket.io').listen(server);
+const Server = require('socket.io');
+const io = new Server(port);
 
 // PostgreSQL.
 const path = require('path')
@@ -25,10 +26,10 @@ app.use(express.static('public'));
 
 // Rutas para inicializar la ventana
 app.get('/', (req, res) => {
-     res.render('index');
+    res.render('index');
 });
 app.get('/db', (req, res) => {
-     res.render('db');
+    res.render('db');
 });
 
 // Escuchar el puerto adecuado
