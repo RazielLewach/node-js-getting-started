@@ -5,7 +5,7 @@
   "engines": {
     "node": "16.x"
   },
-  "main": "index.js",
+  "main": "node server",
   "scripts": {
     "start": "node index.js",
     "test": "node test.js"
@@ -14,7 +14,8 @@
     "ejs": "^3.1.5",
     "express": "^4.18.1",
     "pg": "^8.7.3",
-    "socket.io": "^4.5.0"
+    "socket.io": "^4.5.0",
+    "socket.io-client": "^4.5.0"
   },
   "devDependencies": {
     "got": "^11.3.0",
