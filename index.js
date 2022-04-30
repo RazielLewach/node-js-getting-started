@@ -31,8 +31,8 @@ express()
 
 
 // Socket events.
-var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+var server = http.createServer(app).listen(port, function(){
+  console.log("Express server listening on port " + port);
 });
 
 var io = socket.listen(server);
