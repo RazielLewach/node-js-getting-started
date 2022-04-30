@@ -2,7 +2,6 @@
 <html>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src='/socket.io/socket.io.js'></script>
 </head>
 
 <body>
@@ -15,6 +14,7 @@
 	//#############################################################################################################################################################################################
 
 	// Crea la conexión
+	var io = require('socket.io-client');
 	var socket = io.connect(
 		//'http://localhost:5000/'
 		'https://node-example-tomato.herokuapp.com/'

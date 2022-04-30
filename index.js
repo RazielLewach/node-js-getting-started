@@ -3,9 +3,7 @@ const express = require('express');
 const puerto = process.env.PORT || 5000;
 
 // Sockets.
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io').listen(puerto);
 
 // PostgreSQL.
 const path = require('path')
