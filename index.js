@@ -23,7 +23,7 @@ express()
 
 
 io.on('connection', (socket) => {
-     socket.on('onRequest', (data) => {
+    socket.on('onRequest', (data) => {
         try {
 			console.log("VAMOS!");
 			const client = await pool.connect();
@@ -36,3 +36,4 @@ io.on('connection', (socket) => {
 			res.send("Error " + err);
 		}
     });
+}
