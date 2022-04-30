@@ -8,16 +8,9 @@
 
 <button id="showData">Show data!</button>
 
-<script type="importmap">
-  {
-    "imports": {
-      "socket.io-client": "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
-    }
-  }
-</script>
-<script type="module">
-  import { io } from "socket.io-client";
-  const socket = io();
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	const socket = io();
 </script>
  <script>
 	$(function(){
