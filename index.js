@@ -4,7 +4,6 @@ const app = express();
 const server = app.listen(puerto);
 const io = require('socket.io').listen(server);
 const path = require('path')
-const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
@@ -19,7 +18,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/db', (req, res) => res.render('pages/db'))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+  .listen(puerto, () => console.log(`Listening on ${ puerto }`))
 
 
 io.on('connection', (socket) => {
