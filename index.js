@@ -36,9 +36,6 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 var io = socket.listen(server);
-io.sockets.on('connection', function () {
-  console.log('hello world im a hot socket');
-});
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
