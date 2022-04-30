@@ -1,13 +1,13 @@
 // Init.
 const express = require('express');
-const socket = require("socket.io");
 const http = require("http");
 const port = process.env.PORT || 5000;
 
 // Sockets.
-var app = express();
-var http = http.Server(app);
-var io = socket(http);
+const app = express();
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 // PostgreSQL.
 const path = require('path')
