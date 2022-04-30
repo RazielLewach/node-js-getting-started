@@ -23,7 +23,14 @@
 				// Hacemos click
 				$("#showData").click(function (e) {
 					console.log("Clicked");
-					socket.emit("onRequest",true);
+					socket.emit("onRequest");
+				});
+			});
+			
+			// Señales de lógica recibidas.
+			io.on("connection", (socket) => {
+				socket.on("exito", (data) => {
+					console.log(data);
 				});
 			});
 		</script>

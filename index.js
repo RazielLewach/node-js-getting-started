@@ -10,14 +10,14 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 // PostgreSQL.
-/*const path = require('path')
+const path = require('path')
 const { Client } = require('pg');
 const client = new Client({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
 		rejectUnauthorized: false
 	}
-});*/
+});
 
 // Rutas para inicializar la ventana
 app.get('/', (req, res) => {
@@ -31,12 +31,11 @@ server.listen(port, () => {
 io.on("connection", (socket) => {
 	console.log("a user connected");
     socket.on("onRequest", (data) => {
-		console.log("ÉXITO!!!",data);
-		/*client.connect();
+		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
-            console.log("Resultados",res);
+			socket.emit("exito",res);
         });
-		client.end();*/
+		client.end();
     });
 });
