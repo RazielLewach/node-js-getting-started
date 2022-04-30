@@ -28,10 +28,8 @@
 			});
 			
 			// Señales de lógica recibidas.
-			io.on("connection", (socket) => {
-				socket.on("exito", (data) => {
-					console.log(data);
-				});
+			socket.on("exito", (data) => {
+				console.log(data);
 			});
 		</script>
 		
