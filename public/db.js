@@ -3,7 +3,7 @@
 //#############################################################################################################################################################################################
 
 // Crea la conexión
-var socket = io.connect(
+/*var socket = io.connect(
 	//'http://localhost:5000/'
 	'https://node-example-tomato.herokuapp.com/db/'
 ,{reconnect: true});
@@ -17,4 +17,4 @@ $(function(){
 	$("#showData").onclick = function (e) {
 		socket.emit('onRequest');
 	};
-});
+});*/
