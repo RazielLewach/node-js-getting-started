@@ -23,16 +23,12 @@ express()
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
-        try {
-			console.log("VAMOS!");
-			const client = await pool.connect();
-			const result = await client.query('SELECT * FROM test_table');
-			const results = { 'results': (result) ? result.rows : null};
-			console.log("Resultados",results);
-			client.release();
-		} catch (err) {
-			console.error(err);
-			res.send("Error " + err);
-		}
+		pool.getConnection((errDoFromUsuario, con) => {
+        if (errDoFromUsuario) throw errDoFromUsuario;
+        con.query("SELECT * FROM test_table;", (errSelectDoFromUsuario, resultSelectDoFromUsuario) => {
+            if (errSelectDoFromUsuario) throw errSelectDoFromUsuario;
+            console.log("Resultados",resultSelectDoFromUsuario);
+        });
+        con.release();
     });
 }
