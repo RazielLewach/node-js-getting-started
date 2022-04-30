@@ -5,8 +5,7 @@ const port = process.env.PORT || 5000;
 // Sockets.
 const app = express();
 const server = app.listen(port);
-const Server = require('socket.io');
-const io = new Server(port);
+const io = require('socket.io')(port);
 
 // PostgreSQL.
 const path = require('path')
