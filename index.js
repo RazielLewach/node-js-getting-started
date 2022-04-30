@@ -1,6 +1,6 @@
 // Init.
 const express = require('express');
-const http = require("https");
+const http = require("http");
 const port = process.env.PORT || 5000;
 
 // Sockets.
