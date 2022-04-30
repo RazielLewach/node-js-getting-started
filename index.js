@@ -10,14 +10,14 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // PostgreSQL.
-const path = require('path')
+/*const path = require('path')
 const { Client } = require('pg');
 const client = new Client({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
 		rejectUnauthorized: false
 	}
-});
+});*/
 
 // Template para el engine ejs
 app.set('view engine', 'ejs');
@@ -37,11 +37,12 @@ server.listen(port);
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
-		client.connect();
+		/*client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
             console.log("Resultados",res);
         });
-		client.end();
+		client.end();*/
+		console.log("Request llegada");
     });
 });
