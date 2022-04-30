@@ -3,11 +3,14 @@ const express = require('express');
 const port = process.env.PORT || 5000;
 
 // Sockets.
-const app = express();
+/*const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server);*/
+const app = express();
+const server = app.listen(port);
+const io = require('socket.io').listen(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -20,14 +23,19 @@ const client = new Client({
 });
 
 // Launch and link pages.
-express()
-  .use(express.static(path.join(__dirname, 'public')))
+app
+  .use(express.static('public'))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('index'))
   .get('/db', (req, res) => res.render('db'))
   .listen(port, () => console.log(`Listening on ${ port }`))
 
+
+// Escuchar el puerto adecuado
+server.listen(port, function() {
+     console.log("La aplicación está ejecutándose en el puerto " + port);
+});
 
 // Socket events.
 io.on('connection', (socket) => {
