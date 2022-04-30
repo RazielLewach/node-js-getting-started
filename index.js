@@ -24,8 +24,8 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/db', (req, res) => res.render('pages/db'))
+  .get('/', (req, res) => res.render('index'))
+  .get('/db', (req, res) => res.render('db'))
   .listen(puerto, () => console.log(`Listening on ${ puerto }`))
 
 
