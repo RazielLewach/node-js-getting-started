@@ -17,7 +17,7 @@ express()
   .get('/db', (req, res) => res.render('pages/db'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-function onRequest(request, response) {
+async function onRequest(request, response) {
 	try {
 		console.log("VAMOS!");
 		const client = await pool.connect();
