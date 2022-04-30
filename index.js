@@ -30,7 +30,7 @@ server.listen(port, () => {
 
 io.on("connection", async (socket) => {
 	console.log("a user connected");
-    socket.on("onRequest", (data) => {
+    socket.on("onRequest", async (data) => {
 		console.log("EXITO server");
 		try {
 			const client = await pool.connect();
