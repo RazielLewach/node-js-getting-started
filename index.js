@@ -32,9 +32,9 @@ app.get('/db', (req, res) => {
 });
 
 // Escuchar el puerto adecuado
-server.listen(port, function() {
+/*server.listen(port, function() {
      console.log("La aplicación está ejecutándose en el puerto " + port);
-});
+});*/
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
