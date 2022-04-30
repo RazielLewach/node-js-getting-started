@@ -28,7 +28,7 @@ server.listen(port, () => {
   console.log('listening on port');
 });
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
 	console.log("a user connected");
     socket.on("onRequest", (data) => {
 		console.log("EXITO server");
@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
 			const client = await pool.connect();
 			const result = await client.query('SELECT * FROM test_table;');
 			const results = { 'results': (result) ? result.rows : null};
-			socket.emit("exito",results);
+			socket.emit("datos",results);
 			client.release();
 		} catch (err) {
 			console.error(err);
