@@ -8,9 +8,6 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-/*const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);*/
 
 // PostgreSQL.
 const path = require('path')
@@ -23,8 +20,8 @@ const client = new Client({
 });
 
 // Launch and link pages.
-app
-  .use(express.static('public'))
+express()
+  .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('index'))
@@ -32,15 +29,9 @@ app
   .listen(port, () => console.log(`Listening on ${ port }`))
 
 
-// Escuchar el puerto adecuado
-server.listen(port, function() {
-     console.log("Tomato server running on port " + port);
-});
-
 // Socket events.
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
-		console.log("Tomato user connected");
 		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
