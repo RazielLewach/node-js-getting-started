@@ -1,5 +1,5 @@
 // Crea la conexión
-var socket = io.connect("https://node-example-tomato.herokuapp.com");
+var socket = io();
 
 // Señales de lógica enviadas.
 $(function(){
