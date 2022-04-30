@@ -1,11 +1,14 @@
 // Init.
 const express = require('express');
+const socket = require("socket.io");
 const port = process.env.PORT || 5000;
 
 // Sockets.
 const app = express();
-const server = app.listen(port);
-const io = require('socket.io')(port);
+const server = app.listen(port, function () {
+  console.log(`Listening on port ${port}`);
+});
+const io = socket(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -30,11 +33,6 @@ app.get('/', (req, res) => {
 app.get('/db', (req, res) => {
     res.render('db');
 });
-
-// Escuchar el puerto adecuado
-/*server.listen(port, function() {
-     console.log("La aplicación está ejecutándose en el puerto " + port);
-});*/
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
