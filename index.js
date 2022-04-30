@@ -11,7 +11,6 @@ const client = new Client({
 		rejectUnauthorized: false
 	}
 });
-client.connect();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -24,6 +23,7 @@ express()
 
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
+		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
             console.log("Resultados",res);
