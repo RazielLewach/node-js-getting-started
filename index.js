@@ -31,6 +31,7 @@ server.listen(port, () => {
 io.on("connection", (socket) => {
 	console.log("a user connected");
     socket.on("onRequest", (data) => {
+		console.log("EXITO server");
 		client.connect();
 		client.query("SELECT * FROM test_table;", (err, res) => {
             if (err) throw err;
