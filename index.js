@@ -5,9 +5,10 @@ const port = process.env.PORT || 5000;
 // Sockets.
 const app = express();
 const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const socket = require("socket.io");
+//const server = http.createServer(app);
+//const { Server } = socket;
+//const io = new Server(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -30,6 +31,15 @@ express()
 
 
 // Socket events.
+var server = http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
+});
+
+var io = socket.listen(server);
+io.sockets.on('connection', function () {
+  console.log('hello world im a hot socket');
+});
+
 io.on('connection', (socket) => {
     socket.on('onRequest', (data) => {
 		client.connect();
