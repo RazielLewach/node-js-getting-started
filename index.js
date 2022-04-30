@@ -1,13 +1,15 @@
 // Init.
 const express = require('express');
-const puerto = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 // Sockets.
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+server.listen(port);
 const { Server } = require("socket.io");
 const io = new Server(server);
+io.listen(server);
 
 // PostgreSQL.
 const path = require('path')
@@ -26,7 +28,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('index'))
   .get('/db', (req, res) => res.render('db'))
-  .listen(puerto, () => console.log(`Listening on ${ puerto }`))
+  .listen(port, () => console.log(`Listening on ${ port }`))
 
 
 // Socket events.
