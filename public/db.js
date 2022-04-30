@@ -14,8 +14,8 @@ var socket = io.connect(
 
 $(function(){
 	// Hacemos click
-	$("#showData").onclick = function (e) {
+	$("#showData").click(function (e) {
 		console.log("Clicked");
 		socket.emit('onRequest');
-	};
+	});
 });
