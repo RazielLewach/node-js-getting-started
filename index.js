@@ -3,9 +3,8 @@ const express = require('express');
 const port = process.env.PORT || 5000;
 
 // Sockets.
-const http = require('http');
 const app = express();
-const server = app.listen(puerto);
+const server = app.listen(port);
 const io = require('socket.io').listen(server);
 
 // PostgreSQL.
