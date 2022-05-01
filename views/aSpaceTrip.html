@@ -3,24 +3,31 @@
 	<head>
         <meta charset="UTF-8" />
         <link rel="icon" href="https://i.imgur.com/I8ju6wN.png">
-        <title>Tales of Raziel Lewach</title>
+        <title>A Space Trip Tale</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	</head>
 
 	<body>
 
-		<h1>TALES OF RAZIEL LEWACH</h1>
-		<a href="/aSpaceTrip">A Space Trip Tale</a>
+		<h1>A SPACE TRIP TALE</h1>
+		<a href="/">Return to all the tales</a>
+		
+		<button id="showData">Show data!</button>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
 			
 			// Señales de lógica enviadas.
-			
+			$("#showData").click(function (e) {
+				console.log("Clicked");
+				socket.emit("onRequest");
+			});
 			
 			// Señales de lógica recibidas.
-			
+			socket.on("datos", (data) => {
+				console.log("Exito cliente",data);
+			});
 		</script>
 		
 	</body>

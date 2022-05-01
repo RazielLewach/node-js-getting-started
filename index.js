@@ -22,15 +22,17 @@ const pool = new Pool({
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
+app.get('/aSpaceTrip', (req, res) => {
+  res.sendFile(__dirname + '/views/aSpaceTrip.html');
+});
 
 server.listen(port, () => {
-  console.log('listening on port');
+  console.log('Listening on port');
 });
 
 io.on("connection", async (socket) => {
-	console.log("a user connected");
+	console.log("User connected");
     socket.on("onRequest", async (data) => {
-		console.log("EXITO server");
 		try {
 			const client = await pool.connect();
 			const result = await client.query('SELECT * FROM test_table;');
