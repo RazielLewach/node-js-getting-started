@@ -11,7 +11,7 @@
 
 		<h1>TALES OF RAZIEL LEWACH</h1>
 		<br>
-		<p id="msgSesion">Session not started. Create a new user or enter your user!</p>
+		<p id="msgSesion">Account not started. Create a new user or enter your existing user!</p>
 		<br>
 		<label for="name">Name:</label>
 		<input id="name" type="text"></input>
@@ -40,8 +40,8 @@
 			}
 			
 			// Señales de lógica recibidas.
-			socket.on("loginSuccess", (data) => {
-				console.log("data",data);
+			socket.on("newUserSuccess", (name) => {
+				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 			});
 		</script>
 		
