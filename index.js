@@ -32,12 +32,17 @@ server.listen(port, () => {
 
 io.on("connection", async (socket) => {
 	console.log("User connected");
-    socket.on("onRequest", async (data) => {
+	
+	// Eventos que entran.
+    socket.on("login", async (data) => {
 		try {
 			const client = await pool.connect();
-			const result = await client.query('SELECT * FROM test_table;');
-			const results = { 'results': (result) ? result.rows : null};
-			socket.emit("datos",results);
+			const users = await client.query("SELECT * FROM users WHERE name == "+String(data.name)+";");
+			const results = { 'results': (users) ? users.rows : null};
+			//if (results != null)
+			//{
+				socket.emit("loginSuccess",results);
+			//}
 			client.release();
 		} catch (err) {
 			console.error(err);

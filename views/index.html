@@ -11,14 +11,15 @@
 
 		<h1>TALES OF RAZIEL LEWACH</h1>
 		<br>
-		Registrar/Iniciar sesión
+		<p id="msgSesion">Session not started. Create a new user or enter your user!</p>
 		<br>
-		<label for="username">Username:</label>
-		<input id="username" type="text"></input>
+		<label for="name">Name:</label>
+		<input id="name" type="text"></input>
 		<br>
-		<label for="password">Password:</label>
-		<input id="password" type="text"></input>
-
+		<label for="pass">Password:</label>
+		<input id="pass" type="text"></input>
+		<br>
+		<br>
 		<a href="/aSpaceTrip">A Space Trip Tale</a>
 		
 		<script src="/socket.io/socket.io.js"></script>
@@ -26,10 +27,22 @@
 			var socket = io();
 			
 			// Señales de lógica enviadas.
+			$("#name").keypress(e => {
+				if (e.key == "Enter") login();
+			});
+			$("#pass").keypress(e => {
+				if (e.key == "Enter") login();
+			});
 			
+			function login()
+			{
+				socket.emit("login",$("#name").val(),$("#pass").val());
+			}
 			
 			// Señales de lógica recibidas.
-			
+			socket.on("loginSuccess", async (data) => {
+				console.log("data",data);
+			});
 		</script>
 		
 	</body>
