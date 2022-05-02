@@ -52,11 +52,11 @@
 		<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
 		<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
 		
-		<div class="tab">
+		<div class="tab" id="talesTabs" style="display: none;">
 			<button class="tablinks" onclick="openTale(event, 'aSpaceTrip')">A Space Trip</button>
 		</div>
 
-		<div id="aSpaceTrip" class="tabcontent" style="display: none;">
+		<div id="aSpaceTrip" class="tabcontent">
 			<h3>A Space Trip</h3>
 			
 		</div>
@@ -83,11 +83,12 @@
 			socket.on("newUserSuccess", (name) => {
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				user = name;
-				$("#aSpaceTrip").css("display","inline");
+				$("#talesTabs").css("display","inline");
 			});
 			socket.on("newUserFail", (name) => {
 				$("#msgSesion").text("Wrong password for that account!");
 				user = "";
+				$("#talesTabs").css("display","none");
 			});
 			
 			function openTale(evt, taleName) {
