@@ -5,7 +5,7 @@ cd node-js-getting-started & heroku login
 heroku pg:psql
 \q para cerrar
 \dt show tables
-create table tablename (id int not null, name varchar(255) not null, password varchar(255) not null, primary key (id));
+create table users (id serial, name varchar(255) not null, password varchar(255) not null, primary key (id));
 
 - COMMIT, PUSH AND DEPLOY
 git add . & git commit -m "justcommitdamnit" & git push origin main & git push heroku main
