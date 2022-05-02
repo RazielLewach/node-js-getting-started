@@ -58,8 +58,10 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<h3>A Space Trip</h3>
-				
+				<table><tr><td>A Space Trip</td><td><button id="bt1e1">1</button></td></tr></table>
+				<div id="dt1e1" class="episode" style="display: none;">
+					MUCHO TEXTO
+				</div>
 			</div>
 		</div>
 		
@@ -93,6 +95,7 @@
 				$("#content").css("display","none");
 			});
 			
+			// Maneja los tabs de las tales.
 			function openTale(evt, taleName) {
 				var i, tabcontent, tablinks;
 				tabcontent = document.getElementsByClassName("tabcontent");
@@ -105,7 +108,13 @@
 				}
 				document.getElementById(taleName).style.display = "block";
 				evt.currentTarget.className += " active";
+				$(".episode").css("display","none");
 			}
+			
+			// Muestra cada episodio.
+			$("#bt1e1").click((e) => {
+				$("#dt1e1").css("display","inline");
+			});
 		</script>
 		
 	</body>
