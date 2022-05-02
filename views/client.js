@@ -25,6 +25,7 @@ socket.on("newUserFail", (name) => {
 	user = "";
 });
 
+// Abre las tales del menú.
 function openTale(evt, taleName) {
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
