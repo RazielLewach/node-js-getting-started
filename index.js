@@ -46,7 +46,12 @@ io.on("connection", async (socket) => {
 			// Caso: cuenta existe.
 			else
 			{
-				console.log("ret",selUsers);
+				// Contraseña correcta.
+				if (selUsers.rows[0].pass == pass)
+					socket.emit("newUserSuccess",name);
+				// Contraseña incorrecta.
+				else
+					socket.emit("newUserFail",name);
 			}
 		});
     });

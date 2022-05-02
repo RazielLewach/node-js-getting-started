@@ -43,6 +43,9 @@
 			socket.on("newUserSuccess", (name) => {
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 			});
+			socket.on("newUserFail", (name) => {
+				$("#msgSesion").text("Wrong password for that account!");
+			});
 		</script>
 		
 	</body>
