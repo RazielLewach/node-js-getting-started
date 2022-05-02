@@ -86,9 +86,9 @@
 			
 			// Recibe las señales del login.
 			socket.on("newUserSuccess", (_name,_pass) => {
-				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				name = _name;
 				pass = _pass;
+				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				$("#content").css("display","inline");
 			});
 			socket.on("newUserFail", () => {
