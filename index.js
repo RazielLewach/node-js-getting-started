@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 app.get('/aSpaceTrip', (req, res) => {
   res.sendFile(__dirname + '/views/aSpaceTrip.html');
 });
+app.use(express.static(__dirname + '/public'));
 
 server.listen(port, () => {
   console.log('Listening on port');
