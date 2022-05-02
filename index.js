@@ -37,11 +37,13 @@ io.on("connection", async (socket) => {
     socket.on("login", async (name, pass) => {
 		try {
 			var results = doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';");
+			console.log("Server results",results);
 			if (results) {
 				// Caso: cuenta no existe, la crea.
 				if (results.length == 0)
 				{
-					doQuery("INSERT INTO users(name, pass) VALUES ("+String(name)+", "+String(pass)+");");
+					console.log("Crea");
+					doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');");
 					socket.emit("newUserSuccess",name);
 				}
 			}
