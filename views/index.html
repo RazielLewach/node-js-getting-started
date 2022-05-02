@@ -58,7 +58,7 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<table><tr><td>A Space Trip.</td><td><label for="name">Character name:</label><input id="charname01" type="text"></input></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<table><tr><td>A Space Trip.</td><td><label for="charname01">Character name:</label><input id="charname01" type="text"></input></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
 			<br>
@@ -143,8 +143,8 @@
 			// La lógica del seteo de nombre.
 			function setCharacterListener(_character)
 			{
-				$("#charname"+String(_character)).click((e) => {
-					socket.emit("setCharacterName",name,pass,_character);
+				$("#charname"+String(_character)).keypress((e) => {
+					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,_character);
 				});
 			}
 			
