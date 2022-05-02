@@ -92,9 +92,11 @@ async function doQuery(query,func)
 	const data = await client.query(query).then(res => {
 		func(res);
 		client.release();
+		return true;
 	}).catch(e => {
 		console.error(e.stack);
 		client.release();
+		return false;
 	});
 }
 
