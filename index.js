@@ -36,8 +36,8 @@ io.on("connection", async (socket) => {
 	// Eventos que entran.
     socket.on("login", async (name, pass) => {
 		try {
-			if (doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';"))
-			{
+			var results = doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';");
+			if (results) {
 				// Caso: cuenta no existe, la crea.
 				if (results.length == 0)
 				{
