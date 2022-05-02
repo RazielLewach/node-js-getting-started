@@ -37,7 +37,7 @@ io.on("connection", async (socket) => {
     socket.on("login", async (data) => {
 		try {
 			const client = await pool.connect();
-			const users = await client.query("SELECT * FROM users WHERE name == "+String(data.name)+";");
+			const users = await client.query("SELECT * FROM users WHERE name = "+String(data.name)+";");
 			const results = { 'results': (users) ? users.rows : null};
 			//if (results != null)
 			//{

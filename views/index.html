@@ -27,20 +27,21 @@
 			var socket = io();
 			
 			// Señales de lógica enviadas.
-			$("#name").keypress(e => {
+			$("#name").keypress((e) => {
 				if (e.key == "Enter") login();
 			});
-			$("#pass").keypress(e => {
+			$("#pass").keypress((e) => {
 				if (e.key == "Enter") login();
 			});
 			
 			function login()
 			{
+				console.log("Send login");
 				socket.emit("login",$("#name").val(),$("#pass").val());
 			}
 			
 			// Señales de lógica recibidas.
-			socket.on("loginSuccess", async (data) => {
+			socket.on("loginSuccess", (data) => {
 				console.log("data",data);
 			});
 		</script>
