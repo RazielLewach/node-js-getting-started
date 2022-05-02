@@ -36,9 +36,11 @@ io.on("connection", async (socket) => {
 	// Eventos que entran.
     socket.on("login", async (name, pass) => {
 		try {
+			console.log("Check users in server");
 			const client = await pool.connect();
 			const users = await client.query("SELECT * FROM users WHERE name = "+String(name)+";");
 			const results = { 'results': (users) ? users.rows : null};
+			console.log("Results in server",results);
 			//if (results != null)
 			//{
 				socket.emit("loginSuccess",results);
