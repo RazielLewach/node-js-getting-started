@@ -58,7 +58,7 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<table><tr><td>A Space Trip. Chapters: </td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<table><tr><td>A Space Trip.</td><td><label for="name">Character name:</label><input id="charname01" type="text"></input></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
 			<br>
@@ -70,6 +70,7 @@
 			var socket = io();
 			var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
 			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
+			var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
 			
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -112,6 +113,7 @@
 				document.getElementById(taleName).style.display = "block";
 				evt.currentTarget.className += " active";
 				$("#chapter").text("");
+				currentCharacterName = "";
 			}
 			
 			// Muestra cada episodio.
@@ -133,6 +135,22 @@
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").text("Tale's chapter not unlocked!");
+			});
+			
+			// Setea el nombre de tu personaje.
+			setCharacterListener("01");
+			
+			// La lógica del seteo de nombre.
+			function setCharacterListener(_character)
+			{
+				$("#charname"+String(_character))).click((e) => {
+					socket.emit("setCharacterName",name,pass,_character);
+				});
+			}
+			
+			// Recibe el nombre actualizado.
+			socket.on("characterNameChanged", (_character) => {
+				currentCharacterName = _character;
 			});
 		</script>
 		

@@ -37,7 +37,7 @@ io.on("connection", async (_socket) => {
 			// Caso: cuenta no existe, la crea.
 			if (selUsers.rowCount == 0)
 			{
-				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", (ins) => {
+				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", () => {
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					_socket.emit("newUserSuccess",_name,_pass);
 				});
@@ -55,17 +55,33 @@ io.on("connection", async (_socket) => {
 	
 	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
 	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter) => {
-		// Si tu usuario es válido...
-		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
-			if (selUsers.rowCount > 0)
-			{
-				// ... entonces comprueba el acceso al chapter.
-				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-					if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",getChapterText(_tale,_chapter));
-					else _socket.emit("chapterFail");
-				});
-			}
-		});
+		if (isUserValid(_name,_pass))
+		{
+			// Comprueba el acceso al chapter.
+			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
+				if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",getChapterText(_tale,_chapter));
+				else _socket.emit("chapterFail");
+			});
+		}
+	});
+	
+	// Setear character name.
+	_socket.on("setCharacterName", async (_name,_pass,_character) => {
+		if (isUserValid(_name,_pass))
+		{
+			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"';", (selCharacter) => {
+				// Si el nombre no existe, lo añade.
+				if (selCharacter.rowCount == 0)
+					doQuery("INSERT INTO characters(name, character) VALUES ('"+String(_name)+"', '"+String(_character)+"');", () => {
+						_socket.emit("characterNameChanged",_character);
+					});
+				// Si existe, lo actualiza.
+				else
+					doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"';", () => {
+						_socket.emit("characterNameChanged",_character);
+					});
+			});
+		}
 	});
 });
 
@@ -80,6 +96,14 @@ async function doQuery(query,func)
 		console.error(e.stack);
 		client.release();
 	});
+}
+
+// Si tu usuario es válido...
+function isUserValid(_name,_pass)
+{
+	doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+		return selUsers.rowCount > 0;
+	}
 }
 
 // Contenido de los chapters.
