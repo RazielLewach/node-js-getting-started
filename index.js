@@ -61,7 +61,7 @@ io.on("connection", async (_socket) => {
 			{
 				// ... entonces comprueba el acceso al chapter.
 				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-					if (selUsers.rowCount > 0) _socket.emit("chapterSuccess","AAAAAAAAAAAA CONTENIDO EPICO!!!");
+					if (selChapter.rowCount > 0) _socket.emit("chapterSuccess","AAAAAAAAAAAA CONTENIDO EPICO!!!");
 					else _socket.emit("chapterFail");
 				});
 			}
