@@ -143,7 +143,7 @@
 			// La lógica del seteo de nombre.
 			function setCharacterListener(_character)
 			{
-				$("#charname"+String(_character))).click((e) => {
+				$("#charname"+String(_character)).click((e) => {
 					socket.emit("setCharacterName",name,pass,_character);
 				});
 			}
