@@ -35,13 +35,13 @@ io.on("connection", async (socket) => {
 	
 	// Eventos que entran.
     socket.on("login", async (name, pass) => {
-		doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';", (res) => {
+		doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';", (selUsers) => {
 			// Caso: cuenta no existe, la crea.
-			if (res.length == 0)
+			if (selUsers.length == 0)
 			{
-				console.log("Crea");
-				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');");
-				socket.emit("newUserSuccess",name);
+				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');", (ins) => {
+					socket.emit("newUserSuccess",name);
+				});
 			}
 		});
     });
