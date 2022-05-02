@@ -52,7 +52,7 @@ io.on("connection", async (socket) => {
 });
 
 // Querys.
-function doQuery(query)
+async function doQuery(query)
 {
 	const client = await pool.connect();
 	const data = await client.query(query).then(res => {
