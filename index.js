@@ -34,10 +34,10 @@ io.on("connection", async (socket) => {
 	console.log("User connected");
 	
 	// Eventos que entran.
-    socket.on("login", async (data) => {
+    socket.on("login", async (name, pass) => {
 		try {
 			const client = await pool.connect();
-			const users = await client.query("SELECT * FROM users WHERE name = "+String(data.name)+";");
+			const users = await client.query("SELECT * FROM users WHERE name = "+String(name)+";");
 			const results = { 'results': (users) ? users.rows : null};
 			//if (results != null)
 			//{
