@@ -5,9 +5,45 @@
         <link rel="icon" href="https://i.imgur.com/I8ju6wN.png">
         <title>Tales of Raziel Lewach</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/client.js"></script>
-		<link rel="stylesheet" type="text/css" href="/client.css">
+		
+		<style>
+			/* Style the tab */
+			.tab {
+			  overflow: hidden;
+			  border: 1px solid #ccc;
+			  background-color: #f1f1f1;
+			}
+
+			/* Style the buttons inside the tab */
+			.tab button {
+			  background-color: inherit;
+			  float: left;
+			  border: none;
+			  outline: none;
+			  cursor: pointer;
+			  padding: 14px 16px;
+			  transition: 0.3s;
+			  font-size: 17px;
+			}
+
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+			  background-color: #ddd;
+			}
+
+			/* Create an active/current tablink class */
+			.tab button.active {
+			  background-color: #ccc;
+			}
+
+			/* Style the tab content */
+			.tabcontent {
+			  display: none;
+			  padding: 6px 12px;
+			  border: 1px solid #ccc;
+			  border-top: none;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -24,5 +60,50 @@
 			<h3>A Space Trip</h3>
 			
 		</div>
+		
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+			var user = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
+			
+			// Señales de lógica enviadas.
+			$("#name").keypress((e) => {
+				if (e.key == "Enter") login();
+			});
+			$("#pass").keypress((e) => {
+				if (e.key == "Enter") login();
+			});
+			
+			function login()
+			{
+				socket.emit("login",$("#name").val(),$("#pass").val());
+			}
+			
+			// Señales de lógica recibidas.
+			socket.on("newUserSuccess", (name) => {
+				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
+				user = name;
+				$("#aSpaceTravel").css("display","inline");
+			});
+			socket.on("newUserFail", (name) => {
+				$("#msgSesion").text("Wrong password for that account!");
+				user = "";
+			});
+			
+			function openTale(evt, taleName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(taleName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
+		
 	</body>
 </html>
