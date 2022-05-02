@@ -35,34 +35,27 @@ io.on("connection", async (socket) => {
 	
 	// Eventos que entran.
     socket.on("login", async (name, pass) => {
-		try {
-			var results = doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';");
-			console.log("Server results",results);
-			if (results) {
-				// Caso: cuenta no existe, la crea.
-				if (results.length == 0)
-				{
-					console.log("Crea");
-					doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');");
-					socket.emit("newUserSuccess",name);
-				}
+		doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';", (res) => {
+			// Caso: cuenta no existe, la crea.
+			if (res.length == 0)
+			{
+				console.log("Crea");
+				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');");
+				socket.emit("newUserSuccess",name);
 			}
-		} catch (err) {
-			console.error(err);
-		}
+		});
     });
 });
 
 // Querys.
-async function doQuery(query)
+async function doQuery(query,func)
 {
 	const client = await pool.connect();
 	const data = await client.query(query).then(res => {
+		func(res);
 		client.release();
-		return res;
 	}).catch(e => {
 		console.error(e.stack);
 		client.release();
-		return false;
 	});
 }
