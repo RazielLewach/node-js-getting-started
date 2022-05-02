@@ -56,7 +56,7 @@
 			<button class="tablinks" onclick="openTale(event, 'aSpaceTrip')">A Space Trip</button>
 		</div>
 
-		<div id="aSpaceTrip" class="tabcontent">
+		<div id="aSpaceTrip" class="tabcontent" style="display: none;">
 			<h3>A Space Trip</h3>
 			
 		</div>
@@ -83,7 +83,7 @@
 			socket.on("newUserSuccess", (name) => {
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				user = name;
-				$("#aSpaceTravel").css("display","inline");
+				$("#aSpaceTrip").css("display","inline");
 			});
 			socket.on("newUserFail", (name) => {
 				$("#msgSesion").text("Wrong password for that account!");
