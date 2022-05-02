@@ -63,9 +63,9 @@ io.on("connection", async (_socket) => {
 				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 					if (selUsers.rowCount > 0) _socket.emit("chapterSuccess",_tale,_chapter,"AAAAAAAAAAAA CONTENIDO EPICO!!!");
 					else _socket.emit("chapterFail");
-				}
+				});
 			}
-		}
+		});
 	});
 });
 
