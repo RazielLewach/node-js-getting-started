@@ -61,7 +61,7 @@ io.on("connection", async (_socket) => {
 			{
 				// ... entonces comprueba el acceso al chapter.
 				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-					if (selChapter.rowCount > 0) _socket.emit("chapterSuccess","AAAAAAAAAAAA CONTENIDO EPICO!!!");
+					if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",getChapterText(_tale,_chapter));
 					else _socket.emit("chapterFail");
 				});
 			}
@@ -80,4 +80,11 @@ async function doQuery(query,func)
 		console.error(e.stack);
 		client.release();
 	});
+}
+
+// Contenido de los chapters.
+function getChapterText(_tale,_chapter)
+{
+	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI";
+	else return "Chapter failed to load!";
 }
