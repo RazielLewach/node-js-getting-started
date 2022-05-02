@@ -103,7 +103,7 @@ function isUserValid(_name,_pass)
 {
 	doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 		return selUsers.rowCount > 0;
-	}
+	});
 }
 
 // Contenido de los chapters.
