@@ -38,7 +38,7 @@ io.on("connection", async (socket) => {
 		doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';", (selUsers) => {
 			// Caso: cuenta no existe, la crea.
 			console.log("Select",selUsers);
-			if (selUsers.length == 0)
+			if (selUsers.rowCount == 0)
 			{
 				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');", (ins) => {
 					console.log("insert");
