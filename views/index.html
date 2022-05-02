@@ -58,19 +58,20 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<table><tr><td>A Space Trip</td><td><button id="bt1e1">1</button></td></tr></table>
-				<div id="dt1e1" class="episode" style="display: none;">
-					MUCHO TEXTO
-				</div>
+				<table><tr><td>A Space Trip. Chapters: </td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
+			
+			<br>
+			<p id="chapter"></p>
 		</div>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
-			var user = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
+			var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
+			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
 			
-			// Señales de lógica enviadas.
+			// Envia las señales del login.
 			$("#name").keypress((e) => {
 				if (e.key == "Enter") login();
 			});
@@ -83,15 +84,17 @@
 				socket.emit("login",$("#name").val(),$("#pass").val());
 			}
 			
-			// Señales de lógica recibidas.
-			socket.on("newUserSuccess", (name) => {
+			// Recibe las señales del login.
+			socket.on("newUserSuccess", (_name,_pass) => {
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
-				user = name;
+				name = _name;
+				pass = _pass;
 				$("#content").css("display","inline");
 			});
-			socket.on("newUserFail", (name) => {
+			socket.on("newUserFail", () => {
 				$("#msgSesion").text("Wrong password for that account!");
-				user = "";
+				name = "";
+				pass = "";
 				$("#content").css("display","none");
 			});
 			
@@ -108,12 +111,28 @@
 				}
 				document.getElementById(taleName).style.display = "block";
 				evt.currentTarget.className += " active";
-				$(".episode").css("display","none");
+				$("#chapter").text("");
 			}
 			
 			// Muestra cada episodio.
-			$("#bt1e1").click((e) => {
-				$("#dt1e1").css("display","inline");
+			setChapterListener("01","01");
+			setChapterListener("01","02");
+			
+			// La lógica y el chequeo a base de datos si tenemos acceso a ese episodio.
+			function setChapterListener(_tale,_chapter)
+			{
+				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
+					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
+					socket.emit("loadChapter",name,pass,_tale,_chapter);
+				});
+			}
+			
+			// Recibe las señales de comprobar chapter.
+			socket.on("chapterSuccess", (_content) => {
+				$("#chapter").text(_content);
+			});
+			socket.on("chapterFail", () => {
+				$("#chapter").text("Tale's chapter not unlocked!");
 			});
 		</script>
 		

@@ -27,31 +27,46 @@ server.listen(port, () => {
   console.log('Listening on port');
 });
 
-io.on("connection", async (socket) => {
+io.on("connection", async (_socket) => {
 	console.log("User connected");
 	
 	// Eventos que entran.
-    socket.on("login", async (name, pass) => {
-		doQuery("SELECT * FROM users WHERE name = '"+String(name)+"';", (selUsers) => {
+	// Login o crear usuario.
+    _socket.on("login", async (_name,_pass) => {
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"';", (selUsers) => {
 			// Caso: cuenta no existe, la crea.
 			if (selUsers.rowCount == 0)
 			{
-				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(name)+"', '"+String(pass)+"');", (ins) => {
-					socket.emit("newUserSuccess",name);
+				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", (ins) => {
+					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
+					_socket.emit("newUserSuccess",_name,_pass);
 				});
 			}
 			// Caso: cuenta existe.
 			else
 			{
 				// Contraseña correcta.
-				if (selUsers.rows[0].pass == pass)
-					socket.emit("newUserSuccess",name);
+				if (selUsers.rows[0].pass == _pass) _socket.emit("newUserSuccess",_name,_pass);
 				// Contraseña incorrecta.
-				else
-					socket.emit("newUserFail",name);
+				else _socket.emit("newUserFail");
 			}
 		});
     });
+	
+	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
+	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter) => {
+		// Si tu usuario es válido...
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				// ... entonces comprueba el acceso al chapter.
+				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
+					if (selUsers.rowCount > 0) _socket.emit("chapterSuccess",_tale,_chapter,"AAAAAAAAAAAA CONTENIDO EPICO!!!");
+					else _socket.emit("chapterFail");
+				}
+			}
+		}
+	});
 });
 
 // Querys.
