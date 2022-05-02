@@ -8,23 +8,15 @@
 	</head>
 
 	<body>
-
-		<h1>TALES OF RAZIEL LEWACH</h1>
-		<br>
-		<p id="msgSesion">Account not started. Create a new user or enter your existing user!</p>
-		<br>
-		<label for="name">Name:</label>
-		<input id="name" type="text"></input>
-		<br>
-		<label for="pass">Password:</label>
-		<input id="pass" type="text"></input>
-		<br>
-		<br>
-		<a href="/aSpaceTrip">A Space Trip Tale</a>
+		<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
+		<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
+		<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
+		<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>	
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
+			var user = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
 			
 			// Señales de lógica enviadas.
 			$("#name").keypress((e) => {
@@ -42,9 +34,11 @@
 			// Señales de lógica recibidas.
 			socket.on("newUserSuccess", (name) => {
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
+				user = name;
 			});
 			socket.on("newUserFail", (name) => {
 				$("#msgSesion").text("Wrong password for that account!");
+				user = "";
 			});
 		</script>
 		
