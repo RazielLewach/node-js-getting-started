@@ -99,7 +99,7 @@ async function doQuery(query,func)
 }
 
 // Si tu usuario es válido...
-function isUserValid(_name,_pass)
+async function isUserValid(_name,_pass)
 {
 	doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 		return selUsers.rowCount > 0;
@@ -107,7 +107,7 @@ function isUserValid(_name,_pass)
 }
 
 // Contenido de los chapters.
-function getChapterText(_tale,_chapter)
+async function getChapterText(_tale,_chapter)
 {
 	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI";
 	else return "Chapter failed to load!";
