@@ -64,10 +64,9 @@ io.on("connection", async (_socket) => {
 			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 				if (selChapter.rowCount > 0)
 				{
-					jQuery.get("/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", function(_data) {
+					fetch("/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt").then(response => response.text()).then((_data) => {
 						_socket.emit("chapterSuccess",_data);
-						// Modificar la data cambiando character?
-					});
+					})
 				}
 				else _socket.emit("chapterFail");
 			});
