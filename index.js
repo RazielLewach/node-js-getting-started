@@ -64,9 +64,10 @@ io.on("connection", async (_socket) => {
 			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 				if (selChapter.rowCount > 0)
 				{
-					var _content = getChapterText(_tale,_chapter,_character);
-					console.log("content",_content);
-					_socket.emit("chapterSuccess",_content);
+					$.get("/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", function(_data) {
+						_socket.emit("chapterSuccess",_data);
+						// Modificar la data cambiando character?
+					});
 				}
 				else _socket.emit("chapterFail");
 			});
@@ -118,14 +119,4 @@ async function isUserValid(_name,_pass)
 	doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 		return selUsers.rowCount > 0;
 	});
-}
-
-// Contenido de los chapters.
-async function getChapterText(_tale,_chapter,_character)
-{
-	fetch("/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt")
-	.then(response => response.text())
-	.then((data) => {
-		return data;
-	})
 }
