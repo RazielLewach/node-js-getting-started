@@ -142,8 +142,7 @@
 			
 			// Recibe las señales de comprobar chapter.
 			socket.on("chapterSuccess", (_content) => {
-				console.log("content",_content);
-				$("#chapter").text(String.valueOf(_content)); // BUG: recibe [object Object]
+				$("#chapter").text(_content);
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").text("Tale's chapter not unlocked!");
