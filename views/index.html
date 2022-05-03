@@ -136,11 +136,11 @@
 			{
 				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
 					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
-					socket.emit("loadChapter",name,pass,_tale,_chapter);
+					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName);
 				});
 			}
 			
-			// Recibe las señales de comprobar chapter.
+			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
 				$("#chapter").text(_content);
 			});
@@ -155,7 +155,11 @@
 			function setCharacterListener(_tale)
 			{
 				$("#charname"+String(_tale)).keypress((e) => {
-					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+					if (e.key == "Enter")
+					{
+						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+						$("#chapter").text("");
+					}
 				});
 			}
 			
@@ -167,6 +171,7 @@
 			// Carga el character name al elegir una pestaña.
 			socket.on("receiveCharacterName", (_chapter,_character) => {
 				$("#charname"+String(_chapter)).val(_character);
+				currentCharacterName = _character;
 			});
 		</script>
 		

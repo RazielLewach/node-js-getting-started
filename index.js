@@ -57,14 +57,14 @@ io.on("connection", async (_socket) => {
     });
 	
 	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
-	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter) => {
+	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character) => {
 		if (isUserValid(_name,_pass))
 		{
 			// Comprueba el acceso al chapter.
 			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 				if (selChapter.rowCount > 0)
 				{
-					var _content = getChapterText(_tale,_chapter);
+					var _content = getChapterText(_tale,_chapter,_character);
 					_socket.emit("chapterSuccess",_content);
 				}
 				else _socket.emit("chapterFail");
@@ -120,8 +120,8 @@ async function isUserValid(_name,_pass)
 }
 
 // Contenido de los chapters.
-function getChapterText(_tale,_chapter)
+function getChapterText(_tale,_chapter,_character)
 {
-	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI";
+	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI. Hola, ${_character}, ¿estás bien?";
 	else return "Chapter failed to load!";
 }
