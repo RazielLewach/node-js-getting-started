@@ -62,7 +62,7 @@ io.on("connection", async (_socket) => {
 		{
 			// Comprueba el acceso al chapter.
 			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-				if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",getChapterText(_tale,_chapter));
+				if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",String(getChapterText(_tale,_chapter)));
 				else _socket.emit("chapterFail");
 			});
 		}
