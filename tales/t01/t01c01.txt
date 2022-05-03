@@ -1,1 +1,1 @@
-PEDAZO CHAPTER 1 QUE TENEMOS AQUI. Hola, ${_character}, ¿estás bien?
+PEDAZO CHAPTER 1 QUE TENEMOS AQUI. Hola, $CHAR, ¿estás bien?
