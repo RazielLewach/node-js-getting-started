@@ -100,7 +100,7 @@
 			});
 			
 			// Maneja los tabs de las tales.
-			function openTale(evt, taleName) {
+			function openTale(_evt,_taleName) {
 				var i, tabcontent, tablinks;
 				tabcontent = document.getElementsByClassName("tabcontent");
 				for (i = 0; i < tabcontent.length; i++) {
@@ -110,10 +110,13 @@
 				for (i = 0; i < tablinks.length; i++) {
 					tablinks[i].className = tablinks[i].className.replace(" active", "");
 				}
-				document.getElementById(taleName).style.display = "block";
-				evt.currentTarget.className += " active";
+				document.getElementById(_taleName).style.display = "block";
+				_evt.currentTarget.className += " active";
 				$("#chapter").text("");
 				currentCharacterName = "";
+				
+				// Actualiza el character name que toca.
+				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterName",_name,_pass,"01");
 			}
 			
 			// Muestra cada episodio.
@@ -131,7 +134,7 @@
 			
 			// Recibe las señales de comprobar chapter.
 			socket.on("chapterSuccess", (_content) => {
-				$("#chapter").text(_content);
+				$("#chapter").text(String(_content));
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").text("Tale's chapter not unlocked!");
@@ -144,13 +147,18 @@
 			function setCharacterListener(_character)
 			{
 				$("#charname"+String(_character)).keypress((e) => {
-					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,_character);
+					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,$("#charname"+String(_character)).val());
 				});
 			}
 			
 			// Recibe el nombre actualizado.
 			socket.on("characterNameChanged", (_character) => {
 				currentCharacterName = _character;
+			});
+			
+			// Carga el character name al elegir una pestaña.
+			socket.on("receiveCharacterName", (_chapter,_character) => {
+				$("#charname"+String(_chapter)).val(_character);
 			});
 		</script>
 		

@@ -39,6 +39,7 @@ io.on("connection", async (_socket) => {
 			{
 				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", () => {
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
+					doQuery("INSERT INTO characters(name, tale, character) VALUES ('"+String(_name)+"',01,'"+String(_name)+"');");
 					_socket.emit("newUserSuccess",_name,_pass);
 				});
 			}
@@ -80,6 +81,16 @@ io.on("connection", async (_socket) => {
 					doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"';", () => {
 						_socket.emit("characterNameChanged",_character);
 					});
+			});
+		}
+	});
+	
+	// Envía el nombre del character.
+	_socket.on("demandCharacterName", async (_name,_pass,_tale) => {
+		if (isUserValid(_name,_pass))
+		{
+			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+				_socket.emit("receiveCharacterName",_tale,selCharacter.rows[0].character);
 			});
 		}
 	});
