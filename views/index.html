@@ -91,16 +91,30 @@
 				pass = _pass;
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				$("#content").css("display","inline");
+				resetTales();
 			});
 			socket.on("newUserFail", () => {
 				$("#msgSesion").text("Wrong password for that account!");
 				name = "";
 				pass = "";
 				$("#content").css("display","none");
+				resetTales();
 			});
 			
 			// Maneja los tabs de las tales.
 			function openTale(_evt,_taleName) {
+				resetTales();
+				_evt.currentTarget.className += " active";
+				$("#chapter").text("");
+				currentCharacterName = "";
+				
+				// Actualiza el character name que toca.
+				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterName",name,pass,"01");
+			}
+			
+			// Resetea las tales.
+			function resetTales()
+			{
 				var i, tabcontent, tablinks;
 				tabcontent = document.getElementsByClassName("tabcontent");
 				for (i = 0; i < tabcontent.length; i++) {
@@ -111,12 +125,6 @@
 					tablinks[i].className = tablinks[i].className.replace(" active", "");
 				}
 				document.getElementById(_taleName).style.display = "block";
-				_evt.currentTarget.className += " active";
-				$("#chapter").text("");
-				currentCharacterName = "";
-				
-				// Actualiza el character name que toca.
-				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterName",name,pass,"01");
 			}
 			
 			// Muestra cada episodio.
