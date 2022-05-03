@@ -120,8 +120,11 @@ async function isUserValid(_name,_pass)
 }
 
 // Contenido de los chapters.
-function getChapterText(_tale,_chapter,_character)
+async function getChapterText(_tale,_chapter,_character)
 {
-	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI. Hola, ${_character}, ¿estás bien?";
-	else return "Chapter failed to load!";
+	fetch("/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt")
+	.then(response => response.text())
+	.then((data) => {
+		return data;
+	})
 }
