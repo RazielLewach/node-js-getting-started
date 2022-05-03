@@ -104,6 +104,7 @@
 			// Maneja los tabs de las tales.
 			function openTale(_evt,_taleName) {
 				resetTales();
+				document.getElementById(_taleName).style.display = "block";
 				_evt.currentTarget.className += " active";
 				$("#chapter").text("");
 				currentCharacterName = "";
@@ -124,7 +125,6 @@
 				for (i = 0; i < tablinks.length; i++) {
 					tablinks[i].className = tablinks[i].className.replace(" active", "");
 				}
-				document.getElementById(_taleName).style.display = "block";
 			}
 			
 			// Muestra cada episodio.
