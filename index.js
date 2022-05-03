@@ -65,6 +65,7 @@ io.on("connection", async (_socket) => {
 				if (selChapter.rowCount > 0)
 				{
 					var _content = getChapterText(_tale,_chapter,_character);
+					console.log("content",_content);
 					_socket.emit("chapterSuccess",_content);
 				}
 				else _socket.emit("chapterFail");
