@@ -62,7 +62,12 @@ io.on("connection", async (_socket) => {
 		{
 			// Comprueba el acceso al chapter.
 			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-				if (selChapter.rowCount > 0) _socket.emit("chapterSuccess",getChapterText(_tale,_chapter));
+				if (selChapter.rowCount > 0)
+				{
+					var _content = getChapterText(_tale,_chapter);
+					console.log("EL PEDAZO CONTENT en server",_content);
+					_socket.emit("chapterSuccess",_content);
+				}
 				else _socket.emit("chapterFail");
 			});
 		}
@@ -116,7 +121,7 @@ async function isUserValid(_name,_pass)
 }
 
 // Contenido de los chapters.
-async function getChapterText(_tale,_chapter)
+function getChapterText(_tale,_chapter)
 {
 	if (_tale == 1 && _chapter == 1) return "PEDAZO CHAPTER 1 QUE TENEMOS AQUI";
 	else return "Chapter failed to load!";
