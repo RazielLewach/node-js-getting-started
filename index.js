@@ -38,9 +38,11 @@ io.on("connection", async (_socket) => {
 			if (selUsers.rowCount == 0)
 			{
 				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", () => {
+					_socket.emit("newUserSuccess",_name,_pass);
+					
+					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					doQuery("INSERT INTO characters(name, tale, character) VALUES ('"+String(_name)+"',01,'"+String(_name)+"');");
-					_socket.emit("newUserSuccess",_name,_pass);
 				});
 			}
 			// Caso: cuenta existe.
@@ -67,18 +69,12 @@ io.on("connection", async (_socket) => {
 	});
 	
 	// Setear character name.
-	_socket.on("setCharacterName", async (_name,_pass,_character) => {
+	_socket.on("setCharacterName", async (_name,_pass,_tale,_character) => {
 		if (isUserValid(_name,_pass))
 		{
-			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"';", (selCharacter) => {
-				// Si el nombre no existe, lo añade.
-				if (selCharacter.rowCount == 0)
-					doQuery("INSERT INTO characters(name, character) VALUES ('"+String(_name)+"', '"+String(_character)+"');", () => {
-						_socket.emit("characterNameChanged",_character);
-					});
-				// Si existe, lo actualiza.
-				else
-					doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"';", () => {
+			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+				if (selCharacter.rowCount > 0)
+					doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
 						_socket.emit("characterNameChanged",_character);
 					});
 			});

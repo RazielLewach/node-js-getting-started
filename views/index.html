@@ -144,10 +144,10 @@
 			setCharacterListener("01");
 			
 			// La lógica del seteo de nombre.
-			function setCharacterListener(_character)
+			function setCharacterListener(_tale)
 			{
-				$("#charname"+String(_character)).keypress((e) => {
-					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,$("#charname"+String(_character)).val());
+				$("#charname"+String(_tale)).keypress((e) => {
+					if (e.key == "Enter") socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 				});
 			}
 			
