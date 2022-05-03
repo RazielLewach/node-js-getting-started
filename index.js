@@ -67,6 +67,7 @@ io.on("connection", async (_socket) => {
 				{
 					fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
 						if (_error) throw _error;
+						console.log("server data",_data);
 						_socket.emit("chapterSuccess",_data);
 					});
 				}

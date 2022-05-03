@@ -142,6 +142,7 @@
 			
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
+				console.log("server _content",_content);
 				$("#chapter").text(_content);
 			});
 			socket.on("chapterFail", () => {
