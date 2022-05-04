@@ -39,7 +39,6 @@
 			/* Style the tab content */
 			.tabcontent {
 				display: none;
-				padding: 6px 12px;
 				border: 1px solid #ccc;
 				border-top: none;
 			}
@@ -66,7 +65,7 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<table><tr><td><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9893</button><button id="bt01f">&#9792</button></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794</button><button id="bt01f">&#9792</button> Color: <input id="sl01" type="range" min="0" max="255" value="128"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
 			<br>
@@ -158,7 +157,7 @@
 				$("#chapter").html("Tale's chapter not unlocked!");
 			});
 			
-			// Setea el nombre de tu personaje y el género.
+			// Setea el nombre de tu personaje, el género y el color.
 			setCharacterListener("01");
 			
 			// La lógica del seteo de nombre.
@@ -183,6 +182,11 @@
 				$("#bt"+String(_tale)+"f").click((e) => {
 					socket.emit("setCharacterGender",name,pass,_tale,"F");
 					$("#chapter").html("");
+				});
+				
+				// Color.
+				$("sl"+String(_tale)).on("input", (e) => {
+					console.log($(e.element).val(););
 				});
 			}
 			
