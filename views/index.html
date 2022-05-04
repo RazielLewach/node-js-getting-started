@@ -153,6 +153,7 @@
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
 				var doc = new DOMParser().parseFromString(_content, "text/xml");
+				console.log("DOC",doc);
 				$("#chapter").html(doc);
 			});
 			socket.on("chapterFail", () => {
