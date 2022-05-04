@@ -70,7 +70,7 @@
 			</div>
 			
 			<br>
-			<p id="chapter"></p>
+			<div id="chapter"></div>
 		</div>
 		
 		<script src="/socket.io/socket.io.js"></script>
@@ -115,7 +115,7 @@
 				resetTales();
 				document.getElementById(_taleName).style.display = "block";
 				_evt.currentTarget.className += " active";
-				$("#chapter").text("");
+				$("#chapter").html("");
 				currentCharacterName = "";
 				currentCharacterGender = "";
 				
@@ -152,12 +152,10 @@
 			
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
-				var doc = new DOMParser().parseFromString(_content, "text/xml");
-				console.log("DOC",doc);
-				$("#chapter").html(doc);
+				$("#chapter").html(_content);
 			});
 			socket.on("chapterFail", () => {
-				$("#chapter").text("Tale's chapter not unlocked!");
+				$("#chapter").html("Tale's chapter not unlocked!");
 			});
 			
 			// Setea el nombre de tu personaje y el género.
@@ -171,20 +169,20 @@
 					if (e.key == "Enter")
 					{
 						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-						$("#chapter").text("");
+						$("#chapter").html("");
 					}
 				});
 				
 				// Género masculino o neutro.
 				$("#bt"+String(_tale)+"m").click((e) => {
 					socket.emit("setCharacterGender",name,pass,_tale,"M");
-					$("#chapter").text("");
+					$("#chapter").html("");
 				});
 				
 				// Género femenino.
 				$("#bt"+String(_tale)+"f").click((e) => {
 					socket.emit("setCharacterGender",name,pass,_tale,"F");
-					$("#chapter").text("");
+					$("#chapter").html("");
 				});
 			}
 			
