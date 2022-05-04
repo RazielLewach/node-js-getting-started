@@ -1,6 +1,8 @@
 Capítulo 1: rumbo a la libertad.
 
-La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando con cara de idiota la araña tejer su obra en la esquina de tu cuarto. ¿Qué le haces, si es tan preciosa? Comienzas a vestirte rápida y descuidadamente y logras salir de allí.
-<em class='colGreen'>Hola soy verde</em>
+<br><br>La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando con cara de idiota esa araña tejer su obra en la esquina de tu cuarto. ¿Qué le haces, si es tan preciosa? Comienzas a vestirte rápida y descuidadamente y te paras frente a tu puerta.
+<br><div class='colGreen'>— Adiós, arañita. No dejes que te maten. —</div>
+<br>Mientras te aseguras que llevas encima todo lo necesario, la puerta comienza a deslizarse automáticamente hasta abrirse. Avanzas a paso firme mientras recorres aquellos pasillos metálicos que ya estás harto de observar a diario. 
+
 
   $CHAR, ¿estás bien? Eres list$GEND, eh?
