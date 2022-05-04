@@ -1,1 +1,3 @@
-PEDAZO CHAPTER 1 QUE TENEMOS AQUI. Hola, $CHAR, ¿estás bien?
+Capítulo 1: rumbo a la libertad.
+
+La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando la araña tejer su obra con cara de idiota. Comienzas a vestirte rápida y descuidadamente y logras salir  $CHAR, ¿estás bien? Eres list$GEND, eh?

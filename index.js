@@ -43,7 +43,7 @@ io.on("connection", async (_socket) => {
 					
 					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
-					doQuery("INSERT INTO characters(name, tale, character) VALUES ('"+String(_name)+"',01,'"+String(_name)+"');");
+					doQuery("INSERT INTO characters(name, tale, character, gender) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M');");
 				});
 			}
 			// Caso: cuenta existe.
@@ -58,7 +58,7 @@ io.on("connection", async (_socket) => {
     });
 	
 	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
-	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character) => {
+	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender) => {
 		if (isUserValid(_name,_pass))
 		{
 			// Comprueba el acceso al chapter.
@@ -67,7 +67,7 @@ io.on("connection", async (_socket) => {
 				{
 					fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
 						if (_error) throw _error;
-						_socket.emit("chapterSuccess",_data.toString().replace("$CHAR",_character));
+						_socket.emit("chapterSuccess",_data.toString().replace("$CHAR",_character).replace("$GEND",_gender == "M" ? "e" : "a"));
 					});
 				}
 				else _socket.emit("chapterFail");
@@ -88,12 +88,25 @@ io.on("connection", async (_socket) => {
 		}
 	});
 	
-	// Envía el nombre del character.
-	_socket.on("demandCharacterName", async (_name,_pass,_tale) => {
+	// Envía el nombre del character y gender.
+	_socket.on("demandCharacterData", async (_name,_pass,_tale) => {
 		if (isUserValid(_name,_pass))
 		{
 			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				_socket.emit("receiveCharacterName",_tale,selCharacter.rows[0].character);
+				_socket.emit("receiveCharacterData",_tale,selCharacter.rows[0].character,selCharacter.rows[0].gender);
+			});
+		}
+	});
+	
+	// Setear el gender.
+	_socket.on("setCharacterGender", async (_name,_pass,_tale,_gender) => {
+		if (isUserValid(_name,_pass))
+		{
+			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+				if (selCharacter.rowCount > 0)
+					doQuery("UPDATE characters SET gender = '"+String(_gender)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
+						_socket.emit("characterGenderChanged",_gender);
+					});
 			});
 		}
 	});

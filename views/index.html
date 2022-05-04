@@ -58,7 +58,7 @@
 			</div>
 
 			<div id="aSpaceTrip" class="tabcontent">
-				<table><tr><td>A Space Trip.</td><td><label for="charname01">Character name:</label><input id="charname01" type="text"></input></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<table><tr><td><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9893</button><button id="bt01f">&#9792</button></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
 			<br>
@@ -71,6 +71,7 @@
 			var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
 			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
 			var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
+			var currentCharacterGender = ""; // El género actual pos.
 			
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -108,9 +109,10 @@
 				_evt.currentTarget.className += " active";
 				$("#chapter").text("");
 				currentCharacterName = "";
+				currentCharacterGender = "";
 				
 				// Actualiza el character name que toca.
-				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterName",name,pass,"01");
+				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterData",name,pass,"01");
 			}
 			
 			// Resetea las tales.
@@ -136,7 +138,7 @@
 			{
 				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
 					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
-					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName);
+					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender);
 				});
 			}
 			
@@ -148,18 +150,29 @@
 				$("#chapter").text("Tale's chapter not unlocked!");
 			});
 			
-			// Setea el nombre de tu personaje.
+			// Setea el nombre de tu personaje y el género.
 			setCharacterListener("01");
 			
 			// La lógica del seteo de nombre.
 			function setCharacterListener(_tale)
 			{
+				// Nombre.
 				$("#charname"+String(_tale)).keypress((e) => {
 					if (e.key == "Enter")
 					{
 						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 						$("#chapter").text("");
 					}
+				});
+				
+				// Género masculino o neutro.
+				$("#bt"+String(_tale)+"m").click((e) => {
+					socket.emit("setCharacterGender",name,pass,_tale,"M");
+				});
+				
+				// Género femenino.
+				$("#bt"+String(_tale)+"f").click((e) => {
+					socket.emit("setCharacterGender",name,pass,_tale,"F");
 				});
 			}
 			
@@ -168,10 +181,16 @@
 				currentCharacterName = _character;
 			});
 			
-			// Carga el character name al elegir una pestaña.
-			socket.on("receiveCharacterName", (_chapter,_character) => {
+			// Recibe el género actualizado.
+			socket.on("characterGenderChanged", (_gender) => {
+				currentCharacterGender = _gender;
+			});
+			
+			// Carga el character name y gender al elegir una pestaña.
+			socket.on("receiveCharacterData", (_chapter,_character,_gender) => {
 				$("#charname"+String(_chapter)).val(_character);
 				currentCharacterName = _character;
+				currentCharacterGender = _gender;
 			});
 		</script>
 		

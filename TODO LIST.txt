@@ -44,5 +44,8 @@ Así Elose y sus descendientes podrían gobernar a todos, y lograr huir con la mon
 Lo que nadie sabía es que el diario que encontraste revelando estos secretos también contenía una de las monedas. Aquí comienza tu rebelión.
 Las naves de los humanos que os persiguen también tienen monedas, pero tienen un programa para enviar su moneda en cápsula a la Tierra al ser destruidas, así se pueden recuperar y os pueden perseguir de nuevo. Una nave sin moneda no os podría dar alcance.
 -
+PERSONAJES
+PROTAGONISTA: 
+-
 GAMEPLAY
 Fases de batalla en nave. Podrás ir customizando tu nave, ir consiguiendo monedas y anexándolas para ganar habilidades y estadísticas. Robocraft style.
