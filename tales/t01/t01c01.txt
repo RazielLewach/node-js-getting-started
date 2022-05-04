@@ -1,3 +1,6 @@
 Capítulo 1: rumbo a la libertad.
 
-La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando la araña tejer su obra con cara de idiota. Comienzas a vestirte rápida y descuidadamente y logras salir  $CHAR, ¿estás bien? Eres list$GEND, eh?
+La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando con cara de idiota la araña tejer su obra en la esquina de tu cuarto. ¿Qué le haces, si es tan preciosa? Comienzas a vestirte rápida y descuidadamente y logras salir de allí.
+<em class='colGreen'>Hola soy verde</em>
+
+  $CHAR, ¿estás bien? Eres list$GEND, eh?

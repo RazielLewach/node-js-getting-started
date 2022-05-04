@@ -45,7 +45,10 @@ Lo que nadie sabía es que el diario que encontraste revelando estos secretos tam
 Las naves de los humanos que os persiguen también tienen monedas, pero tienen un programa para enviar su moneda en cápsula a la Tierra al ser destruidas, así se pueden recuperar y os pueden perseguir de nuevo. Una nave sin moneda no os podría dar alcance.
 -
 PERSONAJES
-PROTAGONISTA: 
+-
+PROTAGONISTA: en general alguien calmado. Le encanta escuchar y prestar atención a cada detalle. Es muy curioso y aprecia cada cosa que le rodea, a veces de forma exagerada. Cuando surge comentar algo del entorno, no se calla. No le gusta hablar de sí mismo, más describir el ambiente y lo que ocurre. Peca de sinceridad, le cuesta mucho mentir porque muchas veces ni siquiera se plantea por qué debería hacerlo. En general peca de malicia, pero tiene un punto que no pasa por alto. Si alguien causa daño a alguna criatura o rompe algo, cualquier cosa que pueda ser un legado para el futuro o que valga la pena conservar, se pone agresivo y no dudará en atacar si no se detienen. No puede permitir que ningún animal sufra daño ni que nadie rompa aquello que podría ser importante mantener para el futuro. Le gusta la arqueología, lo cual encaja con su gusto por preservar todo, pues encontró un libro muy antiguo y desgastado que hablaba de ésta, y sueña con poder hacerlo algún día, pues en la nave apenas hay zonas naturales que explorar. Todo es artificial, y lo único distinto son las zonas de huerto que tienen vegetación, y no hay nada que explorar.
+-
+
 -
 GAMEPLAY
 Fases de batalla en nave. Podrás ir customizando tu nave, ir consiguiendo monedas y anexándolas para ganar habilidades y estadísticas. Robocraft style.
