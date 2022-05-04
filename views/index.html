@@ -152,7 +152,8 @@
 			
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
-				$("#chapter").text(_content);
+				var doc = new DOMParser().parseFromString(_content, "text/xml");
+				$("#chapter").html(doc);
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").text("Tale's chapter not unlocked!");
