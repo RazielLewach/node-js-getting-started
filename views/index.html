@@ -168,11 +168,13 @@
 				// Género masculino o neutro.
 				$("#bt"+String(_tale)+"m").click((e) => {
 					socket.emit("setCharacterGender",name,pass,_tale,"M");
+					$("#chapter").text("");
 				});
 				
 				// Género femenino.
 				$("#bt"+String(_tale)+"f").click((e) => {
 					socket.emit("setCharacterGender",name,pass,_tale,"F");
+					$("#chapter").text("");
 				});
 			}
 			
