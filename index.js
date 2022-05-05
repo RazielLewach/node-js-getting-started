@@ -43,7 +43,7 @@ io.on("connection", async (_socket) => {
 					
 					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
-					doQuery("INSERT INTO characters(name, tale, character, gender) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M');");
+					doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','128');");
 				});
 			}
 			// Caso: cuenta existe.
