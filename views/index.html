@@ -190,6 +190,7 @@
 				$("#sl"+String(_tale)).on("change", function() {
 					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
 					$("#chapter").html("");
+					$("#tdColor").css("background-color","hsl("+String($(this).val())+" 100% 50%)");
 				});
 				$("#sl"+String(_tale)).on("mousemove", function() {
 					$("#tdColor").css("background-color","hsl("+String($(this).val())+" 100% 50%)");
@@ -212,12 +213,13 @@
 			});
 			
 			// Carga el character name y gender al elegir una pestaña.
-			socket.on("receiveCharacterData", (_chapter,_character,_gender,_color) => {
-				$("#charname"+String(_chapter)).val(_character);
+			socket.on("receiveCharacterData", (_tale,_character,_gender,_color) => {
+				$("#charname"+String(_tale)).val(_character);
 				currentCharacterName = _character;
 				currentCharacterGender = _gender;
 				currentCharacterColor = _color;
 				$("#tdColor").css("background-color","hsl("+String(_color)+" 100% 50%)");
+				$("#cl"+String(_tale)).value(_color);
 			});
 		</script>
 		
