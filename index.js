@@ -58,7 +58,7 @@ io.on("connection", async (_socket) => {
     });
 	
 	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
-	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender) => {
+	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender,_color) => {
 		if (isUserValid(_name,_pass))
 		{
 			// Comprueba el acceso al chapter.
@@ -67,7 +67,7 @@ io.on("connection", async (_socket) => {
 				{
 					fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
 						if (_error) throw _error;
-						_socket.emit("chapterSuccess",_data.toString().replace("$CHAR",_character).replace("$GEND",_gender == "M" ? "o" : "a"));
+						_socket.emit("chapterSuccess",_data.toString().replace("$CHA",_character).replace("$GEN",_gender == "M" ? "o" : "a").replace("$COL",_color));
 					});
 				}
 				else _socket.emit("chapterFail");
@@ -93,7 +93,7 @@ io.on("connection", async (_socket) => {
 		if (isUserValid(_name,_pass))
 		{
 			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				_socket.emit("receiveCharacterData",_tale,selCharacter.rows[0].character,selCharacter.rows[0].gender);
+				_socket.emit("receiveCharacterData",_tale,selCharacter.rows[0].character,selCharacter.rows[0].gender,selCharacter.rows[0].color);
 			});
 		}
 	});

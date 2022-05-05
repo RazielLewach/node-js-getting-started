@@ -79,6 +79,7 @@
 			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
 			var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
 			var currentCharacterGender = ""; // El género actual pos.
+			var currentCharacterColor = ""; // Pos el color.
 			
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -117,6 +118,7 @@
 				$("#chapter").html("");
 				currentCharacterName = "";
 				currentCharacterGender = "";
+				currentCharacterColor = "";
 				
 				// Actualiza el character name que toca.
 				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterData",name,pass,"01");
@@ -145,7 +147,7 @@
 			{
 				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
 					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
-					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender);
+					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor);
 				});
 			}
 			
@@ -185,8 +187,8 @@
 				});
 				
 				// Color.
-				$("#sl"+String(_tale)).on("input", (e) => {
-					console.log(e);
+				$("#sl"+String(_tale)).on("change mousemove", function() {
+					console.log($(this).val());
 				});
 			}
 			
@@ -201,10 +203,11 @@
 			});
 			
 			// Carga el character name y gender al elegir una pestaña.
-			socket.on("receiveCharacterData", (_chapter,_character,_gender) => {
+			socket.on("receiveCharacterData", (_chapter,_character,_gender,_color) => {
 				$("#charname"+String(_chapter)).val(_character);
 				currentCharacterName = _character;
 				currentCharacterGender = _gender;
+				currentCharacterColor = _color;
 			});
 		</script>
 		
