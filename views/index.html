@@ -189,6 +189,8 @@
 				// Color.
 				$("#sl"+String(_tale)).on("change", function() {
 					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
+				});
+				$("#sl"+String(_tale)).on("mousemove", function() {
 					$("#tdColor").css("background-color","hsl("+String($(this).val())+" 100% 50%)");
 					$("#chapter").html("");
 				});
