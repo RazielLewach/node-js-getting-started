@@ -1,3 +1,57 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 La primera *tale* deberá ser un poco sencilla. Me guardo las tramas complejas para el futuro. Vamos a tantear el terreno.
 -
 A SPACE TRIP TALE (Provisional)
@@ -53,6 +107,7 @@ PROTAGONISTA:
 > Peca de sinceridad, le cuesta mucho mentir porque muchas veces ni siquiera se plantea por qué debería hacerlo.
 > Si alguien causa daño a alguna criatura o rompe algo, cualquier cosa que pueda ser un legado para el futuro o que valga la pena conservar, se pone agresivo y no dudará en atacar si no se detienen. No puede permitir que ningún animal sufra daño ni que nadie rompa aquello que podría ser importante mantener para el futuro.
 > Le gusta la arqueología, lo cual encaja con su gusto por preservar todo, pues encontró un libro muy antiguo y desgastado que hablaba de ésta, y sueña con poder hacerlo algún día, pues en la nave apenas hay zonas naturales que explorar. Todo es artificial, y lo único distinto son las zonas de huerto que tienen vegetación, y no hay nada que explorar.
+> Sueña con ser luchador contra los aliens.
 -
 Kilana:
 > Nacida en la sección de la nave de las familias más pobres, suele ser rechazada y mirada como inferior por todos, aunque asista a la misma escuela junto a todos. Este rechazo le hace vagar por los rincones más alejados de la nave en busca de soledad. Ahí se encontró con el protagonista, que por su gusto por la exploración siempre vaga por rincones abandonados, y se hicieron amigos. Esto ocurrió hace 3 meses.
@@ -60,6 +115,30 @@ Kilana:
 > Es muy enérgica, es difícil que esté quieta, y suele tropezar o darse golpes con las cosas por ello.
 > Odia al ser humano en general.
 > Cree en el karma. Quiere reencarnar como un animal. Dirá uno distinto cada vez.
+> Es estudiosa y quiere labrarse un buen futuro académico. No le interesa demasiado combatir contra aliens.
 -
 GAMEPLAY
 Fases de batalla en nave. Podrás ir customizando tu nave, ir consiguiendo monedas y anexándolas para ganar habilidades y estadísticas. Robocraft style.
+
+
+
+Capítulo 1: rumbo a la libertad.
+<br>
+<br>La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tus clases. Y tú mirando con cara de idiota esa araña tejer su obra en la esquina de tu cuarto. ¿Qué le haces, si es tan preciosa? Comienzas a vestirte rápida y descuidadamente y te paras frente a tu puerta.
+<br><font style="color:hsl($COL 100% 50%);">— Tú: Adiós, arañita. No dejes que te maten. —</font>
+<br>Mientras te aseguras que llevas encima todo lo necesario, la puerta comienza a deslizarse automáticamente hasta abrirse. Avanzas a paso firme mientras recorres aquellos pasillos metálicos que ya estás hart$GEN de observar a diario. Varios ventanales circulares y robustos te muestran el enorme vacío del espacio exterior que hay fuera. Una extensión totalmente negra llena de puntitos de múltiples colores que parecen llamarte. Te apoyas en la ventana y observas el escenario con cara de atontad$GEN, pensando en todos los mundos que pueda haber ahí fuera esperando ser explorados, cuando una voz conocida te rompe la fantasía tras de ti. 
+<br><font class='colKilana'>— Kilana: ¡Si quieres te doy un empujón en dirección a tus queridos planetas! —</font>
+<br>Kilana, tan animada como siempre. Esboza su sincera sonrisa mientras carga su mochila con todo lo necesario para el entrenamiento de hoy.
+<br><font style="color:hsl($COL 100% 50%);">— Tú: Ah... buenas, buenas. —</font>
+<br>Bajas un poco la cabeza. Nunca sabes qué responder a esos comentarios extraños, pero a Kilana le da igual. Está dando vueltas sobre sí misma como si quisiera taladrar el suelo.
+<br><font class='colKilana'>— Kilana: Vamos, vamos, vamos. —</font>
+<br>Comienzas a caminar hacia adelante, y rápidamente ella deja de dar vueltas y te sigue el ritmo, aunque sin poder evitar adelantarse a ratos y estar constantemente retrocediendo.
+<br><font style="color:hsl($COL 100% 50%);">— Tú: Ayer logré matar al alien de la nave con pinzas. ¡Ya casi acabo la fase 1! —</font>
+<br>Ríes con un tono burlón, retándola. Ella refunfuña. Son casi las 9 de la mañana y tocan las clases normales, pero a las 12 está el entrenamiento de combate. ¡Simulación de batallas espaciales! Y estás a punto de completar la fase 1.
+<br><font class='colKilana'>— Kilana: Yo sigo estancada en el de la barrera de energía... ¡Estás muy cerca de obtener la licencia para salir a combatir con aliens de verdad, $CHA! —</font>
+<br>Asientes con orgullo, aunque te sientes abrumad$GEN al observar la enorme sonrisa de Kilana, así que te centras en mirar al frente. Hay gente de todas las edades saliendo de todas las casas para ir a lugares distintos. Los jóvenes se dirigen a los recintos de estudio y entrenamiento, y los adultos a sus trabajos de gestión y mantenimiento de la nave. Tus ojos se desvían hacia varios hombres y mujeres con trajes espaciales que se dirigen a sus naves para su entrenamiento real. Algún día serás como ellos, sí.
+<br><font class='colKilana'>— Kilana: Deja de soñar despiert$GEN o te comerás la pared. —</font>
+<br><font style="color:hsl($COL 100% 50%);">— Tú: ¿Eh? —</font>
+<br>Vuelves tu mirada al frente y te comes la pared. Kilana se ríe y te empuja hacia un lado para redirigirte hacia la ruta correcta hacia la escuela.
+<br>
+<br>

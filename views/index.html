@@ -67,10 +67,10 @@
 		
 		<div id="content" style="display: none;">
 			<div class="tab">
-				<button class="tablinks" onclick="openTale(event, 'aSpaceTrip')">A Space Trip</button>
+				<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
 			</div>
 
-			<div id="aSpaceTrip" class="tabcontent">
+			<div id="tale01" class="tabcontent">
 				<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794</button><button id="bt01f">&#9792</button></td><td id="tdColor01" style="border-right: 2px solid white;"><font style="color: #000000;">Color:</font> <input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
@@ -127,7 +127,7 @@
 				currentCharacterColor = "";
 				
 				// Actualiza el character name que toca.
-				if (_taleName == "aSpaceTrip") socket.emit("demandCharacterData",name,pass,"01");
+				if (_taleName == "tale01") socket.emit("demandCharacterData",name,pass,"01");
 			}
 			
 			// Resetea las tales.
