@@ -110,6 +110,19 @@ io.on("connection", async (_socket) => {
 			});
 		}
 	});
+	
+	// Setear el color.
+	_socket.on("setCharacterColor", async (_name,_pass,_tale,_color) => {
+		if (isUserValid(_name,_pass))
+		{
+			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+				if (selCharacter.rowCount > 0)
+					doQuery("UPDATE characters SET color = '"+String(_color)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
+						_socket.emit("characterColorChanged",_color);
+					});
+			});
+		}
+	});
 });
 
 // Querys.

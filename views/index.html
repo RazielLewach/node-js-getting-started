@@ -188,7 +188,8 @@
 				
 				// Color.
 				$("#sl"+String(_tale)).on("change mousemove", function() {
-					console.log($(this).val());
+					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
+					$("#chapter").html("");
 				});
 			}
 			
@@ -200,6 +201,11 @@
 			// Recibe el género actualizado.
 			socket.on("characterGenderChanged", (_gender) => {
 				currentCharacterGender = _gender;
+			});
+			
+			// Recibe el color actualizado.
+			socket.on("characterColorChanged", (_color) => {
+				currentCharacterColor = _color;
 			});
 			
 			// Carga el character name y gender al elegir una pestaña.
