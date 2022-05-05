@@ -67,7 +67,7 @@ io.on("connection", async (_socket) => {
 				{
 					fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
 						if (_error) throw _error;
-						_socket.emit("chapterSuccess",_data.toString().replace("$CHA",_character).replace("$GEN",_gender == "M" ? "o" : "a").replace("$COL",_color));
+						_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
 					});
 				}
 				else _socket.emit("chapterFail");
