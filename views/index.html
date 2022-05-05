@@ -187,7 +187,7 @@
 				});
 				
 				// Color.
-				$("#sl"+String(_tale)).on("change mousemove", function() {
+				$("#sl"+String(_tale)).on("change", function() {
 					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
 					$("#chapter").html("");
 				});
