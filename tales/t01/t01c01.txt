@@ -1,13 +1,13 @@
 Capítulo 1: rumbo a la libertad.
 <br>
 <br>La alarma suena con fuerza en tu dispositivo de comunicación indicando que faltan diez minutos para tu entrenamiento diario de combate espacial. Y tú mirando con cara de idiota esa araña tejer su obra en la esquina de tu cuarto. ¿Qué le haces, si es tan preciosa? Comienzas a vestirte rápida y descuidadamente y te paras frente a tu puerta.
-<br><font style="color:hsl($COL 100% 50%);">— Adiós, arañita. No dejes que te maten. —</font>
+<br><font style="color:hsl($COL 100% 50%);">— Tú: Adiós, arañita. No dejes que te maten. —</font>
 <br>Mientras te aseguras que llevas encima todo lo necesario, la puerta comienza a deslizarse automáticamente hasta abrirse. Avanzas a paso firme mientras recorres aquellos pasillos metálicos que ya estás hart$GEN de observar a diario. Varios ventanales circulares y robustos te muestran el enorme vacío del espacio exterior que hay fuera. Una extensión totalmente negra llena de puntitos de múltiples colores que parecen llamarte. Te apoyas en la ventana y observas el escenario con cara de atontad$GEN, pensando en todos los mundos que pueda haber ahí fuera esperando ser explorados, cuando una voz conocida te rompe la fantasía tras de ti. 
-<br><font class='colKilana'>— ¡Si quieres te doy un empujón en dirección a tus queridos planetas! —</font>
-Kilana, tan animada como siempre. Esboza su sincera sonrisa mientras carga su mochila con todo lo necesario para el entrenamiento de hoy.
-<br><font style="color:hsl($COL 100% 50%);">— Ah... buenas, buenas. —</font>
-Bajas un poco la cabeza. Nunca sabes qué responder a esos comentarios extraños, pero a Kilana le da igual. Está dando vueltas sobre sí misma como si quisiera taladrar el suelo.
-<br><font class='colKilana'>— Vamos, vamos, vamos. —</font>
-Comienzas a caminar hacia adelante, y rápidamente ella deja de dar vueltas y te sigue el ritmo, aunque sin poder evitar adelantarse a ratos y estar constantemente retrocediendo.
+<br><font class='colKilana'>— Kilana: ¡Si quieres te doy un empujón en dirección a tus queridos planetas! —</font>
+<br>Kilana, tan animada como siempre. Esboza su sincera sonrisa mientras carga su mochila con todo lo necesario para el entrenamiento de hoy.
+<br><font style="color:hsl($COL 100% 50%);">— Tú: Ah... buenas, buenas. —</font>
+<br>Bajas un poco la cabeza. Nunca sabes qué responder a esos comentarios extraños, pero a Kilana le da igual. Está dando vueltas sobre sí misma como si quisiera taladrar el suelo.
+<br><font class='colKilana'>— Kilana: Vamos, vamos, vamos. —</font>
+<br>Comienzas a caminar hacia adelante, y rápidamente ella deja de dar vueltas y te sigue el ritmo, aunque sin poder evitar adelantarse a ratos y estar constantemente retrocediendo.
 
   $CHA
