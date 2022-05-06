@@ -182,18 +182,21 @@
 				
 				// Género masculino o neutro.
 				$("#bt"+String(_tale)+"m").click((e) => {
+					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterGender",name,pass,_tale,"M");
 					$("#chapter").html("");
 				});
 				
 				// Género femenino.
 				$("#bt"+String(_tale)+"f").click((e) => {
+					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterGender",name,pass,_tale,"F");
 					$("#chapter").html("");
 				});
 				
 				// Color.
 				$("#sl"+String(_tale)).on("change", function() {
+					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
 					$("#chapter").html("");
 					$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
