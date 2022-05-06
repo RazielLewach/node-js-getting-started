@@ -60,7 +60,7 @@
 			#chapter {
 				color: #FFFFFF;
 				background-color: #000000;
-				width: 1000px;
+				width: 980px;
 				border: 2px solid #FFFFFF;
 				padding: 5px;
 				line-height: 20px;
@@ -92,7 +92,7 @@
 		</div>
 		
 		<br>
-		<canvas id="game" style="display: none; background-size: 100%;"></div>
+		<canvas id="game" style="display: none;"></div>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -105,6 +105,10 @@
 			var currentTale = 00; // ¿Qué tale andas viendo?
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
+			// Setea el canvas.
+			var canvas = document.getElementById('game');
+			context = canvas.getContext('2d');
+				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
 				if (e.key == "Enter") login();
@@ -271,7 +275,18 @@
 			
 			// Recibe el loop.
 			socket.on("looped", (_field) => {
-				$("#game").css("background-image","url('"+String(_field)+"')");
+				// Step.
+				
+				// Draw.
+				// El fondo negro.
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				context.fillStyle = "#000000";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				
+				// El field.
+				var _imgField = new Image();
+				_imgField.src = _field;
+				context.drawImage(_imgField,0,0);
 			});
 		</script>
 		
