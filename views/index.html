@@ -47,6 +47,7 @@
 				width: 900px;
 				height: 400px;
 				border: 2px solid #FFFFFF;
+				margin-left: 50px;
 			}
 			
 			/* Colores para los capítulos.*/
@@ -90,6 +91,7 @@
 			<div id="chapter"></div>
 		</div>
 		
+		<br>
 		<canvas id="game"></div>
 		
 		<script src="/socket.io/socket.io.js"></script>
@@ -120,6 +122,7 @@
 				pass = _pass;
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				$("#content").css("display","inline");
+				$("#game").css("display","inline");
 				resetTales();
 			});
 			socket.on("newUserFail", () => {
@@ -127,6 +130,7 @@
 				name = "";
 				pass = "";
 				$("#content").css("display","none");
+				$("#game").css("display","none");
 				resetTales();
 			});
 			
