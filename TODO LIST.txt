@@ -1,3 +1,21 @@
+Minijuego como el de la física que hice. Va por turnos y por casillas. Cada turno eliges si te quedas quieto, si te mueves a una casilla adyacente, atacas a una casilla adyacente, te defiendes de una casilla adyacente, o usas una habilidad. En el instante en que acabas tu turno, todos los demás enemigos ejecutan sus turnos a la vez. Más enfoque en la batalla (enemigos con barras de vida, diversos ataques, etc) y menos en el entorno. La primera batalla será 100% batalla contra el señor de la pala. Luego, cada batalla tendrá interacciones adicionales únicas según cada situación ocurrida en la trama (minijuegos, puzzles, objetivos secundarios o principales que no sean luchar, o junto a luchar...)
+
+PROGRESIÓN
+La principal progresión es obtener nuevas habilidades para ser más versátil y poder equiparlas y usarlas cuando necesites. Máximo 5 a la vez equipadas. Además de eso, está tu poder. Atributos varios como el daño que causas, cuánta vida tienes, y demás para hacer más interesante todo (pensarlos). Sin embargo, la diferencia es mínima. Entre el inicio del juego, y el final de la historia, cada atributo podrás como máximo llegar a duplicarlo, y como hay muchos atributos, te costará y debes gestionar. Básicamente que hacerte más fuerte no sea algo excesivo que trivialice nada. Que tú puedas repetir batallas anteriores con tu fuerza actual y no sean un paseo. Los stats son una ayuda útil pero que no cambien ni decidan nada demasiado fuertemente.
+
+Podrás resetear tus stats y tus habilidades equipadas, y visualizarlo todo, en cualquier momento, desde el panel derecho, siempre visible en todo momento. Éste muestra además tu estado, progreso, y un sprite detallado de ti, y una referencia a tu color (núcleo en el pecho). Sin embargo, modificar algo aquí reiniciará cualquier juego en proceso.
+
+
+
+
+
+
+
+
+
+
+
+
 AÑADIR PEQUEÑOS SPRITES ANIMADOS EN EL PROCESO? (PIXEL ART) MOSTRANDO COSAS COMO LA MASA GELATINOSA TOMANDO FORMA. ¿PODRIA SER INTERACTIVO?
 
 
