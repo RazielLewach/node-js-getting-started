@@ -278,6 +278,7 @@
 				
 				
 				// Draw.
+				var _xIni = 10, _yIni = 0;
 				// El fondo negro.
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				context.fillStyle = "#000000";
@@ -286,7 +287,7 @@
 				// El field.
 				var _imgField = new Image();
 				_imgField.src = _field;
-				context.drawImage(_imgField,0,0);
+				context.drawImage(_imgField,_xIni,_yIni);
 			});
 		</script>
 		
