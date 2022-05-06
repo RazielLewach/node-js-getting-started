@@ -110,7 +110,6 @@
 			
 			// Variables de funcionamiento que el servidor no requiere guardar.
 			var playerImageIndex = 0; // Qué frame dibuja.
-			var playerImageSpeed = 0.001; // A qué velocidad avanzan los frames.
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -294,7 +293,7 @@
 				
 				// El player.
 				// Gestiona los frames.
-				playerImageIndex += playerImageSpeed;
+				playerImageIndex += 0.01;
 				if (Math.round(playerImageIndex) >= 5) playerImageIndex -= 5;
 				var _imgPlayer = new Image();
 				// Setea qué frame dibujar.
