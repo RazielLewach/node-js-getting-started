@@ -92,7 +92,7 @@
 		</div>
 		
 		<br>
-		<canvas id="game" style="display: none;"></div>
+		<canvas id="game" style="display: none;"></canvas>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -277,6 +277,7 @@
 			socket.on("looped", (_field) => {
 				// Step.
 				
+				
 				// Draw.
 				// El fondo negro.
 				context.clearRect(0, 0, canvas.width, canvas.height);
@@ -284,7 +285,7 @@
 				context.fillRect(0,0,canvas.width,canvas.height);
 				
 				// El field.
-				var _imgField = new Image();
+				var _imgField = new Image(700,400);
 				_imgField.src = _field;
 				context.drawImage(_imgField,0,0);
 			});
