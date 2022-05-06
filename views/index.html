@@ -92,7 +92,7 @@
 		</div>
 		
 		<br>
-		<canvas id="game" style="display: none;"></div>
+		<canvas id="game" style="display: none; background-size: 100%;"></div>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -102,6 +102,8 @@
 			var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
 			var currentCharacterGender = ""; // El género actual pos.
 			var currentCharacterColor = ""; // Pos el color.
+			var currentTale = 00; // ¿Qué tale andas viendo?
+			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -170,6 +172,8 @@
 				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
 					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
 					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor);
+					currentTale = _tale;
+					currentChapter = _chapter;
 				});
 			}
 			
@@ -231,6 +235,8 @@
 				$("#chapter").html("");
 				$("#chapter").css("display","none");
 				$("#game").css("display","none");
+				currentTale = 00;
+				currentChapter = 00;
 			}
 			
 			// Recibe el nombre actualizado.
@@ -256,6 +262,16 @@
 				$("#charname"+String(_tale)).val(_character);
 				$("#tdColor"+String(_tale)).css("background-color","hsl("+String(_color)+" 100% 50%)");
 				$("#sl"+String(_tale)).val(_color);
+			});
+			
+			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
+			setInterval(function () {
+				if (currentTale > 0) socket.emit("loop",name,pass,currentTale,currentChapter);
+			}, 16.67);
+			
+			// Recibe el loop.
+			socket.on("looped", (_field) => {
+				$("#game").css("background-image","url('"+String(_field)+"')");
 			});
 		</script>
 		

@@ -123,6 +123,19 @@ io.on("connection", async (_socket) => {
 			});
 		}
 	});
+	
+	// El loop para enviar datos del estado del chapter.
+	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter) => {
+		if (isUserValid(_name,_pass))
+		{
+			// El sprite del field.
+			var _field = "";
+			if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/PLMcUQi.png";
+			
+			// Envía los datos.
+			_socket.emit("looped",_field);
+		}
+	});
 });
 
 // Querys.
