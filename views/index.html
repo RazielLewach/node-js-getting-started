@@ -285,7 +285,8 @@
 				context.fillRect(0,0,canvas.width,canvas.height);
 				
 				// El field.
-				var _imgField = new Image(700,400);
+				var _imgField = new Image();
+				console.log("field",_field);
 				_imgField.src = _field;
 				context.drawImage(_imgField,0,0);
 			});
