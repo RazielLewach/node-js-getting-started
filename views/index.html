@@ -92,7 +92,7 @@
 		</div>
 		
 		<br>
-		<canvas id="game"></div>
+		<canvas id="game" style="display: none;"></div>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -122,7 +122,6 @@
 				pass = _pass;
 				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
 				$("#content").css("display","inline");
-				$("#game").css("display","inline");
 				resetTales();
 			});
 			socket.on("newUserFail", () => {
@@ -130,7 +129,6 @@
 				name = "";
 				pass = "";
 				$("#content").css("display","none");
-				$("#game").css("display","none");
 				resetTales();
 			});
 			
@@ -139,7 +137,7 @@
 				resetTales();
 				document.getElementById(_taleName).style.display = "block";
 				_evt.currentTarget.className += " active";
-				$("#chapter").html("");
+				resetChapter();
 				currentCharacterName = "";
 				currentCharacterGender = "";
 				currentCharacterColor = "";
@@ -178,9 +176,11 @@
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
 				$("#chapter").html(_content);
+				$("#game").css("display","inline");
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").html("Tale's chapter not unlocked!");
+				$("#game").css("display","none");
 			});
 			
 			// Setea el nombre de tu personaje, el género y el color.
@@ -194,7 +194,7 @@
 					if (e.key == "Enter")
 					{
 						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-						$("#chapter").html("");
+						resetChapter();
 					}
 				});
 				
@@ -202,26 +202,32 @@
 				$("#bt"+String(_tale)+"m").click((e) => {
 					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterGender",name,pass,_tale,"M");
-					$("#chapter").html("");
+					resetChapter();
 				});
 				
 				// Género femenino.
 				$("#bt"+String(_tale)+"f").click((e) => {
 					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterGender",name,pass,_tale,"F");
-					$("#chapter").html("");
+					resetChapter();
 				});
 				
 				// Color.
 				$("#sl"+String(_tale)).on("change", function() {
 					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
 					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
-					$("#chapter").html("");
+					resetChapter();
 					$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
 				});
 				$("#sl"+String(_tale)).on("mousemove", function() {
 					$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
 				});
+			}
+			
+			function resetChapter()
+			{
+				$("#chapter").html("");
+				$("#game").css("display","none");
 			}
 			
 			// Recibe el nombre actualizado.
