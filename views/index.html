@@ -45,7 +45,6 @@
 			
 			#game {
 				border: 2px solid #FFFFFF;
-				margin-left: 50px;
 				background-size: 100%;
 			}
 			
@@ -91,7 +90,7 @@
 		</div>
 		
 		<br>
-		<canvas id="game" style="display: none;" width="900" height="620"></canvas>
+		<canvas id="game" style="display: none;" width="1000" height="620"></canvas>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -292,7 +291,7 @@
 				
 				// El field.
 				_imgField.src = _field;
-				context.drawImage(_imgField,10,210);
+				context.drawImage(_imgField,60,210);
 				
 				// El player.
 				// Gestiona los frames.
@@ -306,7 +305,7 @@
 				else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/Lxpjg5d.png";
 				else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/0ukLsIx.png";
 				// Dibuja.
-				context.drawImage(_imgPlayer,10+_xPlayer,210+_yPlayer);
+				context.drawImage(_imgPlayer,60+_xPlayer,210+_yPlayer);
 			});
 		</script>
 		
