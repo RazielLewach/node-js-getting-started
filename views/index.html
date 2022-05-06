@@ -88,7 +88,7 @@
 			</div>
 			
 			<br>
-			<div id="chapter"></div>
+			<div id="chapter" style="display: none;"></div>
 		</div>
 		
 		<br>
@@ -176,12 +176,12 @@
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
 				$("#chapter").html(_content);
-				$("#chapter").css("display","inline");
+				$("#chapter").css("display","initial");
 				$("#game").css("display","inline");
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").html("Tale's chapter not unlocked!");
-				$("#chapter").css("display","inline");
+				$("#chapter").css("display","initial");
 				$("#game").css("display","none");
 			});
 			
