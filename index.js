@@ -132,8 +132,12 @@ io.on("connection", async (_socket) => {
 			var _field = "";
 			if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/PLMcUQi.png";
 			
+			// La posición del player.
+			var _xPlayer = 80-20;
+			var _yPlayer = 80-50;
+			
 			// Envía los datos.
-			_socket.emit("looped",_field);
+			_socket.emit("looped",_field,_xPlayer,_yPlayer);
 		}
 	});
 });
