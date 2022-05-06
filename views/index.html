@@ -112,7 +112,7 @@
 			var playerImageIndex = 0; // Qué frame dibuja.
 			
 			// Las imágenes.
-			var _imgField = new Image(); _imgField.src = _field;
+			var _imgField = new Image();
 			var _imgPlayer = new Image();
 				
 			// Envia las señales del login.
@@ -291,6 +291,7 @@
 				context.fillRect(0,0,canvas.width,canvas.height);
 				
 				// El field.
+				_imgField.src = _field;
 				context.drawImage(_imgField,10,210);
 				
 				// El player.
