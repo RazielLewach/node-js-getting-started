@@ -176,10 +176,12 @@
 			// Recibe las señales de comprobar chapter y cargar contenido.
 			socket.on("chapterSuccess", (_content) => {
 				$("#chapter").html(_content);
+				$("#chapter").css("display","inline");
 				$("#game").css("display","inline");
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").html("Tale's chapter not unlocked!");
+				$("#chapter").css("display","inline");
 				$("#game").css("display","none");
 			});
 			
@@ -227,6 +229,7 @@
 			function resetChapter()
 			{
 				$("#chapter").html("");
+				$("#chapter").css("display","none");
 				$("#game").css("display","none");
 			}
 			
