@@ -126,7 +126,7 @@ io.on("connection", async (_socket) => {
 	});
 	
 	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_hasClickedMenu,_xMenu,_yMenu) => {
+	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonHovered) => {
 		if (isUserValid(_name,_pass))
 		{
 			doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
@@ -150,25 +150,14 @@ io.on("connection", async (_socket) => {
 				}
 				
 				// Click al menú.
-				if (_hasClickedMenu)
-				{
-					var _x = 0, _y = 0, _dir = 0, _isHover = false;
-					
-					// Botón: no hacer nada.
-					_dir = 270*Math.PI/180;
-					_x = _xMenu + 40*Math.cos(_dir);
-					_y = _yMenu - 40*Math.sin(_dir);
-					if (Math.sqrt(Math.pow(_xMouse-_x,2)+Math.pow(_yMouse-_y,2)) < 15)
-					{
-						console.log("WAIT");
-					}
-				}
+				if 		(_buttonHovered == 0) console.log("WAIT");
+				else if (_buttonHovered == 1) console.log("MOVE");
 				
 				// Actualiza los datos de este frame si has hecho click.
 				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 				
 				// Envía los datos al cliente.
-				_socket.emit("looped",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
+				_socket.emit("looped01",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
 			});
 		}
 	});

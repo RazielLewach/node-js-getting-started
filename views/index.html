@@ -111,6 +111,7 @@
 			var scaleMenu = 0; // ¿Scale del menú?
 			var xMenu = 0; // La x del centro del menú al clicar.
 			var yMenu = 0; // La y del centro del menú al clicar.
+			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
@@ -134,8 +135,8 @@
 			// Las imágenes.
 			var _imgField = new Image();
 			var _imgPlayer = new Image();
-			var _imgMenuSleep = new Image();
-			_imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
+			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
+			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/LA2eEOa.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -300,13 +301,13 @@
 			setInterval(function () {
 				if (currentTale > 0)
 				{
-					socket.emit("loop",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,isClick && !isMenu,xMenu,yMenu);
+					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonHovered);
 					isClick = false;
 				}
 			}, 16.67);
 			
 			// Recibe el loop.
-			socket.on("looped", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
+			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
 				
 				
@@ -365,19 +366,28 @@
 
 				var _lon = 40*scaleMenu;
 				
-				// Botón: no hacer nada.
-				_dir = 270*Math.PI/180;
-				_x = xMenu + _lon*Math.cos(_dir);
-				_y = yMenu - _lon*Math.sin(_dir);
+				// Dibuja y gestiona los botones del menú.
+				buttonHovered = -1;
+				drawBoton(270,_imgMenuSleep,0,_hasClicked);
+				drawBoton(90,_imgMenuMove,0,_hasClicked);
+			});
+			
+			// Scripts.
+			function drawBoton(_dirBoton,_imgBoton,_iBoton,_hasClicked)
+			{
+				var _dir = _dirBoton*Math.PI/180;
+				var _x = xMenu + _lon*Math.cos(_dir);
+				var _y = yMenu - _lon*Math.sin(_dir);
 				context.save();
 				context.translate(_x,_y);
 				var _sc = scaleMenu*(1 + 0.3*(Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15));
 				context.scale(_sc,_sc);
-				context.drawImage(_imgMenuSleep,-15,-15);
+				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
-			});
+				
+				if (_hasClicked && Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15) buttonHovered = _iBoton;
+			}
 			
-			// Scripts.
 			function tiendeAX(_val,_obj,_inc)
 			{
 				var _ret = _val;
