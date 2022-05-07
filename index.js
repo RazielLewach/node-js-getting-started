@@ -158,6 +158,7 @@ io.on("connection", async (_socket) => {
 						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
 						else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+						console.log("_dirPlayer",_dirPlayer);
 					}
 					
 					// Click al menú.
