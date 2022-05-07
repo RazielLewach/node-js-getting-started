@@ -382,8 +382,8 @@
 
 				if ( _inc == 0 ) return _obj;
 
-				if ( _ret < _obj ) _ret = Math.Min( _ret + _inc, _obj );
-				else _ret = Math.Max( _ret - _inc, _obj );
+				if ( _ret < _obj ) _ret = Math.min( _ret + _inc, _obj );
+				else _ret = Math.max( _ret - _inc, _obj );
 
 				return _ret;
 			}
