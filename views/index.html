@@ -112,6 +112,8 @@
 			var xMenu = 0; // La x del centro del menú al clicar.
 			var yMenu = 0; // La y del centro del menú al clicar.
 			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
+			var xPlayer = -1; // La x del player.
+			var yPlayer = -1; // La y del player.
 			
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
@@ -353,9 +355,21 @@
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
 				}
 				// Dibuja el player.
+				if (xPlayer == -1)
+				{
+					xPlayer = _xPlayer;
+					yPlayer = _yPlayer;
+				}
+				else
+				{
+					var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
+					xPlayer = tiendeAX(xPlayer,_xPlayer,1*Math.abs(dcos(_dir)));
+					yPlayer = tiendeAX(yPlayer,_yPlayer,1*Math.abs(dsin(_dir)));
+				}
+				
 				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
 				context.save();
-				context.translate(_xPlayer+80*(_xScale == -1),_yPlayer);
+				context.translate(xPlayer+80*(_xScale == -1),yPlayer);
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
@@ -368,19 +382,18 @@
 				buttonHovered = -1;
 				drawBoton(270,_imgMenuSleep,0,_hasClicked);
 				drawBoton(90,_imgMenuMove,1,_hasClicked);
-				if (buttonHovered != -1) console.log("client buttonHovered",buttonHovered);
 			});
 			
 			// Scripts.
+			// Mecánica.
 			function drawBoton(_dirBoton,_imgBoton,_iBoton,_hasClicked)
 			{
 				var _lon = 40*Math.min(1,scaleMenu);
-				var _dir = _dirBoton*Math.PI/180;
-				var _x = xMenu + _lon*Math.cos(_dir);
-				var _y = yMenu - _lon*Math.sin(_dir);
+				var _x = xMenu + _lon*dcos(_dirBoton);
+				var _y = yMenu - _lon*dsin(_dirBoton);
 				context.save();
 				context.translate(_x,_y);
-				var _isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
+				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
 				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
 				context.drawImage(_imgBoton,-15,-15);
@@ -389,6 +402,7 @@
 				if (_hasClicked && _isHover && scaleMenu >= 1) buttonHovered = _iBoton;
 			}
 			
+			// Cálculo.
 			function tiendeAX(_val,_obj,_inc)
 			{
 				var _ret = _val;
@@ -399,6 +413,26 @@
 				else _ret = Math.max( _ret - _inc, _obj );
 
 				return _ret;
+			}
+			
+			function dcos(_ang)
+			{
+				return Math.cos(_ang*MATH.PI/180);
+			}
+			
+			function dsin(_ang)
+			{
+				return Math.sin(_ang*MATH.PI/180);
+			}
+			
+			function pointDistance(_x1,_y1,_x2,_y2)
+			{
+				return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_x2-_y2,2));
+			}
+			
+			function pointDirection(_x1,_y1,_x2,_y2)
+			{
+				return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 			}
 		</script>
 		

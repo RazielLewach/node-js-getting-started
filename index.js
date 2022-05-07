@@ -142,7 +142,7 @@ io.on("connection", async (_socket) => {
 				var _dirPlayer = selEnvironment.rows[0].dirplayer;
 				if (_isClick)
 				{
-					var _dirClick = angular(Math.atan2(-(_yMouse-_yPlayer),_xMouse-_xPlayer)*180/Math.PI);
+					var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
 					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
@@ -150,8 +150,16 @@ io.on("connection", async (_socket) => {
 				}
 				
 				// Click al menú.
+				// Pausa.
 				if 		(_buttonHovered == 0) console.log("WAIT");
-				else if (_buttonHovered == 1) console.log("MOVE");
+				// Movimiento.
+				else if (_buttonHovered == 1)
+				{
+					if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
+					else _yPlayer += 20;
+					if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 20;
+					else _xPlayer -= 20;
+				}
 				
 				// Actualiza los datos de este frame si has hecho click.
 				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
@@ -186,8 +194,14 @@ async function isUserValid(_name,_pass)
 	});
 }
 
-// Utilidades.
+// Scripts.
+// Cálculo.
 function angular(_dir)
 {
 	return (_dir%360 + 360)%360;
+}
+
+function pointDirection(_x1,_y1,_x2,_y2)
+{
+	return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 }
