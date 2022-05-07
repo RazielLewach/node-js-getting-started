@@ -157,7 +157,7 @@ io.on("connection", async (_socket) => {
 					_dir = 270*Math.PI/180;
 					_x = _xMenu + 40*Math.cos(_dir);
 					_y = _yMenu - 40*Math.sin(_dir);
-					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
+					_isHover = Math.sqrt(Math.pow(_xMouse-_x,2)+Math.pow(_yMouse-_y,2)) < 15;
 					if (_hasClicked && _isHover)
 					{
 						console.log("WAIT");
