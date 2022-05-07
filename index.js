@@ -44,7 +44,7 @@ io.on("connection", async (_socket) => {
 					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');");
-					doQuery("INSERT INTO environments(name, xPlayer, yPlayer, dirPlayer) VALUES ('"+String(_name)+"',01,'200','140','315');");
+					doQuery("INSERT INTO environments(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"',01,'200','140','315');");
 				});
 			}
 			// Caso: cuenta existe.
