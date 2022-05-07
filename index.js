@@ -140,7 +140,7 @@ io.on("connection", async (_socket) => {
 				
 				// La dirección del player.
 				var _dirPlayer = selEnvironment.rows[0].dirplayer;
-				if (_isClick)
+				if (_isClick && !_buttonHovered)
 				{
 					var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
 					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
@@ -157,8 +157,8 @@ io.on("connection", async (_socket) => {
 				{
 					if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
 					else _yPlayer += 20;
-					if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 20;
-					else _xPlayer -= 20;
+					if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
+					else _xPlayer -= 40;
 				}
 				
 				// Actualiza los datos de este frame si has hecho click.
