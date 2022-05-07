@@ -139,17 +139,21 @@ io.on("connection", async (_socket) => {
 				var _yPlayer = selEnvironment.rows[0].yPlayer-100;
 				
 				// La dirección del player.
-				var _dirPlayer;
-				var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer);
-				if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
-				else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
-				else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
-				else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+				var _dirPlayer = selEnvironment.rows[0].dirPlayer;
+				if (_isClick)
+				{
+					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer);
+					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
+					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
+					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
+					else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+				}
 				
-				// Actualiza los datos de este frame y envía al cliente.
-				doQuery("UPDATE environments SET xPlayer = '"+String(_xPlayer)+"', yPlayer = '"+String(_yPlayer)+"', dirPlayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
-					_socket.emit("looped",_field,_xPlayer,_yPlayer,_dirPlayer);
-				});
+				// Actualiza los datos de este frame si has hecho click.
+				if (_isClick) doQuery("UPDATE environments SET xPlayer = '"+String(_xPlayer)+"', yPlayer = '"+String(_yPlayer)+"', dirPlayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';");
+				
+				// Envía los datos al cliente.
+				_socket.emit("looped",_field,_xPlayer,_yPlayer,_dirPlayer);
 			}
 		}
 	});
