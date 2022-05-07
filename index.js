@@ -150,7 +150,6 @@ io.on("connection", async (_socket) => {
 				}
 				
 				// Click al menú.
-				console.log(_buttonHovered);
 				if 		(_buttonHovered == 0) console.log("WAIT");
 				else if (_buttonHovered == 1) console.log("MOVE");
 				
