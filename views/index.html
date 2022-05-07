@@ -111,7 +111,7 @@
 			var scaleMenu = 0; // ¿Scale del menú?
 			var xMenu = 0; // La x del centro del menú al clicar.
 			var yMenu = 0; // La y del centro del menú al clicar.
-			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
+			var buttonClicked = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
 			
@@ -303,7 +303,7 @@
 			setInterval(function () {
 				if (currentTale > 0)
 				{
-					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonHovered);
+					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
 					isClick = false;
 				}
 			}, 16.67);
@@ -333,7 +333,8 @@
 				else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
 				{
 					playerImageDirection = 1;
-				}				
+				}			
+				
 				// Setea qué frame dibujar del player.
 				var _ind = Math.round(playerImageIndex);
 				if (_dirPlayer == 315 || _dirPlayer == 225)
@@ -354,6 +355,7 @@
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
 				}
+				
 				// Dibuja el player.
 				if (xPlayer == -1)
 				{
@@ -379,7 +381,7 @@
 				var _x = 0, _y = 0, _dir = 0;
 				
 				// Dibuja y gestiona los botones del menú.
-				buttonHovered = -1;
+				buttonClicked = -1;
 				drawBoton(270,_imgMenuSleep,0,_hasClicked);
 				drawBoton(90,_imgMenuMove,1,_hasClicked);
 			});
@@ -399,7 +401,7 @@
 				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
 				
-				if (_hasClicked && _isHover && scaleMenu >= 1) buttonHovered = _iBoton;
+				if (_hasClicked && _isHover && scaleMenu >= 1) buttonClicked = _iBoton;
 			}
 			
 			// Cálculo.

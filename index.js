@@ -60,114 +60,126 @@ io.on("connection", async (_socket) => {
 	
 	// Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido.
 	_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender,_color) => {
-		if (isUserValid(_name,_pass))
-		{
-			// Comprueba el acceso al chapter.
-			doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
-				if (selChapter.rowCount > 0)
-				{
-					fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
-						if (_error) throw _error;
-						_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
-					});
-				}
-				else _socket.emit("chapterFail");
-			});
-		}
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				// Comprueba el acceso al chapter.
+				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
+					if (selChapter.rowCount > 0)
+					{
+						fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
+							if (_error) throw _error;
+							_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
+						});
+					}
+					else _socket.emit("chapterFail");
+				});
+			}
+		});
 	});
 	
 	// Setear character name.
 	_socket.on("setCharacterName", async (_name,_pass,_tale,_character) => {
-		if (isUserValid(_name,_pass))
-		{
-			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				if (selCharacter.rowCount > 0)
-					doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
-						_socket.emit("characterNameChanged",_character);
-					});
-			});
-		}
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+					if (selCharacter.rowCount > 0)
+						doQuery("UPDATE characters SET character = '"+String(_character)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
+							_socket.emit("characterNameChanged",_character);
+						});
+				});
+			}
+		});
 	});
 	
 	// Envía el nombre del character y gender.
 	_socket.on("demandCharacterData", async (_name,_pass,_tale) => {
-		if (isUserValid(_name,_pass))
-		{
-			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				_socket.emit("receiveCharacterData",_tale,selCharacter.rows[0].character,selCharacter.rows[0].gender,selCharacter.rows[0].color);
-			});
-		}
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+					_socket.emit("receiveCharacterData",_tale,selCharacter.rows[0].character,selCharacter.rows[0].gender,selCharacter.rows[0].color);
+				});
+			}
+		});
 	});
 	
 	// Setear el gender.
 	_socket.on("setCharacterGender", async (_name,_pass,_tale,_gender) => {
-		if (isUserValid(_name,_pass))
-		{
-			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				if (selCharacter.rowCount > 0)
-					doQuery("UPDATE characters SET gender = '"+String(_gender)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
-						_socket.emit("characterGenderChanged",_gender);
-					});
-			});
-		}
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+					if (selCharacter.rowCount > 0)
+						doQuery("UPDATE characters SET gender = '"+String(_gender)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
+							_socket.emit("characterGenderChanged",_gender);
+						});
+				});
+			}
+		});
 	});
 	
 	// Setear el color.
 	_socket.on("setCharacterColor", async (_name,_pass,_tale,_color) => {
-		if (isUserValid(_name,_pass))
-		{
-			doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
-				if (selCharacter.rowCount > 0)
-					doQuery("UPDATE characters SET color = '"+String(_color)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
-						_socket.emit("characterColorChanged",_color);
-					});
-			});
-		}
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				doQuery("SELECT * FROM characters WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", (selCharacter) => {
+					if (selCharacter.rowCount > 0)
+						doQuery("UPDATE characters SET color = '"+String(_color)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_tale)+"';", () => {
+							_socket.emit("characterColorChanged",_color);
+						});
+				});
+			}
+		});
 	});
 	
 	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonHovered) => {
-		if (isUserValid(_name,_pass))
-		{
-			doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
-				// El sprite del field.
-				var _field = "";
-				if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
-				
-				// La posición del player.
-				var _xPlayer = selEnvironment.rows[0].xplayer;
-				var _yPlayer = selEnvironment.rows[0].yplayer;
-				
-				// La dirección del player.
-				var _dirPlayer = selEnvironment.rows[0].dirplayer;
-				if (_isClick && !_buttonHovered)
-				{
-					var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
-					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
-					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
-					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
-					else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
-				}
-				
-				// Click al menú.
-				// Pausa.
-				if 		(_buttonHovered == 0) console.log("WAIT");
-				// Movimiento.
-				else if (_buttonHovered == 1)
-				{
-					if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
-					else _yPlayer += 20;
-					if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
-					else _xPlayer -= 40;
-				}
-				
-				// Actualiza los datos de este frame si has hecho click.
-				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
-				
-				// Envía los datos al cliente.
-				_socket.emit("looped01",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
-			});
-		}
+	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonClicked) => {
+		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
+			if (selUsers.rowCount > 0)
+			{
+				doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
+					// El sprite del field.
+					var _field = "";
+					if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
+					
+					// La posición del player.
+					var _xPlayer = selEnvironment.rows[0].xplayer;
+					var _yPlayer = selEnvironment.rows[0].yplayer;
+					
+					// La dirección del player.
+					var _dirPlayer = selEnvironment.rows[0].dirplayer;
+					if (_isClick && !_buttonClicked)
+					{
+						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
+						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
+						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
+						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
+						else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+					}
+					
+					// Click al menú.
+					// Pausa.
+					if 		(_buttonClicked == 0) console.log("WAIT");
+					// Movimiento.
+					else if (_buttonClicked == 1)
+					{
+						if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
+						else _yPlayer += 20;
+						if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
+						else _xPlayer -= 40;
+					}
+					
+					// Actualiza los datos de este frame si has hecho click.
+					if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
+					
+					// Envía los datos al cliente.
+					_socket.emit("looped01",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
+				});
+			}
+		});
 	});
 });
 
@@ -183,14 +195,6 @@ async function doQuery(query,func)
 		console.error(e.stack);
 		client.release();
 		return false;
-	});
-}
-
-// Si tu usuario es válido...
-async function isUserValid(_name,_pass)
-{
-	doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
-		return selUsers.rowCount > 0;
 	});
 }
 
