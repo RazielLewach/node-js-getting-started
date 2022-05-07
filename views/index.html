@@ -370,7 +370,7 @@
 					_dir = 270*Math.PI/180;
 					_x = xMenu + _lon*Math.cos(_dir);
 					_y = yMenu - _lon*Math.sin(_dir);
-					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2));
+					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
 					context.save();
 					context.translate(_x,_y);
 					var _sc = scaleMenu*(1 + 0.3*(_isHover));
