@@ -376,9 +376,11 @@
 				context.scale(_sc,_sc);
 				context.drawImage(_imgMenuSleep,-15,-15);
 				context.restore();
+				console.log("---");
+				console.log("_hasClicked",_hasClicked);
+				console.log("_isHover",_isHover);
 				if (_hasClicked && _isHover)
 				{
-					isMenu = false;
 					console.log("WAIT");
 				}
 			});
