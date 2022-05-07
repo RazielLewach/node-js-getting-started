@@ -142,7 +142,7 @@ io.on("connection", async (_socket) => {
 				var _dirPlayer = selEnvironment.rows[0].dirplayer;
 				if (_isClick)
 				{
-					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer);
+					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer)*180/Math.PI;
 					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
