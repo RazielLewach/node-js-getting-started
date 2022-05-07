@@ -150,10 +150,10 @@ io.on("connection", async (_socket) => {
 				}
 				
 				// Actualiza los datos de este frame si has hecho click.
-				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer-40)+"', yplayer = '"+String(_yPlayer-100)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';");
+				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';");
 				
 				// Envía los datos al cliente.
-				_socket.emit("looped",_field,_xPlayer,_yPlayer,_dirPlayer);
+				_socket.emit("looped",_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
 			});
 		}
 	});
