@@ -1,9 +1,8 @@
 ###### TODO ######
-- Entra en el código de MOVE pero no te mueves.
-
-
+- 
 
 ###### DONE ######
+- Entra en el código de MOVE pero no te mueves.
 - El hover funciona fatal.
 - Al pulsar un boton, que esa pulsación no cambie la dirección.
 
