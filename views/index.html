@@ -109,8 +109,9 @@
 			var xMouse = 0, yMouse = 0, isClick = false;
 			canvas.addEventListener('click', () => {isClick = true;}, false);
 			canvas.addEventListener("mousemove", () => {
-				xMouse = event.clientX;
-				yMouse = event.clientY;
+				var rect = canvas.getBoundingClientRect();
+				xMouse = event.clientX - rect.left;
+				yMouse = event.clientY - rect.top;
 			});
 			
 			// Variables de funcionamiento que el servidor no requiere guardar.

@@ -143,11 +143,15 @@ io.on("connection", async (_socket) => {
 				if (_isClick)
 				{
 					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer)*180/Math.PI;
+					console.log("_xMouse",_dirClick);
+					console.log("_yMouse",_yMouse);
+					console.log("_xPlayer",_xPlayer);
+					console.log("_yPlayer",_yPlayer);
+					console.log("_dirClick",_dirClick);
 					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
 					else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
-					console.log("_dirPlayer",_dirPlayer);
 				}
 				
 				// Actualiza los datos de este frame si has hecho click.
