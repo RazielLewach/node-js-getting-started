@@ -151,14 +151,13 @@ io.on("connection", async (_socket) => {
 					
 					// La dirección del player.
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
-					if (_isClick && !_buttonClicked)
+					if (_isClick && _buttonClicked == -1)
 					{
 						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
 						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
 						else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
-						console.log("_dirPlayer",_dirPlayer);
 					}
 					
 					// Click al menú.
