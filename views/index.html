@@ -339,8 +339,9 @@
 				// Dibuja el player.
 				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
 				context.save();
+				context.translate(_xPlayer+80*(_xScale == -1),_yPlayer);
 				context.scale(_xScale,1);
-				context.drawImage(_imgPlayer,_xPlayer,_yPlayer);
+				context.drawImage(_imgPlayer,0,0);
 				context.restore();
 			});
 		</script>
