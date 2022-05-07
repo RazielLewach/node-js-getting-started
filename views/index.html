@@ -327,13 +327,9 @@
 				// Gestiona los frames del player.
 				playerImageIndex += 0.1*playerImageDirection;
 				if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
-				{
 					playerImageDirection = -1;
-				}
 				else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
-				{
 					playerImageDirection = 1;
-				}			
 				
 				// Setea qué frame dibujar del player.
 				var _ind = Math.round(playerImageIndex);
@@ -401,7 +397,7 @@
 				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
 				
-				if (_hasClicked && _isHover && scaleMenu >= 1) buttonClicked = _iBoton;
+				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonClicked = _iBoton;
 			}
 			
 			// Cálculo.

@@ -1,3 +1,13 @@
+- Al pulsar un boton, que esa pulsación no cambie la dirección.
+- El hover funciona fatal.
+- Entra en el código de MOVE pero no te mueves.
+
+
+
+
+
+
+
 Minijuego como el de la física que hice. Va por turnos y por casillas. Cada turno eliges si te quedas quieto, si te mueves a una casilla adyacente, atacas a una casilla adyacente, te defiendes de una casilla adyacente, o usas una habilidad. En el instante en que acabas tu turno, todos los demás enemigos ejecutan sus turnos a la vez. Más enfoque en la batalla (enemigos con barras de vida, diversos ataques, etc) y menos en el entorno. La primera batalla será 100% batalla contra el señor de la pala. Luego, cada batalla tendrá interacciones adicionales únicas según cada situación ocurrida en la trama (minijuegos, puzzles, objetivos secundarios o principales que no sean luchar, o junto a luchar...)
 
 PROGRESIÓN
