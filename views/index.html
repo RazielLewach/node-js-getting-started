@@ -301,97 +301,94 @@
 			
 			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
 			setTimeout(function () {
-				if (currentTale > 0)
-				{
-					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
-					isClick = false;
-				}
+				socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
+				isClick = false;
 			}, 16.67);
 			
 			// Recibe el loop.
 			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
-				// Step.
-				
-				
-				// Draw.
-				// El fondo negro.
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.fillStyle = "#000000";
-				context.fillRect(0,0,canvas.width,canvas.height);
-				
-				// El field.
-				_imgField.src = _field;
-				context.drawImage(_imgField,60,210);
-				
-				// El player.
-				// Gestiona los frames del player.
-				playerImageIndex += 0.1*playerImageDirection;
-				if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
+				if (currentTale > 0)
 				{
-					playerImageDirection = -1;
+					// Step.
+					
+					
+					// Draw.
+					// El fondo negro.
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					context.fillStyle = "#000000";
+					context.fillRect(0,0,canvas.width,canvas.height);
+					
+					// El field.
+					_imgField.src = _field;
+					context.drawImage(_imgField,60,210);
+					
+					// El player.
+					// Gestiona los frames del player.
+					playerImageIndex += 0.1*playerImageDirection;
+					if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
+					{
+						playerImageDirection = -1;
+					}
+					else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
+					{
+						playerImageDirection = 1;
+					}			
+					
+					// Setea qué frame dibujar del player.
+					var _ind = Math.round(playerImageIndex);
+					if (_dirPlayer == 315 || _dirPlayer == 225)
+					{
+						if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/66Ajvfd.png";
+						else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/BOjg0Mq.png";
+						else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/jX7N08j.png";
+						else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/VFwNrbe.png";
+						else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/59Ih45s.png";
+						else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/3R65wfM.png";
+					}
+					else
+					{
+						if 		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/UQiITao.png";
+						else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/TLvh0j6.png";
+						else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/Aoi8bFE.png";
+						else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/eBpfqIh.png";
+						else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
+						else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
+					}
+					
+					// Dibuja el player.
+					if (xPlayer == -1)
+					{
+						xPlayer = _xPlayer;
+						yPlayer = _yPlayer;
+					}
+					else
+					{
+						var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
+						xPlayer = tiendeAX(xPlayer,_xPlayer,1*Math.abs(dcos(_dir)));
+						yPlayer = tiendeAX(yPlayer,_yPlayer,1*Math.abs(dsin(_dir)));
+					}
+					
+					var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
+					context.save();
+					context.translate(xPlayer+80*(_xScale == -1),yPlayer);
+					context.scale(_xScale,1);
+					context.drawImage(_imgPlayer,0,0);
+					context.restore();
+					
+					// Gestiona y dibuja el menú.
+					scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
+					var _x = 0, _y = 0, _dir = 0;
+					
+					// Dibuja y gestiona los botones del menú.
+					buttonClicked = -1;
+					drawBoton(270,_imgMenuSleep,0,_hasClicked);
+					drawBoton(90,_imgMenuMove,1,_hasClicked);
 				}
-				else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
-				{
-					playerImageDirection = 1;
-				}			
-				
-				// Setea qué frame dibujar del player.
-				var _ind = Math.round(playerImageIndex);
-				if (_dirPlayer == 315 || _dirPlayer == 225)
-				{
-					if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/66Ajvfd.png";
-					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/BOjg0Mq.png";
-					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/jX7N08j.png";
-					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/VFwNrbe.png";
-					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/59Ih45s.png";
-					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/3R65wfM.png";
-				}
-				else
-				{
-					if 		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/UQiITao.png";
-					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/TLvh0j6.png";
-					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/Aoi8bFE.png";
-					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/eBpfqIh.png";
-					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
-					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
-				}
-				
-				// Dibuja el player.
-				if (xPlayer == -1)
-				{
-					xPlayer = _xPlayer;
-					yPlayer = _yPlayer;
-				}
-				else
-				{
-					var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
-					xPlayer = tiendeAX(xPlayer,_xPlayer,1*Math.abs(dcos(_dir)));
-					yPlayer = tiendeAX(yPlayer,_yPlayer,1*Math.abs(dsin(_dir)));
-				}
-				
-				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
-				context.save();
-				context.translate(xPlayer+80*(_xScale == -1),yPlayer);
-				context.scale(_xScale,1);
-				context.drawImage(_imgPlayer,0,0);
-				context.restore();
-				
-				// Gestiona y dibuja el menú.
-				scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
-				var _x = 0, _y = 0, _dir = 0;
-				
-				// Dibuja y gestiona los botones del menú.
-				buttonClicked = -1;
-				drawBoton(270,_imgMenuSleep,0,_hasClicked);
-				drawBoton(90,_imgMenuMove,1,_hasClicked);
 				
 				// Envía un nuevo game loop.
 				setTimeout(function () {
-					if (currentTale > 0)
-					{
-						socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
-						isClick = false;
-					}
+					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
+					isClick = false;
 				}, 16.67);
 			});
 			
