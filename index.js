@@ -44,7 +44,7 @@ io.on("connection", async (_socket) => {
 					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');");
-					doQuery("INSERT INTO environments(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"','200','140','315');");
+					doQuery("INSERT INTO environments(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"','260','350','315');");
 				});
 			}
 			// Caso: cuenta existe.
@@ -143,7 +143,7 @@ io.on("connection", async (_socket) => {
 				if (_isClick)
 				{
 					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer)*180/Math.PI;
-					console.log("_xMouse",_dirClick);
+					console.log("_xMouse",_xMouse);
 					console.log("_yMouse",_yMouse);
 					console.log("_xPlayer",_xPlayer);
 					console.log("_yPlayer",_yPlayer);
