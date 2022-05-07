@@ -392,15 +392,6 @@
 				context.save();
 				context.translate(_x,_y);
 				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
-				if (_dirBoton == 90)
-				{
-					console.log("----");
-					console.log("_isHover",_isHover);
-					console.log("xMouse",xMouse);
-					console.log("yMouse",yMouse);
-					console.log("_x",_x);
-					console.log("_y",_y);
-				}
 				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
 				context.drawImage(_imgBoton,-15,-15);
@@ -434,7 +425,7 @@
 			
 			function pointDistance(_x1,_y1,_x2,_y2)
 			{
-				return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_x2-_y2,2));
+				return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_y1-_y2,2));
 			}
 			
 			function angular(_dir)

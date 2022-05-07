@@ -1,10 +1,10 @@
 ###### TODO ######
-- El hover funciona fatal.
 - Entra en el código de MOVE pero no te mueves.
 
 
 
 ###### DONE ######
+- El hover funciona fatal.
 - Al pulsar un boton, que esa pulsación no cambie la dirección.
 
 
