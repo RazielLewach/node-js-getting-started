@@ -154,7 +154,7 @@ io.on("connection", async (_socket) => {
 				
 				// Envía los datos al cliente.
 				_socket.emit("looped",_field,_xPlayer,_yPlayer,_dirPlayer);
-			}
+			});
 		}
 	});
 });

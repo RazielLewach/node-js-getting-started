@@ -15,7 +15,7 @@ create table environment (name varchar(255) not null, xPlayer int not null, yPla
 git add . & git commit -m "justcommitdamnit" & git push origin main & git push heroku main
 
 - VER LOG DE ERRORES
-heroku logs --tail
+heroku logs
 
 - COMANDOS CONSOLA
 cls (limpiar, clear)
