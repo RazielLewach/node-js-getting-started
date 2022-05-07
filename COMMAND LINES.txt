@@ -5,6 +5,7 @@ cd node-js-getting-started & heroku login
 heroku pg:psql
 \q para cerrar
 \dt show tables
+
 drop table environments; drop table characters; drop table chapters; drop table users;
 create table users (name varchar(255) not null unique, pass varchar(255) not null, primary key (name, pass));
 create table chapters (name varchar(255) not null, tale int not null, chapter int not null, primary key (name, tale, chapter), CONSTRAINT hasChapter FOREIGN KEY(name) REFERENCES users(name));
