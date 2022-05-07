@@ -142,7 +142,8 @@ io.on("connection", async (_socket) => {
 				var _dirPlayer = selEnvironment.rows[0].dirplayer;
 				if (_isClick)
 				{
-					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer)*180/Math.PI;
+					var _dirClick = Math.atan2(_yMouse-_yPlayer,_xMouse-_xPlayer)*180/Math.PI;
+					console.log("-------");
 					console.log("_xMouse",_xMouse);
 					console.log("_yMouse",_yMouse);
 					console.log("_xPlayer",_xPlayer);
