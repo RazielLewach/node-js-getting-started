@@ -306,7 +306,7 @@
 			}, 16.67);
 			
 			// Recibe el loop.
-			socket.on("looped", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
+			socket.on("looped", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
 				
 				
@@ -359,9 +359,9 @@
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
 				
-				// Dibuja el menú.
+				// Gestiona y dibuja el menú.
 				scaleMenu = tiendeAX(scaleMenu,1*(isMenu),0.05);
-				var _x = 0, _y = 0, _dir = 0;
+				var _x = 0, _y = 0, _dir = 0, _isHover = false;
 				if (scaleMenu > 0)
 				{
 					var _lon = 40*scaleMenu;
@@ -370,11 +370,18 @@
 					_dir = 270*Math.PI/180;
 					_x = xMenu + _lon*Math.cos(_dir);
 					_y = yMenu - _lon*Math.sin(_dir);
+					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2));
 					context.save();
 					context.translate(_x,_y);
-					context.scale(scaleMenu,scaleMenu);
+					var _sc = scaleMenu*(1 + 0.3*(_isHover));
+					context.scale(_sc,_sc);
 					context.drawImage(_imgMenuSleep,-15,-15);
 					context.restore();
+					if (_hasClicked && _isHover)
+					{
+						isMenu = false;
+						console.log("WAIT");
+					}
 				}
 			});
 			

@@ -153,7 +153,7 @@ io.on("connection", async (_socket) => {
 				if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 				
 				// Envía los datos al cliente.
-				_socket.emit("looped",_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
+				_socket.emit("looped",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
 			});
 		}
 	});
