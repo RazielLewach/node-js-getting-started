@@ -111,7 +111,7 @@
 			var scaleMenu = 0; // ¿Scale del menú?
 			var xMenu = 0; // La x del centro del menú al clicar.
 			var yMenu = 0; // La y del centro del menú al clicar.
-			var buttonClicked = -1; // ¿Qué botón tienes hovered con el menú abierto?
+			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
 			
@@ -303,7 +303,7 @@
 			setInterval(function () {
 				if (currentTale > 0)
 				{
-					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonClicked);
+					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonHovered);
 					isClick = false;
 				}
 			}, 16.67);
@@ -377,7 +377,7 @@
 				var _x = 0, _y = 0, _dir = 0;
 				
 				// Dibuja y gestiona los botones del menú.
-				buttonClicked = -1;
+				buttonHovered = -1;
 				drawBoton(270,_imgMenuSleep,0,_hasClicked);
 				drawBoton(90,_imgMenuMove,1,_hasClicked);
 			});
@@ -392,12 +392,21 @@
 				context.save();
 				context.translate(_x,_y);
 				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
+				if (_dirBoton == 90)
+				{
+					console.log("----");
+					console.log("_isHover",_isHover);
+					console.log("xMouse",xMouse);
+					console.log("yMouse",yMouse);
+					console.log("_x",_x);
+					console.log("_y",_y);
+				}
 				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
 				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
 				
-				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonClicked = _iBoton;
+				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
 			}
 			
 			// Cálculo.

@@ -136,7 +136,7 @@ io.on("connection", async (_socket) => {
 	});
 	
 	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonClicked) => {
+	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonHovered) => {
 		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 			if (selUsers.rowCount > 0)
 			{
@@ -151,7 +151,7 @@ io.on("connection", async (_socket) => {
 					
 					// La dirección del player.
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
-					if (_isClick && _buttonClicked == -1)
+					if (_isClick && _buttonHovered == -1)
 					{
 						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
 						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
@@ -161,16 +161,19 @@ io.on("connection", async (_socket) => {
 					}
 					
 					// Click al menú.
-					// Pausa.
-					if 		(_buttonClicked == 0) console.log("WAIT");
-					// Movimiento.
-					else if (_buttonClicked == 1)
+					if (_isClick)
 					{
-						if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
-						else _yPlayer += 20;
-						if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
-						else _xPlayer -= 40;
-						console.log("PEROWENO");
+						// Pausa.
+						if 		(_buttonHovered == 0) console.log("WAIT");
+						// Movimiento.
+						else if (_buttonHovered == 1)
+						{
+							if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
+							else _yPlayer += 20;
+							if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
+							else _xPlayer -= 40;
+							console.log("PEROWENO");
+						}
 					}
 					
 					// Actualiza los datos de este frame si has hecho click.
