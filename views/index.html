@@ -361,7 +361,7 @@
 				context.restore();
 				
 				// Gestiona y dibuja el menú.
-				scaleMenu = tiendeAX(scaleMenu,1*(isMenu),0.05);
+				scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
 				var _x = 0, _y = 0, _dir = 0;
 				
 				// Dibuja y gestiona los botones del menú.
@@ -374,18 +374,19 @@
 			// Scripts.
 			function drawBoton(_dirBoton,_imgBoton,_iBoton,_hasClicked)
 			{
-				var _lon = 40*scaleMenu;
+				var _lon = 40*Math.min(1,scaleMenu);
 				var _dir = _dirBoton*Math.PI/180;
 				var _x = xMenu + _lon*Math.cos(_dir);
 				var _y = yMenu - _lon*Math.sin(_dir);
 				context.save();
 				context.translate(_x,_y);
-				var _sc = scaleMenu*(1 + 0.3*(Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15));
+				var _isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
+				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
 				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
 				
-				if (_hasClicked && Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15) buttonHovered = _iBoton;
+				if (_hasClicked && _isHover) buttonHovered = _iBoton;
 			}
 			
 			function tiendeAX(_val,_obj,_inc)
