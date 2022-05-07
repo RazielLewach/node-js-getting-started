@@ -126,7 +126,7 @@ io.on("connection", async (_socket) => {
 	});
 	
 	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick) => {
+	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_isMenu,_xMenu,_yMenu) => {
 		if (isUserValid(_name,_pass))
 		{
 			doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
@@ -147,6 +147,21 @@ io.on("connection", async (_socket) => {
 					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
 					else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+				}
+				
+				// Click al menú.
+				if (_isMenu && _isClick)
+				{
+					var _x = 0, _y = 0, _dir = 0, _isHover = false;
+					
+					_dir = 270*Math.PI/180;
+					_x = _xMenu + 40*Math.cos(_dir);
+					_y = _yMenu - 40*Math.sin(_dir);
+					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
+					if (_hasClicked && _isHover)
+					{
+						console.log("WAIT");
+					}
 				}
 				
 				// Actualiza los datos de este frame si has hecho click.

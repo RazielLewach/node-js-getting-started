@@ -300,7 +300,7 @@
 			setInterval(function () {
 				if (currentTale > 0)
 				{
-					socket.emit("loop",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick);
+					socket.emit("loop",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,isMenu,xMenu,yMenu);
 					isClick = false;
 				}
 			}, 16.67);
@@ -376,14 +376,6 @@
 				context.scale(_sc,_sc);
 				context.drawImage(_imgMenuSleep,-15,-15);
 				context.restore();
-				if (_hasClicked){
-				console.log("---");
-				console.log("_hasClicked",_hasClicked);
-				console.log("_isHover",_isHover);}
-				if (_hasClicked && _isHover)
-				{
-					console.log("WAIT");
-				}
 			});
 			
 			// Scripts.
