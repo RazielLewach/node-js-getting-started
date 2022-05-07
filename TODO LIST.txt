@@ -5,10 +5,8 @@ La principal progresión es obtener nuevas habilidades para ser más versátil y po
 
 Podrás resetear tus stats y tus habilidades equipadas, y visualizarlo todo, en cualquier momento, desde el panel derecho, siempre visible en todo momento. Éste muestra además tu estado, progreso, y un sprite detallado de ti, y una referencia a tu color (núcleo en el pecho). Sin embargo, modificar algo aquí reiniciará cualquier juego en proceso.
 
-IDEAS
-
-¿Puedo simular un 3D En la esquina una grid cuadricular con iconos, y abajo tu personaje desde su espalda y viendo "desde su posición" todo. A medida que te acercas al enemigo, éste se hace más grande y se acerca. Al girar la cámara, las cosas salen por un lado y entran por el otro. Etc.
-
+CONTROLES
+Al clicar a cualquier casilla, el PJ mirará a ésta, y aparecerá un menú circular con: cancelar (no hacer nada), esperar (pasa un turno), moverte (te moverás en diagonal una casilla), y tus ataques y habilidades.
 
 
 
