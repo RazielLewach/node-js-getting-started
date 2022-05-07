@@ -130,11 +130,11 @@ io.on("connection", async (_socket) => {
 		{
 			// El sprite del field.
 			var _field = "";
-			if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/PLMcUQi.png";
+			if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
 			
 			// La posición del player.
-			var _xPlayer = 160-20;
-			var _yPlayer = 120-50;
+			var _xPlayer = 200-40;
+			var _yPlayer = 140-100;
 			
 			// Envía los datos.
 			_socket.emit("looped",_field,_xPlayer,_yPlayer);
