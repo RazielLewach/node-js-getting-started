@@ -135,11 +135,11 @@ io.on("connection", async (_socket) => {
 				if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
 				
 				// La posición del player.
-				var _xPlayer = selEnvironment.rows[0].xPlayer-40;
-				var _yPlayer = selEnvironment.rows[0].yPlayer-100;
+				var _xPlayer = selEnvironment.rows[0].xplayer-40;
+				var _yPlayer = selEnvironment.rows[0].yplayer-100;
 				
 				// La dirección del player.
-				var _dirPlayer = selEnvironment.rows[0].dirPlayer;
+				var _dirPlayer = selEnvironment.rows[0].dirplayer;
 				if (_isClick)
 				{
 					var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer);
