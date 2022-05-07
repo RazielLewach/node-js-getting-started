@@ -143,12 +143,6 @@ io.on("connection", async (_socket) => {
 				if (_isClick)
 				{
 					var _dirClick = angular(Math.atan2(-(_yMouse-_yPlayer),_xMouse-_xPlayer)*180/Math.PI);
-					console.log("-------");
-					console.log("_xMouse",_xMouse);
-					console.log("_yMouse",_yMouse);
-					console.log("_xPlayer",_xPlayer);
-					console.log("_yPlayer",_yPlayer);
-					console.log("_dirClick",_dirClick);
 					if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 					else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 					else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;

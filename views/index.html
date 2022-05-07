@@ -94,6 +94,7 @@
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
+			// Variables de estado.
 			var socket = io();
 			var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
 			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
@@ -103,24 +104,35 @@
 			var currentTale = 00; // ¿Qué tale andas viendo?
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
+			// Variables de lógica que el servidor no requiere guardar.
+			var playerImageIndex = 0; // Qué frame dibuja.
+			var playerImageDirection = 1; // Qué dirección avanza.
+			var isMenu = false; // ¿Menú abierto?
+			var scaleMenu = 0; // ¿Scale del menú?
+			var xMenu = 0; // La x del centro del menú al clicar.
+			var yMenu = 0; // La y del centro del menú al clicar.
+			
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
 			var context = canvas.getContext('2d');
 			var xMouse = 0, yMouse = 0, isClick = false;
-			canvas.addEventListener('click', () => {isClick = true;}, false);
+			canvas.addEventListener('click', () => {
+				isClick = true;
+				isMenu = !isMenu;
+				xMenu = xMouse;
+				yMenu = yMouse;
+			}, false);
 			canvas.addEventListener("mousemove", () => {
 				var rect = canvas.getBoundingClientRect();
 				xMouse = event.clientX - rect.left;
 				yMouse = event.clientY - rect.top;
 			});
 			
-			// Variables de funcionamiento que el servidor no requiere guardar.
-			var playerImageIndex = 0; // Qué frame dibuja.
-			var playerImageDirection = 1; // Qué dirección avanza.
-			
 			// Las imágenes.
 			var _imgField = new Image();
 			var _imgPlayer = new Image();
+			var _imgMenuSleep = new Image();
+			_imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -343,7 +355,38 @@
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
+				
+				// Dibuja el menú.
+				scaleMenu = tiendeAX(scaleMenu,1*(isMenu),0.05);
+				var _x = 0, _y = 0, _dir = 0;
+				if (scaleMenu > 0)
+				{
+					var _lon = 50*scaleMenu;
+					
+					// Botón: no hacer nada.
+					_dir = 270*180/Math.PI;
+					_x = xMenu + _lon*Math.cos(_dir);
+					_y = yMenu + _lon*Math.sin(_dir);
+					context.save();
+					context.translate(_x,_y);
+					context.scale(scaleMenu,scaleMenu);
+					context.drawImage(_imgMenuSleep,0,0);
+					context.restore();
+				}
 			});
+			
+			// Scripts.
+			function tiendeAX(_val,_obj,_inc)
+			{
+				var _ret = _val;
+
+				if ( _inc == 0 ) return _obj;
+
+				if ( _ret < _obj ) _ret = Math.Min( _ret + _inc, _obj );
+				else _ret = Math.Max( _ret - _inc, _obj );
+
+				return _ret;
+			}
 		</script>
 		
 	</body>
