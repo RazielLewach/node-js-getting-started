@@ -362,26 +362,24 @@
 				// Gestiona y dibuja el menú.
 				scaleMenu = tiendeAX(scaleMenu,1*(isMenu),0.05);
 				var _x = 0, _y = 0, _dir = 0, _isHover = false;
-				if (scaleMenu > 0)
+
+				var _lon = 40*scaleMenu;
+				
+				// Botón: no hacer nada.
+				_dir = 270*Math.PI/180;
+				_x = xMenu + _lon*Math.cos(_dir);
+				_y = yMenu - _lon*Math.sin(_dir);
+				_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
+				context.save();
+				context.translate(_x,_y);
+				var _sc = scaleMenu*(1 + 0.3*(_isHover));
+				context.scale(_sc,_sc);
+				context.drawImage(_imgMenuSleep,-15,-15);
+				context.restore();
+				if (_hasClicked && _isHover)
 				{
-					var _lon = 40*scaleMenu;
-					
-					// Botón: no hacer nada.
-					_dir = 270*Math.PI/180;
-					_x = xMenu + _lon*Math.cos(_dir);
-					_y = yMenu - _lon*Math.sin(_dir);
-					_isHover = Math.sqrt(Math.pow(xMouse-_x,2)+Math.pow(yMouse-_y,2)) < 15;
-					context.save();
-					context.translate(_x,_y);
-					var _sc = scaleMenu*(1 + 0.3*(_isHover));
-					context.scale(_sc,_sc);
-					context.drawImage(_imgMenuSleep,-15,-15);
-					context.restore();
-					if (_hasClicked && _isHover && scaleMenu == 1)
-					{
-						isMenu = false;
-						console.log("WAIT");
-					}
+					isMenu = false;
+					console.log("WAIT");
 				}
 			});
 			
