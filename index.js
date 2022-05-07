@@ -44,6 +44,7 @@ io.on("connection", async (_socket) => {
 					// Inicializa valores default de todas las tablas para la nueva cuenta.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');");
+					doQuery("INSERT INTO environments(name, xPlayer, yPlayer, dirPlayer) VALUES ('"+String(_name)+"',01,'200','140','315');");
 				});
 			}
 			// Caso: cuenta existe.
@@ -124,20 +125,32 @@ io.on("connection", async (_socket) => {
 		}
 	});
 	
-	// El loop para enviar datos del estado del chapter.
-	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter) => {
+	// El loop para calcular y enviar datos del estado del chapter.
+	_socket.on("loop", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick) => {
 		if (isUserValid(_name,_pass))
 		{
-			// El sprite del field.
-			var _field = "";
-			if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
-			
-			// La posición del player.
-			var _xPlayer = 200-40;
-			var _yPlayer = 140-100;
-			
-			// Envía los datos.
-			_socket.emit("looped",_field,_xPlayer,_yPlayer);
+			doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
+				// El sprite del field.
+				var _field = "";
+				if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
+				
+				// La posición del player.
+				var _xPlayer = selEnvironment.rows[0].xPlayer-40;
+				var _yPlayer = selEnvironment.rows[0].yPlayer-100;
+				
+				// La dirección del player.
+				var _dirPlayer;
+				var _dirClick = Math.atan2(_xMouse-_xPlayer,_yMouse-_yPlayer);
+				if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
+				else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
+				else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
+				else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
+				
+				// Actualiza los datos de este frame y envía al cliente.
+				doQuery("UPDATE environments SET xPlayer = '"+String(_xPlayer)+"', yPlayer = '"+String(_yPlayer)+"', dirPlayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+					_socket.emit("looped",_field,_xPlayer,_yPlayer,_dirPlayer);
+				});
+			}
 		}
 	});
 });

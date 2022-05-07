@@ -106,6 +106,12 @@
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
 			var context = canvas.getContext('2d');
+			var xMouse = 0, yMouse = 0, isClick = false;
+			canvas.addEventListener('click', () => {isClick = true;}, false);
+			canvas.addEventListener("mousemove", () => {
+				xMouse = event.clientX;
+				yMouse = event.clientY;
+			});
 			
 			// Variables de funcionamiento que el servidor no requiere guardar.
 			var playerImageIndex = 0; // Qué frame dibuja.
@@ -276,11 +282,15 @@
 			
 			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
 			setInterval(function () {
-				if (currentTale > 0) socket.emit("loop",name,pass,currentTale,currentChapter);
+				if (currentTale > 0)
+				{
+					socket.emit("loop",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick);
+					isClick = false;
+				}
 			}, 16.67);
 			
 			// Recibe el loop.
-			socket.on("looped", (_field,_xPlayer,_yPlayer) => {
+			socket.on("looped", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
 				
 				
@@ -295,7 +305,7 @@
 				context.drawImage(_imgField,60,210);
 				
 				// El player.
-				// Gestiona los frames.
+				// Gestiona los frames del player.
 				playerImageIndex += 0.1*playerImageDirection;
 				if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
 				{
@@ -305,16 +315,32 @@
 				{
 					playerImageDirection = 1;
 				}				
-				// Setea qué frame dibujar.
+				// Setea qué frame dibujar del player.
 				var _ind = Math.round(playerImageIndex);
-				if (_ind <= 0) 		_imgPlayer.src = "https://i.imgur.com/66Ajvfd.png";
-				else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/BOjg0Mq.png";
-				else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/jX7N08j.png";
-				else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/VFwNrbe.png";
-				else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/59Ih45s.png";
-				else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/3R65wfM.png";
-				// Dibuja.
+				if (_dirPlayer == 315 || _dirPlayer == 225)
+				{
+					if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/66Ajvfd.png";
+					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/BOjg0Mq.png";
+					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/jX7N08j.png";
+					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/VFwNrbe.png";
+					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/59Ih45s.png";
+					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/3R65wfM.png";
+				}
+				else
+				{
+					if 		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/8aNukWX.png";
+					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/khjlncA.png";
+					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/xXNkQCF.png";
+					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/j2qSU8C.png";
+					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/rmjglt9.png";
+					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/qK658YM.png";
+				}
+				// Dibuja el player.
+				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
+				context.save();
+				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,60+_xPlayer,210+_yPlayer);
+				context.restore();
 			});
 		</script>
 		
