@@ -119,8 +119,11 @@
 			canvas.addEventListener('click', () => {
 				isClick = true;
 				isMenu = !isMenu;
-				xMenu = xMouse;
-				yMenu = yMouse;
+				if (isMenu)
+				{
+					xMenu = xMouse;
+					yMenu = yMouse;
+				}
 			}, false);
 			canvas.addEventListener("mousemove", () => {
 				var rect = canvas.getBoundingClientRect();
@@ -361,10 +364,10 @@
 				var _x = 0, _y = 0, _dir = 0;
 				if (scaleMenu > 0)
 				{
-					var _lon = 50*scaleMenu;
+					var _lon = 35*scaleMenu;
 					
 					// Botón: no hacer nada.
-					_dir = 270*180/Math.PI;
+					_dir = 270*Math.PI/180;
 					_x = xMenu + _lon*Math.cos(_dir);
 					_y = yMenu + _lon*Math.sin(_dir);
 					context.save();
