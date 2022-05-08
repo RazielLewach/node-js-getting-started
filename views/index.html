@@ -71,28 +71,52 @@
 	</head>
 
 	<body style="font-family: 'verdana';">
-		<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
-		<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
-		<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
-		<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
-		
-		<div id="content" style="display: none;">
-			<div class="tab">
-				<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
-			</div>
+		<div>
+			<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
+			<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
+			<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
+			<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
+			
+			<div id="content" style="display: none;">
+				<div class="tab">
+					<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
+				</div>
 
-			<div id="tale01" class="tabcontent">
-				<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794</button><button id="bt01f">&#9792</button></td><td id="tdColor01" style="border-right: 2px solid white;"><font style="color: #000000;">Color:</font> <input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<div id="tale01" class="tabcontent">
+					<table>
+						<tr>
+							<td style="border-right: 2px solid white;">
+								<label for="charname01">Character name:</label>
+								<input id="charname01" type="text"></input>
+								<button id="bt01m">&#9794 </button>
+								<button id="bt01f">&#9792 </button>
+							</td>
+							<td id="tdColor01" style="border-right: 2px solid white;">
+								<font style="color: #000000;">Color:</font>
+								<input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;">
+							</td>
+							<td>
+								Chapters:
+							</td>
+							<td>
+								<button id="bt01e01">1</button>
+							</td>
+							<td>
+								<button id="bt01e02">2</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<br>
+				<div id="chapter" style="display: none;"></div>
 			</div>
 			
 			<br>
-			<div id="chapter" style="display: none;"></div>
+			<canvas id="game" style="display: none;" width="1000" height="670"></canvas>
+			<script src="/socket.io/socket.io.js"></script>
 		</div>
 		
-		<br>
-		<canvas id="game" style="display: none;" width="1000" height="670"></canvas>
-		
-		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			// Variables de estado.
 			var socket = io();
@@ -114,15 +138,15 @@
 			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
-			var dirBrazoLPlayer = 270; // Ángulo del brazo L del player.
-			var dirManoLPlayer = 270; // Ángulo de la mano L del player.
-			var dirPiernaLPlayer = 270; // Ángulo de la pierna L del player.
-			var dirPieLPlayer = 270; // Ángulo del pie L del player.
+			var dirBrazoLPlayer = 260; // Ángulo del brazo L del player.
+			var dirManoLPlayer = 275; // Ángulo de la mano L del player.
+			var dirPiernaLPlayer = 265; // Ángulo de la pierna L del player.
+			var dirPieLPlayer = 260; // Ángulo del pie L del player.
 			var dirCuerpoPlayer = 90; // Ángulo del cuerpo del player.
 			var dirCabezaPlayer = 90; // Ángulo de la cabeza del player.
-			var dirBrazoRPlayer = 270; // Ángulo del brazo R del player.
-			var dirManoRPlayer = 270; // Ángulo de la mano R del player.
-			var dirPiernaRPlayer = 270; // Ángulo de la pierna R del player.
+			var dirBrazoRPlayer = 275; // Ángulo del brazo R del player.
+			var dirManoRPlayer = 280; // Ángulo de la mano R del player.
+			var dirPiernaRPlayer = 275; // Ángulo de la pierna R del player.
 			var dirPieRPlayer = 270; // Ángulo del pie R del player.
 			
 			// Setea el canvas.
@@ -449,7 +473,7 @@
 				context.save();
 				context.translate(_xCuerpo,_yCuerpo);
 				context.rotate(-dirCuerpoPlayer*Math.PI/180);
-				context.drawImage(_imgCuerpoPlayer,-25,-25);
+				context.drawImage(_imgCuerpoPlayer,-25,-30);
 				context.restore();
 				
 				// Dibuja la Cabeza.
