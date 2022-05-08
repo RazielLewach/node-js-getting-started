@@ -352,6 +352,21 @@
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
 				}
+				
+				// Dibuja la casilla.
+				if (buttonHovered == 0 || buttonHovered == 1)
+				{
+					var _xCasilla = xPlayer;
+					var _yCasilla = yPlayer;
+					if (buttonHovered == 1)
+					{
+						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 40;
+						else _xCasilla -= 40;
+						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 20;
+						else _yCasilla -= 20;
+					}
+					context.drawImage(_imgCasilla,_xCasilla,_yCasilla+80);
+				}
 
 				// Dibuja el player.
 				if (xPlayer == -1)
@@ -372,21 +387,6 @@
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
-				
-				// Dibuja la casilla.
-				if (buttonHovered == 0 || buttonHovered == 1)
-				{
-					var _xCasilla = xPlayer;
-					var _yCasilla = yPlayer;
-					if (buttonHovered == 1)
-					{
-						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 40;
-						else _xCasilla -= 40;
-						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 20;
-						else _yCasilla -= 20;
-					}
-					context.drawImage(_imgCasilla,_xCasilla,_yCasilla);
-				}
 				
 				// Gestiona y dibuja el menú.
 				scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
