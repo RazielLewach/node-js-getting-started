@@ -365,7 +365,7 @@
 				
 				// Setea la animación del Player.
 				var _d = dcos(dirAngular1);
-				setAnimacionPlayerStill(90,85+5*_d,270-20*_d,270,270+20*_d,270,265,260,280,270);
+				setAnimacionPlayerStill(90,85+5*_d,260-10*_d,270,280+10*_d,270,265,260,280,270);
 				
 				// Draw.
 				// El fondo.
@@ -485,8 +485,8 @@
 				context.restore();
 				
 				// Dibuja la Cabeza.
-				var _xCabeza = _xCuerpo + 135*dcos(dirCuerpoPlayer);
-				var _yCabeza = _yCuerpo - 135*dsin(dirCuerpoPlayer);
+				var _xCabeza = _xCuerpo + 140*dcos(dirCuerpoPlayer);
+				var _yCabeza = _yCuerpo - 140*dsin(dirCuerpoPlayer);
 				context.save();
 				context.translate(_xCabeza,_yCabeza);
 				context.rotate(-dirCabezaPlayer*Math.PI/180);
