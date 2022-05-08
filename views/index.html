@@ -365,7 +365,12 @@
 						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 20;
 						else _yCasilla -= 20;
 					}
+					
+					context.fillStyle = "hsl("+String(currentCharacterColor)+" 100% 50%)";
+					context.fillRect(0,0,canvas.width,canvas.height);
+					context.globalCompositeOperation = "destination-in";
 					context.drawImage(_imgCasilla,_xCasilla,_yCasilla+80);
+					context.globalCompositeOperation = "source-over";
 				}
 
 				// Dibuja el player.
