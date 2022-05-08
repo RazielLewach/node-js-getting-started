@@ -139,6 +139,7 @@
 			var _imgPlayer = new Image();
 			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
 			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/LA2eEOa.png";
+			var _imgCasilla = new Image(); _imgCasilla.src = "https://i.imgur.com/jmufBJt.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -371,6 +372,21 @@
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
+				
+				// Dibuja la casilla.
+				if (buttonHovered == 0 || buttonHovered == 1)
+				{
+					var _xCasilla = xPlayer;
+					var _yCasilla = yPlayer;
+					if (buttonHovered == 1)
+					{
+						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 40;
+						else _xCasilla -= 40;
+						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 20;
+						else _yCasilla -= 20;
+					}
+					context.drawImage(_imgCasilla,_xCasilla,_yCasilla);
+				}
 				
 				// Gestiona y dibuja el menú.
 				scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
