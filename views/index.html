@@ -485,8 +485,11 @@
 				context.restore();
 				
 				// Dibuja la Cabeza.
-				var _xCabeza = _xCuerpo + 140*dcos(dirCuerpoPlayer);
-				var _yCabeza = _yCuerpo - 140*dsin(dirCuerpoPlayer);
+				var _xCabeza = _xCuerpo + 145*dcos(dirCuerpoPlayer);
+				var _yCabeza = _yCuerpo - 145*dsin(dirCuerpoPlayer);
+				dirCabezaPlayer = pointDirection(_xCabeza,_yCabeza,xMouse,yMouse-40)+90;
+				if (dirCabezaPlayer > 135) dirCabezaPlayer = 135;
+				else if (dirCabezaPlayer < 45) dirCabezaPlayer = 45;
 				context.save();
 				context.translate(_xCabeza,_yCabeza);
 				context.rotate(-dirCabezaPlayer*Math.PI/180);
