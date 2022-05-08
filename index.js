@@ -172,7 +172,6 @@ io.on("connection", async (_socket) => {
 							else _yPlayer += 20;
 							if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
 							else _xPlayer -= 40;
-							console.log("PEROWENO");
 						}
 					}
 					
