@@ -490,6 +490,7 @@
 				dirCabezaPlayer = pointDirection(_xCabeza,_yCabeza,xMouse,yMouse-40)+90;
 				if (dirCabezaPlayer > 135) dirCabezaPlayer = 135;
 				else if (dirCabezaPlayer < 45) dirCabezaPlayer = 45;
+				console.log("dirCabezaPlayer",dirCabezaPlayer);
 				context.save();
 				context.translate(_xCabeza,_yCabeza);
 				context.rotate(-dirCabezaPlayer*Math.PI/180);
