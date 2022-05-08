@@ -129,6 +129,7 @@
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Variables de lógica que el servidor no requiere guardar.
+			var dirAngular1 = 0; // Ángulo en bucle de 1 en 1.
 			var dirAngular5 = 0; // Ángulo en bucle de 5 en 5.
 			var playerImageIndex = 0; // Qué frame dibuja.
 			var playerImageDirection = 1; // Qué dirección avanza.
@@ -359,11 +360,12 @@
 			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
 				// Ángulos en bucle.
+				dirAngular1 = angular(dirAngular1+01);
 				dirAngular5 = angular(dirAngular5+05);
 				
 				// Setea la animación del Player.
-				var _d = dcos(dirAngular5);
-				setAnimacionPlayerStill(85+5*_d,90,270-10*_d,270,270+10*_d,270,265,260,280,270);
+				var _d = dcos(dirAngular1);
+				setAnimacionPlayerStill(90,85+5*_d,270-20*_d,270,270+20*_d,270,265,260,280,270);
 				
 				// Draw.
 				// El fondo.
