@@ -129,6 +129,7 @@
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Variables de lógica que el servidor no requiere guardar.
+			var dirAngular5 = 0; // Ángulo en bucle de 5 en 5.
 			var playerImageIndex = 0; // Qué frame dibuja.
 			var playerImageDirection = 1; // Qué dirección avanza.
 			var isMenu = false; // ¿Menú abierto?
@@ -138,15 +139,15 @@
 			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
-			var dirBrazoLPlayer = 260; // Ángulo del brazo L del player.
-			var dirManoLPlayer = 275; // Ángulo de la mano L del player.
-			var dirPiernaLPlayer = 265; // Ángulo de la pierna L del player.
-			var dirPieLPlayer = 260; // Ángulo del pie L del player.
+			var dirBrazoLPlayer = 270; // Ángulo del brazo L del player.
+			var dirManoLPlayer = 270; // Ángulo de la mano L del player.
+			var dirPiernaLPlayer = 270; // Ángulo de la pierna L del player.
+			var dirPieLPlayer = 270; // Ángulo del pie L del player.
 			var dirCuerpoPlayer = 90; // Ángulo del cuerpo del player.
 			var dirCabezaPlayer = 90; // Ángulo de la cabeza del player.
-			var dirBrazoRPlayer = 275; // Ángulo del brazo R del player.
-			var dirManoRPlayer = 280; // Ángulo de la mano R del player.
-			var dirPiernaRPlayer = 275; // Ángulo de la pierna R del player.
+			var dirBrazoRPlayer = 270; // Ángulo del brazo R del player.
+			var dirManoRPlayer = 270; // Ángulo de la mano R del player.
+			var dirPiernaRPlayer = 270; // Ángulo de la pierna R del player.
 			var dirPieRPlayer = 270; // Ángulo del pie R del player.
 			
 			// Setea el canvas.
@@ -183,8 +184,8 @@
 			var _imgManoPlayer = new Image(); _imgManoPlayer.src = "https://i.imgur.com/1Fv9p4p.png";
 			var _imgPiernaPlayer = new Image(); _imgPiernaPlayer.src = "https://i.imgur.com/k6SEhxr.png";
 			var _imgPiePlayer = new Image(); _imgPiePlayer.src = "https://i.imgur.com/qnsMl7I.png";
-			var _imgCuerpoPlayer = new Image(); _imgCuerpoPlayer.src = "https://i.imgur.com/9KwAlIB.png";
-			var _imgCabezaPlayer = new Image(); _imgCabezaPlayer.src = "https://i.imgur.com/YYRfS9j.png";
+			var _imgCuerpoPlayer = new Image(); _imgCuerpoPlayer.src = "https://i.imgur.com/mND6taI.png";
+			var _imgCabezaPlayer = new Image(); _imgCabezaPlayer.src = "https://i.imgur.com/Tanxj3P.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -357,7 +358,12 @@
 			// Recibe el loop.
 			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
+				// Ángulos en bucle.
+				dirAngular5 = angular(dirAngular5+05);
 				
+				// Setea la animación del Player.
+				var _d = dcos(dirAngular5);
+				setAnimacionPlayerStill(85+5*_d,90,270-10*_d,270,270+10*_d,270,265,260,280,270);
 				
 				// Draw.
 				// El fondo.
@@ -473,7 +479,7 @@
 				context.save();
 				context.translate(_xCuerpo,_yCuerpo);
 				context.rotate(-dirCuerpoPlayer*Math.PI/180);
-				context.drawImage(_imgCuerpoPlayer,-25,-30);
+				context.drawImage(_imgCuerpoPlayer,-20,-20);
 				context.restore();
 				
 				// Dibuja la Cabeza.
@@ -543,6 +549,20 @@
 				context.restore();
 				
 				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
+			}
+			
+			function setAnimacionPlayerStill(_cabeza,_cuerpo,_brazoL,_manoL,_brazoR,_manoR,_piernaL,_pieL,_piernaR,_pieR)
+			{
+				dirBrazoLPlayer = _brazoL;
+				dirManoLPlayer = _manoL;
+				dirPiernaLPlayer = _piernaL;
+				dirPieLPlayer = _pieL;
+				dirCuerpoPlayer = _cuerpo;
+				dirCabezaPlayer = _cabeza;
+				dirBrazoRPlayer = _brazoR;
+				dirManoRPlayer = _manoR;
+				dirPiernaRPlayer = _piernaR;
+				dirPieRPlayer = _pieR;
 			}
 			
 			// Cálculo.
