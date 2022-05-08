@@ -368,7 +368,6 @@
 					
 					context.save();
 					context.fillStyle = "hsl("+String(currentCharacterColor)+" 100% 50%)";
-					context.fillRect(0,0,canvas.width,canvas.height);
 					context.globalCompositeOperation = "destination-in";
 					context.drawImage(_imgCasilla,_xCasilla,_yCasilla+80);
 					context.restore();
