@@ -412,8 +412,8 @@
 				
 				// Dibuja el Brazo L.
 				var _xCuerpo = 200, _yCuerpo = 400;
-				var _xBrazo = _xCuerpo + 125*dcos(_dirCuerpoPlayer);
-				var _yBrazo = _yCuerpo - 125*dsin(_dirCuerpoPlayer);
+				var _xBrazo = _xCuerpo + 125*dcos(dirCuerpoPlayer);
+				var _yBrazo = _yCuerpo - 125*dsin(dirCuerpoPlayer);
 				context.save();
 				context.translate(_xBrazo,_yBrazo);
 				context.rotate(-dirBrazoLPlayer*Math.PI/180);
@@ -421,8 +421,8 @@
 				context.restore();
 				
 				// Dibuja la Mano L.
-				var _xManoL = _xBrazo + 75*dcos(_dirBrazoLPlayer);
-				var _yManoL = _yBrazo - 75*dsin(_dirBrazoLPlayer);
+				var _xManoL = _xBrazo + 75*dcos(dirBrazoLPlayer);
+				var _yManoL = _yBrazo - 75*dsin(dirBrazoLPlayer);
 				context.save();
 				context.translate(_xManoL,_yManoL);
 				context.rotate(-dirManoLPlayer*Math.PI/180);
@@ -453,8 +453,8 @@
 				context.restore();
 				
 				// Dibuja la Cabeza.
-				var _xCabeza = _xCuerpo + 135*dcos(_dirCuerpoPlayer);
-				var _yCabeza = _yCuerpo - 135*dsin(_dirCuerpoPlayer);
+				var _xCabeza = _xCuerpo + 135*dcos(dirCuerpoPlayer);
+				var _yCabeza = _yCuerpo - 135*dsin(dirCuerpoPlayer);
 				context.save();
 				context.translate(_xCabeza,_yCabeza);
 				context.rotate(-dirCabezaPlayer*Math.PI/180);
@@ -469,8 +469,8 @@
 				context.restore();
 				
 				// Dibuja la Mano R.
-				var _xManoR = _xBrazo + 75*dcos(_dirBrazoRPlayer);
-				var _yManoR = _yBrazo - 75*dsin(_dirBrazoRPlayer);
+				var _xManoR = _xBrazo + 75*dcos(dirBrazoRPlayer);
+				var _yManoR = _yBrazo - 75*dsin(dirBrazoRPlayer);
 				context.save();
 				context.translate(_xManoR,_yManoR);
 				context.rotate(-dirManoRPlayer*Math.PI/180);
