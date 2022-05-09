@@ -311,7 +311,7 @@
 			
 			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
 			setInterval(function () {
-				if (currentTale > 0)
+				if (currentTale > 0 && isClick)
 				{
 					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
 					isClick = false;
