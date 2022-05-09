@@ -413,7 +413,7 @@
 				var _x = xMenu + _lon*dcos(_dirBoton);
 				var _y = yMenu - _lon*dsin(_dirBoton);
 				context.save();
-				context.translate(_x-xView,_y-yView);
+				context.translate(_x,_y);
 				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
 				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
