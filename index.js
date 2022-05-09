@@ -153,7 +153,7 @@ io.on("connection", async (_socket) => {
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
 					if (_isClick && _buttonHovered == -1)
 					{
-						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer-_xView-40,_yPlayer-_yView-100);
+						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer-_xView,_yPlayer-_yView);
 						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
