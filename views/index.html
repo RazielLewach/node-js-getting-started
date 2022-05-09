@@ -316,7 +316,7 @@
 					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
 					isClick = false;
 				}
-			}, 16.67);
+			}, 33);
 			
 			// Recibe el loop.
 			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
