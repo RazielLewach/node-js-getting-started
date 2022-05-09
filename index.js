@@ -168,10 +168,10 @@ io.on("connection", async (_socket) => {
 						// Movimiento.
 						else if (_buttonHovered == 1)
 						{
-							if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 20;
-							else _yPlayer += 20;
-							if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 40;
-							else _xPlayer -= 40;
+							if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 40;
+							else _yPlayer += 40;
+							if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 80;
+							else _xPlayer -= 80;
 						}
 					}
 					
@@ -179,7 +179,7 @@ io.on("connection", async (_socket) => {
 					if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 					
 					// Envía los datos al cliente.
-					_socket.emit("looped01",_isClick,_field,_xPlayer-40,_yPlayer-100,_dirPlayer);
+					_socket.emit("looped01",_isClick,_field,_xPlayer-80,_yPlayer-200,_dirPlayer);
 				});
 			}
 		});
