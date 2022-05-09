@@ -144,8 +144,11 @@
 				// Mueve la view.
 				if (scaleMenu == 0)
 				{
-					xView = 0 + 900*xMouse/(rect.right-rect.left);
-					yView = 0 + 400*yMouse/(rect.bottom-rect.top);
+					var _xTo = 0 + 900*xMouse/(rect.right-rect.left);
+					var _yTo = 0 + 400*yMouse/(rect.bottom-rect.top);
+					var _dit = pointDirection(xView,yView,_xTo,_yTo);
+					xView = tiendeAX(xView,_xTo,10*Math.abs(dcos(_dir)));
+					yView = tiendeAX(yView,_yTo,10*Math.abs(dsin(_dir)));
 				}
 			});
 			
@@ -320,7 +323,7 @@
 				if (currentTale > 0)
 				{
 					// Si he hecho click, interactúo con servidor y su base de datos y éste me devuelve el loop.
-					if (isClick)
+					if (isClick || xPlayer == -1)
 					{
 						socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
 						isClick = false;
