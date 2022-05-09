@@ -310,7 +310,7 @@
 			setInterval(function () {
 				if (currentTale > 0)
 				{
-					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,isClick,buttonHovered);
+					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
 					isClick = false;
 				}
 			}, 16.67);
@@ -366,10 +366,10 @@
 					var _yCasilla = yPlayer;
 					if (buttonHovered == 1)
 					{
-						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 40;
-						else _xCasilla -= 40;
-						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 20;
-						else _yCasilla -= 20;
+						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 80;
+						else _xCasilla -= 80;
+						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 40;
+						else _yCasilla -= 40;
 					}
 					
 					context.drawImage(_imgCasilla,_xCasilla-xView,_yCasilla+80-yView);

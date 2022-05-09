@@ -136,7 +136,7 @@ io.on("connection", async (_socket) => {
 	});
 	
 	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_isClick,_buttonHovered) => {
+	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_xView,_yView,_isClick,_buttonHovered) => {
 		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 			if (selUsers.rowCount > 0)
 			{
@@ -153,7 +153,7 @@ io.on("connection", async (_socket) => {
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
 					if (_isClick && _buttonHovered == -1)
 					{
-						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer,_yPlayer);
+						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer-_xView,_yPlayer-_yView);
 						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
 						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
 						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
