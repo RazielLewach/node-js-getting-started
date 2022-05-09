@@ -136,8 +136,11 @@
 				yMouse = event.clientY - rect.top;
 				
 				// Mueve la view.
-				xView = 0 + 900*xMouse/(rect.right-rect.left);
-				yView = 0 + 400*yMouse/(rect.bottom-rect.top);
+				if (!isMenu)
+				{
+					xView = 0 + 900*xMouse/(rect.right-rect.left);
+					yView = 0 + 400*yMouse/(rect.bottom-rect.top);
+				}
 			});
 			
 			// Las imágenes.
