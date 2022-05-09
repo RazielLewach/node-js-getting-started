@@ -142,8 +142,8 @@ io.on("connection", async (_socket) => {
 			{
 				doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
 					// El sprite del field.
-					var _field = "";
-					if (_currentTale == 01 && _currentChapter == 01) _field = "https://i.imgur.com/zkEI0JQ.png";
+					var _field = -1;
+					if (_currentTale == 01 && _currentChapter == 01) _field = 0;
 					
 					// La posición del player.
 					var _xPlayer = selEnvironment.rows[0].xplayer;

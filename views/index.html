@@ -105,6 +105,8 @@
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Variables de lógica que el servidor no requiere guardar.
+			var xView = 0; // Mover la cámara en x.
+			var yView = 0; // Mover la cámara en y.
 			var playerImageIndex = 0; // Qué frame dibuja.
 			var playerImageDirection = 1; // Qué dirección avanza.
 			var isMenu = false; // ¿Menú abierto?
@@ -132,14 +134,18 @@
 				var rect = canvas.getBoundingClientRect();
 				xMouse = event.clientX - rect.left;
 				yMouse = event.clientY - rect.top;
+				
+				// Mueve la view.
+				xView = 0 + 900*xMouse/(rect.right-rect.left);
+				yView = 0 + 400*yMouse/(rect.bottom-rect.top);
 			});
 			
 			// Las imágenes.
 			var _imgField = new Image();
 			var _imgPlayer = new Image();
-			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
-			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/LA2eEOa.png";
-			var _imgCasilla = new Image(); _imgCasilla.src = "https://i.imgur.com/jmufBJt.png";
+			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/qp6xpS2.png";
+			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/b4eT7cC.png";
+			var _imgCasilla = new Image(); _imgCasilla.src = "https://i.imgur.com/UObBtnU.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -317,12 +323,12 @@
 				// Draw.
 				// El fondo.
 				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.fillStyle = "#444444";
+				context.fillStyle = "#000000";
 				context.fillRect(0,0,canvas.width,canvas.height);
 				
 				// El field.
-				_imgField.src = _field;
-				context.drawImage(_imgField,60,210);
+				if (_field == 0) _imgField.src = "https://i.imgur.com/GB1ElEg.png";
+				if (_field >= 0) context.drawImage(_imgField,60-xView,210-yView);
 				
 				// El player.
 				// Gestiona los frames del player.
@@ -366,7 +372,7 @@
 						else _yCasilla -= 20;
 					}
 					
-					context.drawImage(_imgCasilla,_xCasilla,_yCasilla+80);
+					context.drawImage(_imgCasilla,_xCasilla-xView,_yCasilla+80-yView);
 				}
 
 				// Dibuja el player.
@@ -384,7 +390,7 @@
 				
 				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
 				context.save();
-				context.translate(xPlayer+80*(_xScale == -1),yPlayer);
+				context.translate(xPlayer+80*(_xScale == -1)-xView,yPlayer-yView);
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
 				context.restore();
@@ -407,7 +413,7 @@
 				var _x = xMenu + _lon*dcos(_dirBoton);
 				var _y = yMenu - _lon*dsin(_dirBoton);
 				context.save();
-				context.translate(_x,_y);
+				context.translate(_x-xView,_y-yView);
 				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
 				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
 				context.scale(_sc,_sc);
