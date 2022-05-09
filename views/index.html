@@ -146,7 +146,7 @@
 				{
 					var _xTo = 0 + 900*xMouse/(rect.right-rect.left);
 					var _yTo = 0 + 400*yMouse/(rect.bottom-rect.top);
-					var _dit = pointDirection(xView,yView,_xTo,_yTo);
+					var _dir = pointDirection(xView,yView,_xTo,_yTo);
 					xView = tiendeAX(xView,_xTo,10*Math.abs(dcos(_dir)));
 					yView = tiendeAX(yView,_yTo,10*Math.abs(dsin(_dir)));
 				}
