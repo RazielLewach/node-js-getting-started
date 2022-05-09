@@ -385,7 +385,7 @@
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
 				}
-				_imgPlayer.src = "https://i.imgur.com/RYkbBmc.png";
+				_imgPlayer.src = "https://i.imgur.com/B8xtfgJ.png";
 				
 				// Dibuja la casilla.
 				if ((buttonHovered == 0 || buttonHovered == 1) && scaleMenu == 2)
@@ -412,8 +412,8 @@
 				else
 				{
 					var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
-					xPlayer = tiendeAX(xPlayer,_xPlayer,1*Math.abs(dcos(_dir)));
-					yPlayer = tiendeAX(yPlayer,_yPlayer,1*Math.abs(dsin(_dir)));
+					xPlayer = tiendeAX(xPlayer,_xPlayer,3*Math.abs(dcos(_dir)));
+					yPlayer = tiendeAX(yPlayer,_yPlayer,3*Math.abs(dsin(_dir)));
 				}
 				
 				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
