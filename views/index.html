@@ -71,52 +71,28 @@
 	</head>
 
 	<body style="font-family: 'verdana';">
-		<div>
-			<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
-			<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
-			<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
-			<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
-			
-			<div id="content" style="display: none;">
-				<div class="tab">
-					<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
-				</div>
+		<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
+		<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
+		<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
+		<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
+		
+		<div id="content" style="display: none;">
+			<div class="tab">
+				<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
+			</div>
 
-				<div id="tale01" class="tabcontent">
-					<table>
-						<tr>
-							<td style="border-right: 2px solid white;">
-								<label for="charname01">Character name:</label>
-								<input id="charname01" type="text"></input>
-								<button id="bt01m">&#9794 </button>
-								<button id="bt01f">&#9792 </button>
-							</td>
-							<td id="tdColor01" style="border-right: 2px solid white;">
-								<font style="color: #000000;">Color:</font>
-								<input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;">
-							</td>
-							<td>
-								Chapters:
-							</td>
-							<td>
-								<button id="bt01e01">1</button>
-							</td>
-							<td>
-								<button id="bt01e02">2</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				
-				<br>
-				<div id="chapter" style="display: none;"></div>
+			<div id="tale01" class="tabcontent">
+				<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794</button><button id="bt01f">&#9792</button></td><td id="tdColor01" style="border-right: 2px solid white;"><font style="color: #000000;">Color:</font> <input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
 			</div>
 			
 			<br>
-			<canvas id="game" style="display: none;" width="1000" height="670"></canvas>
-			<script src="/socket.io/socket.io.js"></script>
+			<div id="chapter" style="display: none;"></div>
 		</div>
 		
+		<br>
+		<canvas id="game" style="display: none;" width="1000" height="670"></canvas>
+		
+		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			// Variables de estado.
 			var socket = io();
@@ -129,8 +105,6 @@
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Variables de lógica que el servidor no requiere guardar.
-			var dirAngular1 = 0; // Ángulo en bucle de 1 en 1.
-			var dirAngular5 = 0; // Ángulo en bucle de 5 en 5.
 			var playerImageIndex = 0; // Qué frame dibuja.
 			var playerImageDirection = 1; // Qué dirección avanza.
 			var isMenu = false; // ¿Menú abierto?
@@ -140,16 +114,6 @@
 			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
-			var dirBrazoLPlayer = 270; // Ángulo del brazo L del player.
-			var dirManoLPlayer = 270; // Ángulo de la mano L del player.
-			var dirPiernaLPlayer = 270; // Ángulo de la pierna L del player.
-			var dirPieLPlayer = 270; // Ángulo del pie L del player.
-			var dirCuerpoPlayer = 90; // Ángulo del cuerpo del player.
-			var dirCabezaPlayer = 90; // Ángulo de la cabeza del player.
-			var dirBrazoRPlayer = 270; // Ángulo del brazo R del player.
-			var dirManoRPlayer = 270; // Ángulo de la mano R del player.
-			var dirPiernaRPlayer = 270; // Ángulo de la pierna R del player.
-			var dirPieRPlayer = 270; // Ángulo del pie R del player.
 			
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
@@ -171,22 +135,11 @@
 			});
 			
 			// Las imágenes.
-			// Field.
-			//var _imgField = new Image();
-			
-			// Menú.
+			var _imgField = new Image();
+			var _imgPlayer = new Image();
 			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/LPHnIt6.png";
 			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/LA2eEOa.png";
 			var _imgCasilla = new Image(); _imgCasilla.src = "https://i.imgur.com/jmufBJt.png";
-			
-			// Player.
-			//var _imgPlayer = new Image();
-			var _imgBrazoPlayer = new Image(); _imgBrazoPlayer.src = "https://i.imgur.com/3wJvSep.png";
-			var _imgManoPlayer = new Image(); _imgManoPlayer.src = "https://i.imgur.com/1Fv9p4p.png";
-			var _imgPiernaPlayer = new Image(); _imgPiernaPlayer.src = "https://i.imgur.com/k6SEhxr.png";
-			var _imgPiePlayer = new Image(); _imgPiePlayer.src = "https://i.imgur.com/qnsMl7I.png";
-			var _imgCuerpoPlayer = new Image(); _imgCuerpoPlayer.src = "https://i.imgur.com/mND6taI.png";
-			var _imgCabezaPlayer = new Image(); _imgCabezaPlayer.src = "https://i.imgur.com/Tanxj3P.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -359,13 +312,7 @@
 			// Recibe el loop.
 			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
 				// Step.
-				// Ángulos en bucle.
-				dirAngular1 = angular(dirAngular1+01);
-				dirAngular5 = angular(dirAngular5+05);
 				
-				// Setea la animación del Player.
-				var _d = dcos(dirAngular1);
-				setAnimacionPlayerStill(90,85+5*_d,260-10*_d,270,280+10*_d,270,265,260,280,270);
 				
 				// Draw.
 				// El fondo.
@@ -379,14 +326,14 @@
 				
 				// El player.
 				// Gestiona los frames del player.
-				/*playerImageIndex += 0.1*playerImageDirection;
+				playerImageIndex += 0.1*playerImageDirection;
 				if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
 					playerImageDirection = -1;
 				else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
-					playerImageDirection = 1;*/
+					playerImageDirection = 1;
 				
 				// Setea qué frame dibujar del player.
-				/*var _ind = Math.round(playerImageIndex);
+				var _ind = Math.round(playerImageIndex);
 				if (_dirPlayer == 315 || _dirPlayer == 225)
 				{
 					if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/66Ajvfd.png";
@@ -404,10 +351,10 @@
 					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/eBpfqIh.png";
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
-				}*/
+				}
 				
 				// Dibuja la casilla.
-				/*if ((buttonHovered == 0 || buttonHovered == 1) && scaleMenu == 2)
+				if ((buttonHovered == 0 || buttonHovered == 1) && scaleMenu == 2)
 				{
 					var _xCasilla = xPlayer;
 					var _yCasilla = yPlayer;
@@ -420,10 +367,10 @@
 					}
 					
 					context.drawImage(_imgCasilla,_xCasilla,_yCasilla+80);
-				}*/
+				}
 
 				// Dibuja el player.
-				/*if (xPlayer == -1)
+				if (xPlayer == -1)
 				{
 					xPlayer = _xPlayer;
 					yPlayer = _yPlayer;
@@ -433,99 +380,13 @@
 					var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
 					xPlayer = tiendeAX(xPlayer,_xPlayer,1*Math.abs(dcos(_dir)));
 					yPlayer = tiendeAX(yPlayer,_yPlayer,1*Math.abs(dsin(_dir)));
-				}*/
+				}
 				
-				/*var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
+				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
 				context.save();
 				context.translate(xPlayer+80*(_xScale == -1),yPlayer);
 				context.scale(_xScale,1);
 				context.drawImage(_imgPlayer,0,0);
-				context.restore();*/
-				
-				// Dibuja el Brazo L.
-				var _xCuerpo = 200, _yCuerpo = 400;
-				var _xBrazo = _xCuerpo + 125*dcos(dirCuerpoPlayer);
-				var _yBrazo = _yCuerpo - 125*dsin(dirCuerpoPlayer);
-				context.save();
-				context.translate(_xBrazo,_yBrazo);
-				context.rotate(-dirBrazoLPlayer*Math.PI/180);
-				context.drawImage(_imgBrazoPlayer,-15,-15);
-				context.restore();
-				
-				// Dibuja la Mano L.
-				var _xManoL = _xBrazo + 75*dcos(dirBrazoLPlayer);
-				var _yManoL = _yBrazo - 75*dsin(dirBrazoLPlayer);
-				context.save();
-				context.translate(_xManoL,_yManoL);
-				context.rotate(-dirManoLPlayer*Math.PI/180);
-				context.drawImage(_imgManoPlayer,-10,-10);
-				context.restore();
-				
-				// Dibuja la Pierna L.
-				context.save();
-				context.translate(_xCuerpo,_yCuerpo);
-				context.rotate(-dirPiernaLPlayer*Math.PI/180);
-				context.drawImage(_imgPiernaPlayer,-20,-20);
-				context.restore();
-				
-				// Dibuja el Pie L.
-				var _xPieL = _xCuerpo + 100*dcos(dirPiernaLPlayer);
-				var _yPieL = _yCuerpo - 100*dsin(dirPiernaLPlayer);
-				context.save();
-				context.translate(_xPieL,_yPieL);
-				context.rotate(-dirPieLPlayer*Math.PI/180);
-				context.drawImage(_imgPiePlayer,-14,-14);
-				context.restore();
-				
-				// Dibuja el Cuerpo.
-				context.save();
-				context.translate(_xCuerpo,_yCuerpo);
-				context.rotate(-dirCuerpoPlayer*Math.PI/180);
-				context.drawImage(_imgCuerpoPlayer,-20,-20);
-				context.restore();
-				
-				// Dibuja la Cabeza.
-				var _xCabeza = _xCuerpo + 145*dcos(dirCuerpoPlayer);
-				var _yCabeza = _yCuerpo - 145*dsin(dirCuerpoPlayer);
-				dirCabezaPlayer = pointDirection(_xCabeza,_yCabeza,xMouse,yMouse-40)+90;
-				if (dirCabezaPlayer > 135) dirCabezaPlayer = 135;
-				else if (dirCabezaPlayer < 45) dirCabezaPlayer = 45;
-				context.save();
-				context.translate(_xCabeza,_yCabeza);
-				context.rotate(-dirCabezaPlayer*Math.PI/180);
-				context.drawImage(_imgCabezaPlayer,-5,-19);
-				context.restore();
-				
-				// Dibuja el Brazo R.
-				context.save();
-				context.translate(_xBrazo,_yBrazo);
-				context.rotate(-dirBrazoRPlayer*Math.PI/180);
-				context.drawImage(_imgBrazoPlayer,-15,-15);
-				context.restore();
-				
-				// Dibuja la Mano R.
-				var _xManoR = _xBrazo + 75*dcos(dirBrazoRPlayer);
-				var _yManoR = _yBrazo - 75*dsin(dirBrazoRPlayer);
-				context.save();
-				context.translate(_xManoR,_yManoR);
-				context.rotate(-dirManoRPlayer*Math.PI/180);
-				context.drawImage(_imgManoPlayer,-10,-10);
-				context.restore();
-				
-				// Dibuja la Pierna R.
-				context.save();
-				context.translate(_xCuerpo,_yCuerpo);
-				context.rotate(-dirPiernaRPlayer*Math.PI/180);
-				context.drawImage(_imgPiernaPlayer,-20,-20);
-				context.restore();
-				
-				// Dibuja el Pie R.
-				var _xPieR = _xCuerpo + 100*dcos(dirPiernaRPlayer);
-				var _yPieR = _yCuerpo - 100*dsin(dirPiernaRPlayer);
-				context.save();
-				context.translate(_xPieR,_yPieR);
-				context.rotate(-dirPieRPlayer*Math.PI/180);
-				context.drawImage(_imgPiePlayer,-14,-14);
 				context.restore();
 				
 				// Gestiona y dibuja el menú.
@@ -554,20 +415,6 @@
 				context.restore();
 				
 				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
-			}
-			
-			function setAnimacionPlayerStill(_cabeza,_cuerpo,_brazoL,_manoL,_brazoR,_manoR,_piernaL,_pieL,_piernaR,_pieR)
-			{
-				dirBrazoLPlayer = _brazoL;
-				dirManoLPlayer = _manoL;
-				dirPiernaLPlayer = _piernaL;
-				dirPieLPlayer = _pieL;
-				dirCuerpoPlayer = _cuerpo;
-				dirCabezaPlayer = _cabeza;
-				dirBrazoRPlayer = _brazoR;
-				dirManoRPlayer = _manoR;
-				dirPiernaRPlayer = _piernaR;
-				dirPieRPlayer = _pieR;
 			}
 			
 			// Cálculo.
@@ -605,7 +452,7 @@
 			
 			function pointDirection(_x1,_y1,_x2,_y2)
 			{
-				return angular(Math.atan2(_y1-_y2,_x2-_x1)*180/Math.PI);
+				return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 			}
 		</script>
 		
