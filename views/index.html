@@ -117,6 +117,12 @@
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
 			
+			// Variables de servidor almacenadas.
+			var storedField = 0; // El campo de batalla.
+			var storedXPlayer = 0; // La x del player.
+			var storedYPlayer = 0; // La y del player.
+			var storedDirPlayer = 0; // La dir del player.
+			
 			// Setea el canvas.
 			var canvas = document.getElementById('game');
 			var context = canvas.getContext('2d');
@@ -311,15 +317,31 @@
 			
 			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
 			setInterval(function () {
-				if (currentTale > 0 && isClick)
+				if (currentTale > 0)
 				{
-					socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
-					isClick = false;
+					// Si he hecho click, interactúo con servidor y su base de datos y éste me devuelve el loop.
+					if (isClick)
+					{
+						socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
+						isClick = false;
+					}
+					// Si no, yo mismo repito el loop.
+					else looped01(storedField,storedXPlayer,storedYPlayer,storedDirPlayer);
 				}
 			}, 16.67);
 			
 			// Recibe el loop.
-			socket.on("looped01", (_hasClicked,_field,_xPlayer,_yPlayer,_dirPlayer) => {
+			socket.on("looped01", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
+				looped01(_field,_xPlayer,_yPlayer,_dirPlayer);
+			});
+			function looped01(_field,_xPlayer,_yPlayer,_dirPlayer)
+			{
+				// Guarda los inputs del loop.
+				storedField = _field;
+				storedXPlayer = _xPlayer;
+				storedYPlayer = _yPlayer;
+				storedDirPlayer = _dirPlayer;
+				
 				// Step.
 				
 				
@@ -405,13 +427,13 @@
 				
 				// Dibuja y gestiona los botones del menú.
 				buttonHovered = -1;
-				drawBoton(270,_imgMenuSleep,0,_hasClicked);
-				drawBoton(90,_imgMenuMove,1,_hasClicked);
+				drawBoton(270,_imgMenuSleep,0);
+				drawBoton(90,_imgMenuMove,1);
 			});
 			
 			// Scripts.
 			// Mecánica.
-			function drawBoton(_dirBoton,_imgBoton,_iBoton,_hasClicked)
+			function drawBoton(_dirBoton,_imgBoton,_iBoton)
 			{
 				var _lon = 30*Math.min(1,scaleMenu);
 				var _x = xMenu + _lon*dcos(_dirBoton);
@@ -424,7 +446,7 @@
 				context.drawImage(_imgBoton,-15,-15);
 				context.restore();
 				
-				if (/*_hasClicked && */_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
+				if (_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
 			}
 			
 			// Cálculo.
