@@ -404,7 +404,10 @@
 						else _yCasilla -= 40;
 					}
 					
-					context.drawImage(_imgCasilla,_xCasilla-xView,_yCasilla+160-yView);
+					context.save();
+					context.translate(_xCasilla-xView,_yCasilla-yView);
+					context.drawImage(_imgCasilla,-80,-40);
+					context.restore();
 				}
 
 				// Dibuja el player.
