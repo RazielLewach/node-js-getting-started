@@ -116,6 +116,7 @@
 			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
+			var dirAngular01 = 0; // Angular a velocidad 01.
 			
 			// Variables de servidor almacenadas.
 			var storedField = 0; // El campo de batalla.
@@ -347,6 +348,9 @@
 					yView = tiendeAX(yView,_yTo,20*Math.abs(dsin(_dir)));
 				}
 				
+				// Angulares.
+				dirAngular01 = angular(dirAngular01 + 01);
+				
 				// Draw.
 				// El fondo.
 				context.clearRect(0, 0, canvas.width, canvas.height);
@@ -417,10 +421,11 @@
 				}
 				
 				var _xScale = 1 - 2*(_dirPlayer == 135 || _dirPlayer == 225);
+				var _yScale = 0.9 + 0.1*dcos(dirAngular01);
 				context.save();
-				context.translate(xPlayer+160*(_xScale == -1)-xView,yPlayer-yView);
-				context.scale(_xScale,1);
-				context.drawImage(_imgPlayer,0,0);
+				context.translate(xPlayer-xView,yPlayer-yView);
+				context.scale(_xScale,_yScale);
+				context.drawImage(_imgPlayer,-80,-200);
 				context.restore();
 				
 				// Gestiona y dibuja el menú.
