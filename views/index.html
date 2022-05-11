@@ -108,7 +108,6 @@
 			var xView = 0; // Mover la cámara en x.
 			var yView = 0; // Mover la cámara en y.
 			var playerImageIndex = 0; // Qué frame dibuja.
-			var playerImageDirection = 1; // Qué dirección avanza.
 			var isMenu = false; // ¿Menú abierto?
 			var scaleMenu = 0; // ¿Scale del menú?
 			var xMenu = 0; // La x del centro del menú al clicar.
@@ -363,23 +362,21 @@
 				
 				// El player.
 				// Gestiona los frames del player.
-				playerImageIndex += 0.1*playerImageDirection;
-				if (Math.round(playerImageIndex) >= 6+2 && playerImageDirection == 1)
-					playerImageDirection = -1;
-				else if (Math.round(playerImageIndex) <= -1-2 && playerImageDirection == -1)
-					playerImageDirection = 1;
+				playerImageIndex += 0.1;
+				if (Math.round(playerImageIndex) >= 6+2)
+					playerImageIndex = -1-2;
 				
 				// Setea qué frame dibujar del player.
 				var _ind = Math.round(playerImageIndex);
-				if (_dirPlayer == 315 || _dirPlayer == 225)
-				{
+				/*if (_dirPlayer == 315 || _dirPlayer == 225)
+				{*/
 					if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/BPvTQtg.png";
 					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/qL0wiBP.png";
 					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/BhL3vUJ.png";
 					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/rWl9qa1.png";
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/qPOwFCn.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/RVybQI6.png";
-				}
+				/*}
 				else
 				{
 					if 		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/UQiITao.png";
@@ -388,9 +385,7 @@
 					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/eBpfqIh.png";
 					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
 					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
-					
-					_imgPlayer.src = "https://i.imgur.com/GVSD15X.png";
-				}
+				}*/
 				
 				// Dibuja la casilla.
 				if ((buttonHovered == 0 || buttonHovered == 1) && scaleMenu == 2)
