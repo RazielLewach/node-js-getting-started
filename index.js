@@ -173,7 +173,10 @@ io.on("connection", async (_socket) => {
 					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 					
 					// Data: Player.
-					var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
+					var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer
+				
+					// Guarda los datos.
+					doQuery("UPDATE environments01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 					
 					doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
 						// Array con los datos de los enemigos.
@@ -182,9 +185,6 @@ io.on("connection", async (_socket) => {
 						{
 							_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy});
 						}
-						
-						// Guarda los datos.
-						doQuery("UPDATE environments01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 						
 						// Envía los datos al cliente.
 						_socket.emit("looped01",_dataPlayer,_dataEnemies);
