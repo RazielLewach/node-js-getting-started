@@ -3,8 +3,6 @@ const express = require('express');
 const http = require("http");
 const fs = require("fs");
 const port = process.env.PORT || 5000;
-const path = require('path');
-const scripts = require('./scripts.js');
 
 // Sockets.
 const app = express();
@@ -21,9 +19,10 @@ const pool = new Pool({
   }
 });
 
-// Rutas para inicializar la ventana y los ficheros.
-app.get('/', (req, res) => {res.sendFile(__dirname + '/views/index.html');});
-app.use(express.static(path.join(__dirname, 'views')));
+// Rutas para inicializar la ventana
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html');
+});
 
 server.listen(port, () => {
   console.log('Listening on port');
@@ -153,8 +152,8 @@ io.on("connection", async (_socket) => {
 					
 					// La dirección del player.
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
-					if (_event == "clickTurnLeft") _dirPlayer = scripts.angular(_dirPlayer+15);
-					else if (_event == "clickTurnRight") _dirPlayer = scripts.angular(_dirPlayer-15);
+					if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
+					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 					
 					// Guarda los datos.
 					doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
@@ -180,4 +179,16 @@ async function doQuery(query,func)
 		client.release();
 		return false;
 	});
+}
+
+// Scripts.
+// Cálculo.
+function angular(_dir)
+{
+	return (_dir%360 + 360)%360;
+}
+
+function pointDirection(_x1,_y1,_x2,_y2)
+{
+	return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 }
