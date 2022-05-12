@@ -90,16 +90,16 @@
 		</div>
 		
 		<br>
-		<div id="game" style="display: none; position: absolute;" width="1000" height="670">
+		<div id="game" style="display: none; position: relative;" width="1000" height="670">
 			<!-- La imagen del PJ-->
-			<img style="position: relative; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
+			<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 			
 			<!-- Los comandos -->
-			<button id="btnTurnLeft" style="position: relative; left: 300px; top: 0px;">Girar a la izquierda</button>
-			<button id="btnTurnRight" style="position: relative; left: 350px; top: 0px;">Girar a la derecha</button>
+			<button id="btnTurnLeft" style="position: absolute; left: 300px; top: 0px;">Girar a la izquierda</button>
+			<button id="btnTurnRight" style="position: absolute; left: 350px; top: 0px;">Girar a la derecha</button>
 			
 			<!-- Los datos a mostrar-->
-			<p id="isMirando" style="position: relative; left: 300px; top: 100px;"></p>
+			<p id="isMirando" style="position: absolute; left: 300px; top: 100px;"></p>
 			
 		</div>
 		
@@ -208,6 +208,9 @@
 				$("#chapter").html(_content);
 				$("#chapter").css("display","block");
 				$("#game").css("display","inline");
+				
+				// Al cargar el capítulo, carga los datos del minijuego asociado.
+				socket.emit("loop" + String(currentTale),name,pass,currentTale,currentChapter,"");
 			});
 			socket.on("chapterFail", () => {
 				$("#chapter").html("Tale's chapter not unlocked!");
