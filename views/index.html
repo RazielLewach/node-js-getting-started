@@ -92,8 +92,8 @@
 		<br>
 		<div id="game" style="display: none;" width="1000" height="670">
 			<p id="isMirando"></p>
-			<button id="bntTurnLeft">Girar a la izquierda</button>
-			<button id="bntTurnRight">Girar a la derecha</button>
+			<button id="btnTurnLeft">Girar a la izquierda</button>
+			<button id="btnTurnRight">Girar a la derecha</button>
 		</div>
 		
 		<script src="/socket.io/socket.io.js"></script>
@@ -284,10 +284,10 @@
 			});
 			
 			// Varios botones con los que interactuar y enviar el loop al servidor.
-			$("#bntTurnLeft").click((e) => {
+			/*$("#btnTurnLeft").click((e) => {
 				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
 			});
-			$("#bntTurnRight").click((e) => {
+			$("#btnTurnRight").click((e) => {
 				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
 			});
 			
@@ -304,7 +304,7 @@
 				else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
 				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
 				$("#isMirando").text("Estás mirando al " + String(_look) + ".");
-			});
+			});*/
 			
 			// Cálculo.
 			function tiendeAX(_val,_obj,_inc)
