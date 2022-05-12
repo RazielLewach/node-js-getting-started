@@ -99,7 +99,8 @@
 			<button id="btnTurnRight" style="position: absolute; left: 450px; top: 10px;">Girar a la derecha</button>
 			
 			<!-- Los datos a mostrar-->
-			<p id="isMirando" style="position: absolute; left: 310px; top: 40px;"></p>
+			<p id="isMirandoText" style="position: absolute; left: 310px; top: 40px;"></p>
+			<p id="isMirandoAngle" style="position: absolute; left: 400px; top: 40px;"></p>
 			
 		</div>
 		
@@ -313,7 +314,8 @@
 				else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
 				else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
 				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
-				$("#isMirando").text("Estás mirando al " + String(_look) + " (" + String(_dirPlayer) + "º).");
+				$("#isMirandoText").text("Estás mirando al " + String(_look));
+				$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
 			});
 			
 			// Cálculo.
