@@ -19,10 +19,9 @@ const pool = new Pool({
   }
 });
 
-// Rutas para inicializar la ventana
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
-});
+// Rutas para inicializar la ventana y los ficheros.
+app.get('/', (req, res) => {res.sendFile(__dirname + '/views/index.html');});
+app.use(express.static(path.join(__dirname, 'views')));
 
 server.listen(port, () => {
   console.log('Listening on port');
@@ -179,16 +178,4 @@ async function doQuery(query,func)
 		client.release();
 		return false;
 	});
-}
-
-// Scripts.
-// Cálculo.
-function angular(_dir)
-{
-	return (_dir%360 + 360)%360;
-}
-
-function pointDirection(_x1,_y1,_x2,_y2)
-{
-	return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 }
