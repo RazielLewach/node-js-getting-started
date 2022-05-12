@@ -135,48 +135,28 @@ io.on("connection", async (_socket) => {
 		});
 	});
 	
-	// El loop para calcular y enviar datos del estado del chapter.
-	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_xMouse,_yMouse,_xView,_yView,_isClick,_buttonHovered) => {
+	// Recibe el loop del cliente, haz la lógica, acceso a BD, y envía el loop de vuelta.
+	_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_event) => {
+		// Si el usuario es válido...
 		doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 			if (selUsers.rowCount > 0)
 			{
+				// Lee el estado actual del jugador.
 				doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
-					// El sprite del field.
-					var _field = -1;
-					if (_currentTale == 01 && _currentChapter == 01) _field = 0;
+					// El field.
+					var _field = 0;
 					
-					// La posición del player.
+					// Las coordenadas del player.
 					var _xPlayer = selEnvironment.rows[0].xplayer;
 					var _yPlayer = selEnvironment.rows[0].yplayer;
 					
 					// La dirección del player.
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
-					if (_isClick && _buttonHovered == -1)
-					{
-						var _dirClick = pointDirection(_xMouse,_yMouse,_xPlayer-_xView,_yPlayer-_yView);
-						if 		(_dirClick > 000 && _dirClick <= 090) _dirPlayer = 45;
-						else if (_dirClick > 090 && _dirClick <= 180) _dirPlayer = 135;
-						else if (_dirClick > 180 && _dirClick <= 270) _dirPlayer = 225;
-						else if (_dirClick > 270 && _dirClick <= 360) _dirPlayer = 315;
-					}
+					if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer-15);
+					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer+15);
 					
-					// Click al menú.
-					if (_isClick)
-					{
-						// Pausa.
-						if 		(_buttonHovered == 0) console.log("WAIT");
-						// Movimiento.
-						else if (_buttonHovered == 1)
-						{
-							if (_dirPlayer == 45 || _dirPlayer == 135) _yPlayer -= 40;
-							else _yPlayer += 40;
-							if (_dirPlayer == 45 || _dirPlayer == 315) _xPlayer += 80;
-							else _xPlayer -= 80;
-						}
-					}
-					
-					// Actualiza los datos de este frame si has hecho click.
-					if (_isClick) doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
+					// Guarda los datos.
+					doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
 					
 					// Envía los datos al cliente.
 					_socket.emit("looped01",_field,_xPlayer,_yPlayer,_dirPlayer);

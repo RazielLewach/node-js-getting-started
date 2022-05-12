@@ -9,8 +9,12 @@
 
 
 ###### INFO AND ANNOTATIONS ######
-IDEAS, IDEAS, DAME IDEAS!!!
-
+Borrar el canvas. Dejar el loop interno.
+El sprite de tu PJ y los botones de acción siguen.
+GIRAR - AVANZAR - INTERACTUAR - ATACAR - (un botón por cada habilidad que poseas)
+Al lado, en texto, te dice actualizándose en tiempo real todos los elementos que ves en esa dirección (enemigos, interactuables...), ordenados según amplitud del ángulo, y la distancia a cada uno.
+Sin casillas. Coordenadas libres.
+Arriba en texto te dice a dónde estás mirando (norte, sur...).
 
 
 

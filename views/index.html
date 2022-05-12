@@ -45,7 +45,7 @@
 			
 			#game {
 				border: 2px solid #FFFFFF;
-				background-size: 100%;
+				background-color: #000000;
 			}
 			
 			/* Colores para los capítulos.*/
@@ -90,7 +90,11 @@
 		</div>
 		
 		<br>
-		<canvas id="game" style="display: none;" width="1000" height="670"></canvas>
+		<div id="game" style="display: none;" width="1000" height="670">
+			<p id="isMirando"></p>
+			<button id="bntTurnLeft">Girar a la izquierda</button>
+			<button id="bntTurnRight">Girar a la derecha</button>
+		</div>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -105,14 +109,11 @@
 			var currentChapter = 00; // ¿Qué episodio andas viendo?
 			
 			// Variables de lógica que el servidor no requiere guardar.
-			var xView = 0; // Mover la cámara en x.
-			var yView = 0; // Mover la cámara en y.
 			var playerImageIndex = 0; // Qué frame dibuja.
 			var isMenu = false; // ¿Menú abierto?
 			var scaleMenu = 0; // ¿Scale del menú?
 			var xMenu = 0; // La x del centro del menú al clicar.
 			var yMenu = 0; // La y del centro del menú al clicar.
-			var buttonHovered = -1; // ¿Qué botón tienes hovered con el menú abierto?
 			var xPlayer = -1; // La x del player.
 			var yPlayer = -1; // La y del player.
 			var dirAngular01 = 0; // Angular a velocidad 01.
@@ -122,32 +123,6 @@
 			var storedXPlayer = 0; // La x del player.
 			var storedYPlayer = 0; // La y del player.
 			var storedDirPlayer = 0; // La dir del player.
-			
-			// Setea el canvas.
-			var canvas = document.getElementById('game');
-			var context = canvas.getContext('2d');
-			var xMouse = 0, yMouse = 0, isClick = false;
-			canvas.addEventListener('click', () => {
-				isClick = true;
-				isMenu = !isMenu;
-				if (isMenu)
-				{
-					xMenu = xMouse;
-					yMenu = yMouse;
-				}
-			}, false);
-			canvas.addEventListener("mousemove", () => {
-				var rect = canvas.getBoundingClientRect();
-				xMouse = event.clientX - rect.left;
-				yMouse = event.clientY - rect.top;
-			});
-			
-			// Las imágenes.
-			var _imgField = new Image();
-			var _imgPlayer = new Image();
-			var _imgMenuSleep = new Image(); _imgMenuSleep.src = "https://i.imgur.com/qp6xpS2.png";
-			var _imgMenuMove = new Image(); _imgMenuMove.src = "https://i.imgur.com/b4eT7cC.png";
-			var _imgCasilla = new Image(); _imgCasilla.src = "https://i.imgur.com/UObBtnU.png";
 				
 			// Envia las señales del login.
 			$("#name").keypress((e) => {
@@ -308,152 +283,28 @@
 				$("#sl"+String(_tale)).val(_color);
 			});
 			
-			// Inicia el bucle de juego para enviar emits constantes al servidor y pedir el estado del canvas.
-			setInterval(function () {
-				if (currentTale > 0)
-				{
-					// Si he hecho click, interactúo con servidor y su base de datos y éste me devuelve el loop.
-					if (isClick || xPlayer == -1)
-					{
-						socket.emit("loop01",name,pass,currentTale,currentChapter,xMouse,yMouse,xView,yView,isClick,buttonHovered);
-						isClick = false;
-					}
-					// Si no, yo mismo repito el loop.
-					else looped01(storedField,storedXPlayer,storedYPlayer,storedDirPlayer);
-				}
-			}, 16.67);
-			
-			// Recibe el loop.
-			socket.on("looped01", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
-				looped01(_field,_xPlayer,_yPlayer,_dirPlayer);
+			// Varios botones con los que interactuar y enviar el loop al servidor.
+			$("#bntTurnLeft").click((e) => {
+				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
 			});
-			function looped01(_field,_xPlayer,_yPlayer,_dirPlayer)
-			{
-				// Guarda los inputs del loop.
-				storedField = _field;
-				storedXPlayer = _xPlayer;
-				storedYPlayer = _yPlayer;
-				storedDirPlayer = _dirPlayer;
-				
-				// Step.
-				// Mueve la view.
-				if (scaleMenu == 0)
-				{
-					var rect = canvas.getBoundingClientRect();
-					var _xTo = 0 + 900*xMouse/(rect.right-rect.left);
-					var _yTo = 0 + 400*yMouse/(rect.bottom-rect.top);
-					var _dir = pointDirection(xView,yView,_xTo,_yTo);
-					xView = tiendeAX(xView,_xTo,20*Math.abs(dcos(_dir)));
-					yView = tiendeAX(yView,_yTo,20*Math.abs(dsin(_dir)));
-				}
-				
-				// Angulares.
-				dirAngular01 = angular(dirAngular01 + 01);
-				
-				// Draw.
-				// El fondo.
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.fillStyle = "#000000";
-				context.fillRect(0,0,canvas.width,canvas.height);
-				
-				// El field.
-				if (_field == 0) _imgField.src = "https://i.imgur.com/GB1ElEg.png";
-				if (_field >= 0) context.drawImage(_imgField,60-xView,210-yView);
-				
-				// El player.
-				// Gestiona los frames del player.
-				playerImageIndex += 0.1;
-				if (Math.round(playerImageIndex) >= 6)
-					playerImageIndex = 0;
-				
-				// Setea qué frame dibujar del player.
-				var _ind = Math.round(playerImageIndex);
-				/*if (_dirPlayer == 315 || _dirPlayer == 225)
-				{*/
-					if		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/jYpCrCk.png";
-					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/s1uLycc.png";
-					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/3vgG29P.png";
-					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/aAInskV.png";
-					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/yabd1vW.png";
-					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/HTua2KV.png";
-				/*}
-				else
-				{
-					if 		(_ind <= 0) _imgPlayer.src = "https://i.imgur.com/UQiITao.png";
-					else if (_ind == 1) _imgPlayer.src = "https://i.imgur.com/TLvh0j6.png";
-					else if (_ind == 2) _imgPlayer.src = "https://i.imgur.com/Aoi8bFE.png";
-					else if (_ind == 3) _imgPlayer.src = "https://i.imgur.com/eBpfqIh.png";
-					else if (_ind == 4) _imgPlayer.src = "https://i.imgur.com/JYmckro.png";
-					else if (_ind >= 5) _imgPlayer.src = "https://i.imgur.com/mWmRF1D.png";
-				}*/
-				
-				// Dibuja la casilla.
-				if ((buttonHovered == 0 || buttonHovered == 1) && scaleMenu == 2)
-				{
-					var _xCasilla = xPlayer;
-					var _yCasilla = yPlayer;
-					if (buttonHovered == 1)
-					{
-						if (_dirPlayer == 45 || _dirPlayer == 315) _xCasilla += 80;
-						else _xCasilla -= 80;
-						if (_dirPlayer == 225 || _dirPlayer == 315) _yCasilla += 40;
-						else _yCasilla -= 40;
-					}
-					
-					context.save();
-					context.translate(_xCasilla-xView,_yCasilla-yView);
-					context.drawImage(_imgCasilla,-80,-40);
-					context.restore();
-				}
-
-				// Dibuja el player.
-				if (xPlayer == -1)
-				{
-					xPlayer = _xPlayer;
-					yPlayer = _yPlayer;
-				}
-				else
-				{
-					var _dir = pointDirection(xPlayer,yPlayer,_xPlayer,_yPlayer);
-					xPlayer = tiendeAX(xPlayer,_xPlayer,3*Math.abs(dcos(_dir)));
-					yPlayer = tiendeAX(yPlayer,_yPlayer,3*Math.abs(dsin(_dir)));
-				}
-				
-				var _xScale = (1 - 2*(_dirPlayer == 135 || _dirPlayer == 225))*0.98 - 0.02*dcos(dirAngular01);
-				var _yScale = 0.95 + 0.05*dcos(dirAngular01);
-				context.save();
-				context.translate(xPlayer-xView,yPlayer-yView);
-				context.scale(_xScale,_yScale);
-				context.drawImage(_imgPlayer,-80,-200);
-				context.restore();
-				
-				// Gestiona y dibuja el menú.
-				scaleMenu = tiendeAX(scaleMenu,2*(isMenu),0.05);
-				var _x = 0, _y = 0, _dir = 0;
-				
-				// Dibuja y gestiona los botones del menú.
-				buttonHovered = -1;
-				drawBoton(270,_imgMenuSleep,0);
-				drawBoton(90,_imgMenuMove,1);
-			};
+			$("#bntTurnRight").click((e) => {
+				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
+			});
 			
-			// Scripts.
-			// Mecánica.
-			function drawBoton(_dirBoton,_imgBoton,_iBoton)
-			{
-				var _lon = 30*Math.min(1,scaleMenu);
-				var _x = xMenu + _lon*dcos(_dirBoton);
-				var _y = yMenu - _lon*dsin(_dirBoton);
-				context.save();
-				context.translate(_x,_y);
-				var _isHover = pointDistance(xMouse,yMouse,_x,_y) < 15;
-				var _sc = Math.min(1,scaleMenu)*(1 + 0.3*(_isHover));
-				context.scale(_sc,_sc);
-				context.drawImage(_imgBoton,-15,-15);
-				context.restore();
-				
-				if (_isHover && scaleMenu >= 1) buttonHovered = _iBoton;
-			}
+			// Recibe el loop del servidor y actualiza tu ventana.
+			socket.on("looped01", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
+				// Actualiza a dónde estás mirando.
+				var _look = "";
+				if 		(absAngleDifference(_dirPlayer,0) <= 22.5) _look = "este";
+				else if (absAngleDifference(_dirPlayer,45) <= 22.5) _look = "noreste";
+				else if (absAngleDifference(_dirPlayer,90) <= 22.5) _look = "norte";
+				else if (absAngleDifference(_dirPlayer,135) <= 22.5) _look = "noroeste";
+				else if (absAngleDifference(_dirPlayer,180) <= 22.5) _look = "oste";
+				else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
+				else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
+				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
+				$("#isMirando").text("Estás mirando al " + String(_look) + ".");
+			});
 			
 			// Cálculo.
 			function tiendeAX(_val,_obj,_inc)
@@ -491,6 +342,13 @@
 			function pointDirection(_x1,_y1,_x2,_y2)
 			{
 				return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
+			}
+			
+			function absAngleDifference(_a1,_a2)
+			{
+				int _phi = Math.abs(_a2-_a1)%360;
+				int _distance = _phi > 180 ? 360 - _phi : _phi;
+				return _distance;
 			}
 		</script>
 		
