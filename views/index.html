@@ -305,7 +305,7 @@
 			});
 			
 			// Recibe el loop del servidor y actualiza tu ventana.
-			socket.on("looped01", (_field,_dataPlayer,_dataEnemies) => {
+			socket.on("looped01", (_dataPlayer,_dataEnemies) => {
 				// Data: player.
 				var _xPlayer = _dataPlayer.xPlayer;
 				var _yPlayer = _dataPlayer.yPlayer;
