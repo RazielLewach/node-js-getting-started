@@ -90,10 +90,17 @@
 		</div>
 		
 		<br>
-		<div id="game" style="display: none;" width="1000" height="670">
-			<p id="isMirando"></p>
-			<button id="btnTurnLeft">Girar a la izquierda</button>
-			<button id="btnTurnRight">Girar a la derecha</button>
+		<div id="game" style="display: none; position: absolute;" width="1000" height="670">
+			<!-- La imagen del PJ-->
+			<img style="position: relative; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
+			
+			<!-- Los comandos -->
+			<button id="btnTurnLeft" style="position: relative; left: 300px; top: 0px;">Girar a la izquierda</button>
+			<button id="btnTurnRight" style="position: relative; left: 350px; top: 0px;">Girar a la derecha</button>
+			
+			<!-- Los datos a mostrar-->
+			<p id="isMirando" style="position: relative; left: 300px; top: 100px;"></p>
+			
 		</div>
 		
 		<script src="/socket.io/socket.io.js"></script>
@@ -303,7 +310,7 @@
 				else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
 				else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
 				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
-				$("#isMirando").text("Estás mirando al " + String(_look) + ".");
+				$("#isMirando").text("Estás mirando al " + String(_look) + " (" + String(_dirPlayer) + "º).");
 			});
 			
 			// Cálculo.

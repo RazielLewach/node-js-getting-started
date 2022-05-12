@@ -152,8 +152,8 @@ io.on("connection", async (_socket) => {
 					
 					// La dirección del player.
 					var _dirPlayer = selEnvironment.rows[0].dirplayer;
-					if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer-15);
-					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer+15);
+					if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
+					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 					
 					// Guarda los datos.
 					doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
