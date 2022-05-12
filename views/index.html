@@ -100,7 +100,9 @@
 			
 			<!-- Los datos a mostrar-->
 			<p id="isMirandoText" style="position: absolute; left: 310px; top: 40px;"></p>
-			<p id="isMirandoAngle" style="position: absolute; left: 520px; top: 40px;"></p>
+			<p id="isMirandoAngle" style="position: absolute; left: 540px; top: 40px;"></p>
+			<p style="position: absolute; left: 540px; top: 70px;">En tu campo visual:</p>
+			<p id="hasCampoVisual" style="position: absolute; left: 600px; top: 100px;"></p>
 			
 		</div>
 		
@@ -303,7 +305,12 @@
 			});
 			
 			// Recibe el loop del servidor y actualiza tu ventana.
-			socket.on("looped01", (_field,_xPlayer,_yPlayer,_dirPlayer) => {
+			socket.on("looped01", (_field,_dataPlayer,_dataEnemies) => {
+				// Data: player.
+				var _xPlayer = _dataPlayer.xPlayer;
+				var _yPlayer = _dataPlayer.yPlayer;
+				var _dirPlayer = _dataPlayer.dirPlayer;
+				
 				// Actualiza a dónde estás mirando.
 				var _look = "";
 				if 		(absAngleDifference(_dirPlayer,0) <= 22.5) _look = "este";
@@ -316,6 +323,14 @@
 				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
 				$("#isMirandoText").text("Estás mirando al " + String(_look));
 				$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
+				
+				// Actualiza qué hay en tu campo visual.
+				var _txt = "";
+				for (var i = 0; i < _dataEnemies.length; ++i)
+				{
+					_txt += _dataEnemies.nameEnemy + "\n";
+				}
+				$("#hasCampoVisual").text(_txt);
 			});
 			
 			// Cálculo.

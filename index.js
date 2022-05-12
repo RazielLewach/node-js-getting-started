@@ -38,13 +38,12 @@ io.on("connection", async (_socket) => {
 			// Caso: cuenta no existe, la crea.
 			if (selUsers.rowCount == 0)
 			{
-				doQuery("INSERT INTO users(name, pass) VALUES ('"+String(_name)+"', '"+String(_pass)+"');", () => {
+				doQuery("INSERT INTO users(name, pass, taleplaying, chapterplaying) VALUES ('"+String(_name)+"', '"+String(_pass)+"', '00', '00');", () => {
 					_socket.emit("newUserSuccess",_name,_pass);
 					
-					// Inicializa valores default de todas las tablas para la nueva cuenta.
+					// Inicializa valores default de todas las tablas generales para la nueva cuenta. No afecta a las tablas por cada tale-chapter, eso va a parte cuando abres el capítulo por primera vez.
 					doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 					doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');");
-					doQuery("INSERT INTO environments(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"','540','450','315');");
 				});
 			}
 			// Caso: cuenta existe.
@@ -67,10 +66,31 @@ io.on("connection", async (_socket) => {
 				doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 					if (selChapter.rowCount > 0)
 					{
+						// Si tiene acceso al chapter, carga su contenido en texto...
 						fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
 							if (_error) throw _error;
 							_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
 						});
+						
+						// ... y posteriormente accede a BD para ver si inicializar los datos del chapter si no existen o si estabas con otro anterior.
+						// Si no estás viendo ningún chapter, o es distinto al que has seleccionado, inicializa los datos de ese chapter y tale.
+						if ((selUsers.rows[0].taleplaying == '00' && selUsers.rows[0].chapterplaying == '00') || (selUsers.rows[0].taleplaying != _tale && selUsers.rows[0].chapterplaying != _chapter))
+						{
+							// Actualiza qué tale y chapter estás leyendo.
+							doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapter = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';");
+							
+							// Limpia el entorno y todos los datos.
+							doQuery("DELETE FROM environments01 where name = '"+String(_name)+"';");
+							doQuery("DELETE FROM enemies01 where name = '"+String(_name)+"';");
+							
+							// Crea el entorno según el tale y chapter.
+							// HUMANO, SANGRE Y PETRÓLEO.
+							if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
+							{
+								doQuery("INSERT INTO environments01(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"','0','0','0');");
+								doQuery("INSERT INTO enemies01(name, nameenemy, xenemy, yenemy, direnemy) VALUES ('"+String(_name)+"','Explorador','100','0','180');");
+							}
+						}
 					}
 					else _socket.emit("chapterFail");
 				});
@@ -142,10 +162,7 @@ io.on("connection", async (_socket) => {
 			if (selUsers.rowCount > 0)
 			{
 				// Lee el estado actual del jugador.
-				doQuery("SELECT * FROM environments WHERE name = '"+String(_name)+"';", (selEnvironment) => {
-					// El field.
-					var _field = 0;
-					
+				doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {					
 					// Las coordenadas del player.
 					var _xPlayer = selEnvironment.rows[0].xplayer;
 					var _yPlayer = selEnvironment.rows[0].yplayer;
@@ -155,11 +172,23 @@ io.on("connection", async (_socket) => {
 					if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
 					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 					
-					// Guarda los datos.
-					doQuery("UPDATE environments SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
+					// Data: Player.
+					var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
 					
-					// Envía los datos al cliente.
-					_socket.emit("looped01",_field,_xPlayer,_yPlayer,_dirPlayer);
+					doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
+						// Array con los datos de los enemigos.
+						var _dataEnemies = [];
+						for (var i = 0; i < selEnemies.rowCount; ++i)
+						{
+							_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy});
+						}
+						
+						// Guarda los datos.
+						doQuery("UPDATE environments01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
+						
+						// Envía los datos al cliente.
+						_socket.emit("looped01",_dataPlayer,_dataEnemies);
+					});
 				});
 			}
 		});

@@ -1,5 +1,5 @@
 ###### TODO ######
-- 
+- Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
 
 ###### DONE ######
 - Entra en el código de MOVE pero no te mueves.
