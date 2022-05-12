@@ -306,6 +306,8 @@
 			
 			// Recibe el loop del servidor y actualiza tu ventana.
 			socket.on("looped01", (_dataPlayer,_dataEnemies) => {
+				console.log("_dataPlayer",_dataPlayer);
+				console.log("_dataEnemies",_dataEnemies);
 				// Data: player.
 				var _xPlayer = _dataPlayer.xPlayer;
 				var _yPlayer = _dataPlayer.yPlayer;
