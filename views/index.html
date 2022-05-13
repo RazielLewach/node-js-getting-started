@@ -334,9 +334,17 @@
 					var _txt = "";
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						_txt += _dataEnemies[i].nameEnemy + "\n";
+						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xenemy,_dataEnemies[i].yenemy);
+						var _lado = "frente a ti";
+						if (
+						var _inVision = absAngleDifference(_dirPlayer,_dirToEnemy) <= 70;
+						var _isNitido = _inVision && absAngleDifference(_dirPlayer,_dirToEnemy) <= 30;
+						_txt += _dataEnemies[i].nameEnemy + " a tu "\n";
 					}
 					$("#hasCampoVisual").text(_txt);
+					
+					console.log("10,30",absAngleDifference(10,30));
+					console.log("50,10",absAngleDifference(50,10));
 				});
 			}
 			if (true){ // ####################################################### Scripts. #######################################################
@@ -379,9 +387,11 @@
 				
 				function absAngleDifference(_a1,_a2)
 				{
-					var _phi = Math.abs(_a2-_a1)%360;
+					/*var _phi = Math.abs(_a2-_a1)%360;
 					var _distance = _phi > 180 ? 360 - _phi : _phi;
-					return _distance;
+					return _distance;*/
+					var _diff = ( _a2 - _a1 + 180 ) % 360 - 180;
+					return _diff < -180 ? _diff + 360 : _diff;
 				}
 			}
 		</script>
