@@ -172,8 +172,8 @@ io.on("connection", async (_socket) => {
 						
 						// La dirección del player.
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
-						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
-						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
+						if (_event == "clickTurnLeft") _dirPlayer = scripts.angular(_dirPlayer+15);
+						else if (_event == "clickTurnRight") _dirPlayer = scripts.angular(_dirPlayer-15);
 						
 						// Data: Player.
 						var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
