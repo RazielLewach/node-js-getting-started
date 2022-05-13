@@ -4,8 +4,8 @@
 	import express from 'express'
 	import http from 'http'
 	import fs from 'fs'
-	import {Server} from 'socket.io'
-	import {Pool} from 'pg'
+	import Server from 'socket.io'
+	import Pool from 'pg'
 	
 	// Init.
 	/*var express = require('express');
