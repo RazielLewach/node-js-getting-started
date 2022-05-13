@@ -1,13 +1,10 @@
 //{ ####################################################### Inicializaciones. #######################################################
-	// Imports.
-	var scripts = require('./tools/scripts.js');
-	
 	// Init.
 	var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
 	var port = process.env.PORT || 5000;
-	
+
 	// Sockets.
 	var app = express();
 	var server = http.createServer(app);
@@ -33,7 +30,6 @@
 	});
 //}
 io.on("connection", async (_socket) => {
-	// Eventos que entran.
 	//{ ####################################################### Login o crear usuario. #######################################################
 		console.log("User connected");
 		_socket.on("login", async (_name,_pass) => {
@@ -172,8 +168,8 @@ io.on("connection", async (_socket) => {
 						
 						// La dirección del player.
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
-						if (_event == "clickTurnLeft") _dirPlayer = scripts.angular(_dirPlayer+15);
-						else if (_event == "clickTurnRight") _dirPlayer = scripts.angular(_dirPlayer-15);
+						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
+						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 						
 						// Data: Player.
 						var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
@@ -212,5 +208,16 @@ io.on("connection", async (_socket) => {
 			client.release();
 			return false;
 		});
+	}
+
+	// Scripts.
+	function angular(_dir)
+	{
+		return (_dir%360 + 360)%360;
+	}
+
+	function pointDirection(_x1,_y1,_x2,_y2)
+	{
+		return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 	}
 //}
