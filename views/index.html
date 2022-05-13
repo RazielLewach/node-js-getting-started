@@ -319,14 +319,14 @@
 					
 					// Actualiza a dónde estás mirando.
 					var _look = "";
-					if 		(absAngleDifference(_dirPlayer,0) <= 22.5) _look = "este";
-					else if (absAngleDifference(_dirPlayer,45) <= 22.5) _look = "noreste";
-					else if (absAngleDifference(_dirPlayer,90) <= 22.5) _look = "norte";
-					else if (absAngleDifference(_dirPlayer,135) <= 22.5) _look = "noroeste";
-					else if (absAngleDifference(_dirPlayer,180) <= 22.5) _look = "oste";
-					else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
-					else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
-					else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
+					if 		(Math.abs(angleDifference(_dirPlayer,0)) <= 22.5) _look = "este";
+					else if (Math.abs(angleDifference(_dirPlayer,45)) <= 22.5) _look = "noreste";
+					else if (Math.abs(angleDifference(_dirPlayer,90)) <= 22.5) _look = "norte";
+					else if (Math.abs(angleDifference(_dirPlayer,135)) <= 22.5) _look = "noroeste";
+					else if (Math.abs(angleDifference(_dirPlayer,180)) <= 22.5) _look = "oste";
+					else if (Math.abs(angleDifference(_dirPlayer,225)) <= 22.5) _look = "suroeste";
+					else if (Math.abs(angleDifference(_dirPlayer,270)) <= 22.5) _look = "sur";
+					else if (Math.abs(angleDifference(_dirPlayer,315)) <= 22.5) _look = "sureste";
 					$("#isMirandoText").text("Estás mirando al " + String(_look));
 					$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
 					
@@ -334,12 +334,20 @@
 					var _txt = "";
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
+						var _diff = angleDifference(_dirPlayer,_dirToEnemy);
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xenemy,_dataEnemies[i].yenemy);
 						var _lado = "frente a ti";
-						//if (
-						var _inVision = absAngleDifference(_dirPlayer,_dirToEnemy) <= 70;
+						if (_diff > 20) _lado = "a tu derecha";
+						else if (_diff < -20) _lado = "a tu izquierda";
+						var _inVision = Math.abs(_diff) <= 70;
 						var _isNitido = _inVision && absAngleDifference(_dirPlayer,_dirToEnemy) <= 30;
-						_txt += _dataEnemies[i].nameEnemy + " a tu \n";
+						if (_inVision)
+						{
+							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " +(" + String(_diff) + "º). ";
+							if (_isNitido) _txt += "Blablabla";
+							else _txt += "No puedes verlo claramente.";
+							_txt += "\n";
+						}
 					}
 					$("#hasCampoVisual").text(_txt);
 					
@@ -385,11 +393,8 @@
 					return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 				}
 				
-				function absAngleDifference(_a1,_a2)
+				function angleDifference(_a1,_a2)
 				{
-					/*var _phi = Math.abs(_a2-_a1)%360;
-					var _distance = _phi > 180 ? 360 - _phi : _phi;
-					return _distance;*/
 					var _diff = ( _a2 - _a1 + 180 ) % 360 - 180;
 					return _diff < -180 ? _diff + 360 : _diff;
 				}
