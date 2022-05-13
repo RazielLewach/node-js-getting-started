@@ -342,7 +342,7 @@
 							if (_diffe > 20) _lado = "a tu derecha";
 							else if (_diffe < -20) _lado = "a tu izquierda";
 							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " +(" + String(_diffe) + "º). ";
-							if (absAngleDifference(_dirPlayer,_dirToEnemy) <= 30)
+							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 								_txt += "Blablabla";
 							else
 								_txt += "No puedes verlo claramente.";
