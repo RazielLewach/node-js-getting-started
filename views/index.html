@@ -364,6 +364,7 @@
 							
 							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
+							{
 								// ... indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
 								var _diffToPlayer = angleDifference(_dataEnemies[i].dirEnemy,_dirToPlayer);
@@ -376,6 +377,7 @@
 									else _pos = "mirando a tu izquierda";
 								}
 								_txt += "Está " + String(_pos) + ".";
+							}
 							// Si no, no ves nada de él.
 							else
 								_txt += "No puedes verlo claramente.";
