@@ -1,21 +1,26 @@
 //{ ####################################################### Inicializaciones. #######################################################
 	// Imports.
 	import {scripts} from './tools/scripts.js'
+	import {express} from 'express'
+	import {http} from 'http'
+	import {fs} from 'fs'
+	import {Server} from 'socket.io'
+	import {Pool} from 'pg'
 	
 	// Init.
-	var express = require('express');
+	/*var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
+	var { Server } = require("socket.io");
+	var { Pool } = require('pg');*/
 	var port = process.env.PORT || 5000;
 	
 	// Sockets.
 	var app = express();
 	var server = http.createServer(app);
-	var { Server } = require("socket.io");
 	var io = new Server(server);
 
 	// PostgreSQL.
-	var { Pool } = require('pg');
 	var pool = new Pool({
 	  connectionString: process.env.DATABASE_URL,
 	  ssl: {
