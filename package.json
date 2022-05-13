@@ -22,7 +22,7 @@
     "tape": "^4.7.0"
   },
   "repository": {
-    "type": "git",
+    "type": "module",
     "url": "https://github.com/heroku/node-js-getting-started"
   },
   "keywords": [
