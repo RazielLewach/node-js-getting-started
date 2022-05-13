@@ -108,8 +108,7 @@
 		</div>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			if (true) // ####################################################### Inicializaciones. #######################################################
-			{
+			if (true){ // ####################################################### Inicializaciones. #######################################################
 				// Variables de estado.
 				var socket = io();
 				var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
@@ -136,8 +135,7 @@
 				var storedYPlayer = 0; // La y del player.
 				var storedDirPlayer = 0; // La dir del player.
 			}
-			if (true) // ####################################################### Login. #######################################################
-			{
+			if (true){ // ####################################################### Login. #######################################################
 				// Envia las señales del login.
 				$("#name").keypress((e) => {
 					if (e.key == "Enter") login();
@@ -167,8 +165,7 @@
 					resetTales();
 				});
 			}
-			if (true) // ####################################################### Sistema de tabs, tales y chapters. #######################################################
-			{
+			if (true){ // ####################################################### Sistema de tabs, tales y chapters. #######################################################
 				// Maneja los tabs de las tales.
 				function openTale(_evt,_taleName) {
 					resetTales();
@@ -236,8 +233,7 @@
 					currentChapter = 00;
 				}
 			}
-			if (true) // ####################################################### Setea los datos de tu personaje para la tale 01. #######################################################
-			{
+			if (true){ // ####################################################### Setea los datos de tu personaje para la tale 01. #######################################################
 				// Setea el nombre de tu personaje, el género y el color.
 				setCharacterListener("01");
 				
@@ -279,8 +275,7 @@
 					});
 				}
 			}
-			if (true) // ####################################################### Gestiona los datos de tu personaje. #######################################################
-			{
+			if (true){ // ####################################################### Gestiona los datos de tu personaje. #######################################################
 				// Recibe el nombre actualizado.
 				socket.on("characterNameChanged", (_character) => {
 					currentCharacterName = _character;
@@ -306,8 +301,7 @@
 					$("#sl"+String(_tale)).val(_color);
 				});
 			}
-			if (true) // ####################################################### Lógica de tale 01. #######################################################
-			{
+			if (true){ // ####################################################### Lógica de tale 01. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btnTurnLeft").click((e) => {
 					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
@@ -345,8 +339,7 @@
 					$("#hasCampoVisual").text(_txt);
 				});
 			}
-			if (true) // ####################################################### Scripts. #######################################################
-			{
+			if (true){ // ####################################################### Scripts. #######################################################
 				function tiendeAX(_val,_obj,_inc)
 				{
 					var _ret = _val;

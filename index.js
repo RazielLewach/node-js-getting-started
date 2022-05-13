@@ -1,5 +1,4 @@
-if (true) // ####################################################### Inicializaciones. #######################################################
-{
+//{ ####################################################### Inicializaciones. #######################################################
 	// Init.
 	var express = require('express');
 	var http = require("http");
@@ -29,12 +28,11 @@ if (true) // ####################################################### Inicializac
 	server.listen(port, () => {
 	  console.log('Listening on port');
 	});
-}
+//}
 io.on("connection", async (_socket) => {
-	console.log("User connected");
 	// Eventos que entran.
-	if (true) // ####################################################### Login o crear usuario. #######################################################
-	{
+	//{ ####################################################### Login o crear usuario. #######################################################
+		console.log("User connected");
 		_socket.on("login", async (_name,_pass) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"';", (selUsers) => {
 				// Caso: cuenta no existe, la crea.
@@ -58,9 +56,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido. #######################################################
-	{
+	//}
+	//{ ####################################################### Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido. #######################################################
 		_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender,_color) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -100,9 +97,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Setear character name. #######################################################
-	{
+	//}
+	//{ ####################################################### Setear character name. #######################################################
 		_socket.on("setCharacterName", async (_name,_pass,_tale,_character) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -116,9 +112,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Envía el nombre del character y gender. #######################################################
-	{
+	//}
+	//{ ####################################################### Envía el nombre del character y gender. #######################################################
 		_socket.on("demandCharacterData", async (_name,_pass,_tale) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -129,9 +124,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Setear el gender. #######################################################
-	{
+	//}
+	//{ ####################################################### Setear el gender. #######################################################
 		_socket.on("setCharacterGender", async (_name,_pass,_tale,_gender) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -145,9 +139,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Setear el color. #######################################################
-	{
+	//}
+	//{ ####################################################### Setear el color. #######################################################
 		_socket.on("setCharacterColor", async (_name,_pass,_tale,_color) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -161,9 +154,8 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
-	if (true) // ####################################################### Tale 01: recibe el loop del cliente, haz la lógica, acceso a BD, y envía el loop de vuelta. #######################################################
-	{
+	//}
+	//{ ####################################################### Tale 01: recibe el loop del cliente, haz la lógica, acceso a BD, y envía el loop de vuelta. #######################################################
 		_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_event) => {
 			// Si el usuario es válido...
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
@@ -201,10 +193,9 @@ io.on("connection", async (_socket) => {
 				}
 			});
 		});
-	}
+	//}
 });
-if (true) // ####################################################### Scripts. #######################################################
-{
+//{ ####################################################### Scripts. #######################################################
 	// Querys.
 	async function doQuery(query,func)
 	{
@@ -230,4 +221,4 @@ if (true) // ####################################################### Scripts. ##
 	{
 		return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
 	}
-}
+//}
