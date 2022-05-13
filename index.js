@@ -1,9 +1,9 @@
 //{ ####################################################### Inicializaciones. #######################################################
 	// Imports.
 	import {scripts} from './tools/scripts.js'
-	import {express} from 'express'
-	import {http} from 'http'
-	import {fs} from 'fs'
+	import express from 'express'
+	import http from 'http'
+	import fs from 'fs'
 	import {Server} from 'socket.io'
 	import {Pool} from 'pg'
 	
