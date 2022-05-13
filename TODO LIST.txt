@@ -1,7 +1,8 @@
 ###### TODO ######
-- Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
+- Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.
 
 ###### DONE ######
+- Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
 - Entra en el código de MOVE pero no te mueves.
 - El hover funciona fatal.
 - Al pulsar un boton, que esa pulsación no cambie la dirección.

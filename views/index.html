@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html style="background-color:#222222; color:#FFFFFF;">
-	<head>
+	<head> <!-- ####################################################### Inicializaciones y CSS ####################################################### -->
         <meta charset="UTF-8" />
         <link rel="icon" href="https://i.imgur.com/I8ju6wN.png">
         <title>Tales of Raziel Lewach</title>
@@ -69,316 +69,328 @@
 			}
 		</style>
 	</head>
-
 	<body style="font-family: 'verdana';">
-		<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
-		<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
-		<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
-		<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
-		
-		<div id="content" style="display: none;">
-			<div class="tab">
-				<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
-			</div>
+		<div> <!-- ####################################################### El HTML que forma todo ####################################################### -->
+			<table><tr><td>TALES OF RAZIEL LEWACH</td></tr>
+			<tr><td><label for="name">Name:</label><input id="name" type="text"></input></td>
+			<td><label for="pass">Password:</label><input id="pass" type="text"></input></td>
+			<td><p id="msgSesion">Account not started. Create a new user or enter your existing user!</p></td></tr></table>
+			
+			<div id="content" style="display: none;">
+				<div class="tab">
+					<button class="tablinks" onclick="openTale(event, 'tale01')">Humano, Sangre y petróleo</button>
+				</div>
 
-			<div id="tale01" class="tabcontent">
-				<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794</button><button id="bt01f">&#9792</button></td><td id="tdColor01" style="border-right: 2px solid white;"><font style="color: #000000;">Color:</font> <input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				<div id="tale01" class="tabcontent">
+					<table><tr><td style="border-right: 2px solid white;"><label for="charname01">Character name:</label><input id="charname01" type="text"></input><button id="bt01m">&#9794 </button><button id="bt01f">&#9792 </button></td><td id="tdColor01" style="border-right: 2px solid white;"><font style="color: #000000;">Color:</font> <input id="sl01" type="range" min="0" max="255" value="0" style="outline: 2px solid #000000;"></td><td>Chapters:</td><td><button id="bt01e01">1</button></td><td><button id="bt01e02">2</button></td></tr></table>
+				</div>
+				
+				<br>
+				<div id="chapter" style="display: none;"></div>
 			</div>
 			
 			<br>
-			<div id="chapter" style="display: none;"></div>
+			<div id="game" style="display: none; position: relative; width: 1000px; height: 670px">
+				<!-- La imagen del PJ-->
+				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
+				
+				<!-- Los comandos -->
+				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 10px;">Girar a la izquierda</button>
+				<button id="btnTurnRight" style="position: absolute; left: 450px; top: 10px;">Girar a la derecha</button>
+				
+				<!-- Los datos a mostrar-->
+				<p id="isMirandoText" style="position: absolute; left: 310px; top: 40px;"></p>
+				<p id="isMirandoAngle" style="position: absolute; left: 540px; top: 40px;"></p>
+				<p style="position: absolute; left: 310px; top: 70px;">En tu campo visual:</p>
+				<p id="hasCampoVisual" style="position: absolute; left: 350px; top: 100px;"></p>
+				
+			</div>
 		</div>
-		
-		<br>
-		<div id="game" style="display: none; position: relative; width: 1000px; height: 670px">
-			<!-- La imagen del PJ-->
-			<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
-			
-			<!-- Los comandos -->
-			<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 10px;">Girar a la izquierda</button>
-			<button id="btnTurnRight" style="position: absolute; left: 450px; top: 10px;">Girar a la derecha</button>
-			
-			<!-- Los datos a mostrar-->
-			<p id="isMirandoText" style="position: absolute; left: 310px; top: 40px;"></p>
-			<p id="isMirandoAngle" style="position: absolute; left: 540px; top: 40px;"></p>
-			<p style="position: absolute; left: 540px; top: 70px;">En tu campo visual:</p>
-			<p id="hasCampoVisual" style="position: absolute; left: 600px; top: 100px;"></p>
-			
-		</div>
-		
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			// Variables de estado.
-			var socket = io();
-			var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
-			var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
-			var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
-			var currentCharacterGender = ""; // El género actual pos.
-			var currentCharacterColor = ""; // Pos el color.
-			var currentTale = 00; // ¿Qué tale andas viendo?
-			var currentChapter = 00; // ¿Qué episodio andas viendo?
-			
-			// Variables de lógica que el servidor no requiere guardar.
-			var playerImageIndex = 0; // Qué frame dibuja.
-			var isMenu = false; // ¿Menú abierto?
-			var scaleMenu = 0; // ¿Scale del menú?
-			var xMenu = 0; // La x del centro del menú al clicar.
-			var yMenu = 0; // La y del centro del menú al clicar.
-			var xPlayer = -1; // La x del player.
-			var yPlayer = -1; // La y del player.
-			var dirAngular01 = 0; // Angular a velocidad 01.
-			
-			// Variables de servidor almacenadas.
-			var storedField = 0; // El campo de batalla.
-			var storedXPlayer = 0; // La x del player.
-			var storedYPlayer = 0; // La y del player.
-			var storedDirPlayer = 0; // La dir del player.
-				
-			// Envia las señales del login.
-			$("#name").keypress((e) => {
-				if (e.key == "Enter") login();
-			});
-			$("#pass").keypress((e) => {
-				if (e.key == "Enter") login();
-			});
-			
-			function login()
+			if (true) // ####################################################### Inicializaciones. #######################################################
 			{
-				socket.emit("login",$("#name").val(),$("#pass").val());
-			}
-			
-			// Recibe las señales del login.
-			socket.on("newUserSuccess", (_name,_pass) => {
-				name = _name;
-				pass = _pass;
-				$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
-				$("#content").css("display","inline");
-				resetTales();
-			});
-			socket.on("newUserFail", () => {
-				$("#msgSesion").text("Wrong password for that account!");
-				name = "";
-				pass = "";
-				$("#content").css("display","none");
-				resetTales();
-			});
-			
-			// Maneja los tabs de las tales.
-			function openTale(_evt,_taleName) {
-				resetTales();
-				document.getElementById(_taleName).style.display = "block";
-				_evt.currentTarget.className += " active";
-				resetChapter();
-				currentCharacterName = "";
-				currentCharacterGender = "";
-				currentCharacterColor = "";
+				// Variables de estado.
+				var socket = io();
+				var name = ""; // Nombre de usuario para chequear en el momento. Sólo se setea tras logins exitosos, pero aun así comprobar en cada acceso por si lo modifican con hacks.
+				var pass = ""; // Contraseña guardada con la que te registraste o iniciaste sesión.
+				var currentCharacterName = ""; // Nombre actual del personaje actual de la tale seleccionada.
+				var currentCharacterGender = ""; // El género actual pos.
+				var currentCharacterColor = ""; // Pos el color.
+				var currentTale = 00; // ¿Qué tale andas viendo?
+				var currentChapter = 00; // ¿Qué episodio andas viendo?
 				
-				// Actualiza el character name que toca.
-				if (_taleName == "tale01") socket.emit("demandCharacterData",name,pass,"01");
+				// Variables de lógica que el servidor no requiere guardar.
+				var playerImageIndex = 0; // Qué frame dibuja.
+				var isMenu = false; // ¿Menú abierto?
+				var scaleMenu = 0; // ¿Scale del menú?
+				var xMenu = 0; // La x del centro del menú al clicar.
+				var yMenu = 0; // La y del centro del menú al clicar.
+				var xPlayer = -1; // La x del player.
+				var yPlayer = -1; // La y del player.
+				var dirAngular01 = 0; // Angular a velocidad 01.
+				
+				// Variables de servidor almacenadas.
+				var storedField = 0; // El campo de batalla.
+				var storedXPlayer = 0; // La x del player.
+				var storedYPlayer = 0; // La y del player.
+				var storedDirPlayer = 0; // La dir del player.
 			}
-			
-			// Resetea las tales.
-			function resetTales()
+			if (true) // ####################################################### Login. #######################################################
 			{
-				var i, tabcontent, tablinks;
-				tabcontent = document.getElementsByClassName("tabcontent");
-				for (i = 0; i < tabcontent.length; i++) {
-					tabcontent[i].style.display = "none";
-				}
-				tablinks = document.getElementsByClassName("tablinks");
-				for (i = 0; i < tablinks.length; i++) {
-					tablinks[i].className = tablinks[i].className.replace(" active", "");
-				}
-			}
-			
-			// Muestra cada episodio.
-			setChapterListener("01","01");
-			setChapterListener("01","02");
-			
-			// La lógica y el chequeo a base de datos si tenemos acceso a ese episodio.
-			function setChapterListener(_tale,_chapter)
-			{
-				$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
-					// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
-					socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor);
-					currentTale = _tale;
-					currentChapter = _chapter;
+				// Envia las señales del login.
+				$("#name").keypress((e) => {
+					if (e.key == "Enter") login();
 				});
-			}
-			
-			// Recibe las señales de comprobar chapter y cargar contenido.
-			socket.on("chapterSuccess", (_content) => {
-				$("#chapter").html(_content);
-				$("#chapter").css("display","block");
-				$("#game").css("display","block");
-				
-				// Al cargar el capítulo, carga los datos del minijuego asociado.
-				socket.emit("loop" + String(currentTale),name,pass,currentTale,currentChapter,"");
-			});
-			socket.on("chapterFail", () => {
-				$("#chapter").html("Tale's chapter not unlocked!");
-				$("#chapter").css("display","block");
-				$("#game").css("display","none");
-			});
-			
-			// Setea el nombre de tu personaje, el género y el color.
-			setCharacterListener("01");
-			
-			// La lógica del seteo de nombre.
-			function setCharacterListener(_tale)
-			{
-				// Nombre.
-				$("#charname"+String(_tale)).keypress((e) => {
-					if (e.key == "Enter")
-					{
-						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-						resetChapter();
-					}
+				$("#pass").keypress((e) => {
+					if (e.key == "Enter") login();
 				});
 				
-				// Género masculino o neutro.
-				$("#bt"+String(_tale)+"m").click((e) => {
-					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-					socket.emit("setCharacterGender",name,pass,_tale,"M");
-					resetChapter();
-				});
-				
-				// Género femenino.
-				$("#bt"+String(_tale)+"f").click((e) => {
-					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-					socket.emit("setCharacterGender",name,pass,_tale,"F");
-					resetChapter();
-				});
-				
-				// Color.
-				$("#sl"+String(_tale)).on("change", function() {
-					socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
-					socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
-					resetChapter();
-					$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
-				});
-				$("#sl"+String(_tale)).on("mousemove", function() {
-					$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
-				});
-			}
-			
-			function resetChapter()
-			{
-				$("#chapter").html("");
-				$("#chapter").css("display","none");
-				$("#game").css("display","none");
-				currentTale = 00;
-				currentChapter = 00;
-			}
-			
-			// Recibe el nombre actualizado.
-			socket.on("characterNameChanged", (_character) => {
-				currentCharacterName = _character;
-			});
-			
-			// Recibe el género actualizado.
-			socket.on("characterGenderChanged", (_gender) => {
-				currentCharacterGender = _gender;
-			});
-			
-			// Recibe el color actualizado.
-			socket.on("characterColorChanged", (_color) => {
-				currentCharacterColor = _color;
-			});
-			
-			// Carga el character name y gender al elegir una pestaña.
-			socket.on("receiveCharacterData", (_tale,_character,_gender,_color) => {
-				currentCharacterName = _character;
-				currentCharacterGender = _gender;
-				currentCharacterColor = _color;
-				$("#charname"+String(_tale)).val(_character);
-				$("#tdColor"+String(_tale)).css("background-color","hsl("+String(_color)+" 100% 50%)");
-				$("#sl"+String(_tale)).val(_color);
-			});
-			
-			// Varios botones con los que interactuar y enviar el loop al servidor.
-			$("#btnTurnLeft").click((e) => {
-				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
-			});
-			$("#btnTurnRight").click((e) => {
-				socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
-			});
-			
-			// Recibe el loop del servidor y actualiza tu ventana.
-			socket.on("looped01", (_dataPlayer,_dataEnemies) => {
-				// Data: player.
-				var _xPlayer = _dataPlayer.xPlayer;
-				var _yPlayer = _dataPlayer.yPlayer;
-				var _dirPlayer = _dataPlayer.dirPlayer;
-				
-				// Actualiza a dónde estás mirando.
-				var _look = "";
-				if 		(absAngleDifference(_dirPlayer,0) <= 22.5) _look = "este";
-				else if (absAngleDifference(_dirPlayer,45) <= 22.5) _look = "noreste";
-				else if (absAngleDifference(_dirPlayer,90) <= 22.5) _look = "norte";
-				else if (absAngleDifference(_dirPlayer,135) <= 22.5) _look = "noroeste";
-				else if (absAngleDifference(_dirPlayer,180) <= 22.5) _look = "oste";
-				else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
-				else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
-				else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
-				$("#isMirandoText").text("Estás mirando al " + String(_look));
-				$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
-				
-				// Actualiza qué hay en tu campo visual.
-				console.log("_dataEnemies",_dataEnemies);
-				var _txt = "";
-				for (var i = 0; i < _dataEnemies.length; ++i)
+				function login()
 				{
-					_txt += _dataEnemies.nameEnemy + "\n";
+					socket.emit("login",$("#name").val(),$("#pass").val());
 				}
-				$("#hasCampoVisual").text(_txt);
-			});
-			
-			// Cálculo.
-			function tiendeAX(_val,_obj,_inc)
+				
+				// Recibe las señales del login.
+				socket.on("newUserSuccess", (_name,_pass) => {
+					name = _name;
+					pass = _pass;
+					$("#msgSesion").text("Welcome to your account, "+String(name)+"!");
+					$("#content").css("display","inline");
+					resetTales();
+				});
+				socket.on("newUserFail", () => {
+					$("#msgSesion").text("Wrong password for that account!");
+					name = "";
+					pass = "";
+					$("#content").css("display","none");
+					resetTales();
+				});
+			}
+			if (true) // ####################################################### Sistema de tabs, tales y chapters. #######################################################
 			{
-				var _ret = _val;
+				// Maneja los tabs de las tales.
+				function openTale(_evt,_taleName) {
+					resetTales();
+					document.getElementById(_taleName).style.display = "block";
+					_evt.currentTarget.className += " active";
+					resetChapter();
+					currentCharacterName = "";
+					currentCharacterGender = "";
+					currentCharacterColor = "";
+					
+					// Actualiza el character name que toca.
+					if (_taleName == "tale01") socket.emit("demandCharacterData",name,pass,"01");
+				}
+				
+				// Resetea las tales.
+				function resetTales()
+				{
+					var i, tabcontent, tablinks;
+					tabcontent = document.getElementsByClassName("tabcontent");
+					for (i = 0; i < tabcontent.length; i++) {
+						tabcontent[i].style.display = "none";
+					}
+					tablinks = document.getElementsByClassName("tablinks");
+					for (i = 0; i < tablinks.length; i++) {
+						tablinks[i].className = tablinks[i].className.replace(" active", "");
+					}
+				}
+				
+				// Muestra cada episodio.
+				setChapterListener("01","01");
+				setChapterListener("01","02");
+				
+				// La lógica y el chequeo a base de datos si tenemos acceso a ese episodio.
+				function setChapterListener(_tale,_chapter)
+				{
+					$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
+						// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
+						socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor);
+						currentTale = _tale;
+						currentChapter = _chapter;
+					});
+				}
+				
+				// Recibe las señales de comprobar chapter y cargar contenido.
+				socket.on("chapterSuccess", (_content) => {
+					$("#chapter").html(_content);
+					$("#chapter").css("display","block");
+					$("#game").css("display","block");
+					
+					// Al cargar el capítulo, carga los datos del minijuego asociado.
+					socket.emit("loop" + String(currentTale),name,pass,currentTale,currentChapter,"");
+				});
+				socket.on("chapterFail", () => {
+					$("#chapter").html("Tale's chapter not unlocked!");
+					$("#chapter").css("display","block");
+					$("#game").css("display","none");
+				});
+			
+				function resetChapter()
+				{
+					$("#chapter").html("");
+					$("#chapter").css("display","none");
+					$("#game").css("display","none");
+					currentTale = 00;
+					currentChapter = 00;
+				}
+			}
+			if (true) // ####################################################### Setea los datos de tu personaje para la tale 01. #######################################################
+			{
+				// Setea el nombre de tu personaje, el género y el color.
+				setCharacterListener("01");
+				
+				// La lógica del seteo de nombre.
+				function setCharacterListener(_tale)
+				{
+					// Nombre.
+					$("#charname"+String(_tale)).keypress((e) => {
+						if (e.key == "Enter")
+						{
+							socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+							resetChapter();
+						}
+					});
+					
+					// Género masculino o neutro.
+					$("#bt"+String(_tale)+"m").click((e) => {
+						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+						socket.emit("setCharacterGender",name,pass,_tale,"M");
+						resetChapter();
+					});
+					
+					// Género femenino.
+					$("#bt"+String(_tale)+"f").click((e) => {
+						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+						socket.emit("setCharacterGender",name,pass,_tale,"F");
+						resetChapter();
+					});
+					
+					// Color.
+					$("#sl"+String(_tale)).on("change", function() {
+						socket.emit("setCharacterName",name,pass,_tale,$("#charname"+String(_tale)).val());
+						socket.emit("setCharacterColor",name,pass,_tale,$(this).val());
+						resetChapter();
+						$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
+					});
+					$("#sl"+String(_tale)).on("mousemove", function() {
+						$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
+					});
+				}
+			}
+			if (true) // ####################################################### Gestiona los datos de tu personaje. #######################################################
+			{
+				// Recibe el nombre actualizado.
+				socket.on("characterNameChanged", (_character) => {
+					currentCharacterName = _character;
+				});
+				
+				// Recibe el género actualizado.
+				socket.on("characterGenderChanged", (_gender) => {
+					currentCharacterGender = _gender;
+				});
+				
+				// Recibe el color actualizado.
+				socket.on("characterColorChanged", (_color) => {
+					currentCharacterColor = _color;
+				});
+				
+				// Carga el character name y gender al elegir una pestaña.
+				socket.on("receiveCharacterData", (_tale,_character,_gender,_color) => {
+					currentCharacterName = _character;
+					currentCharacterGender = _gender;
+					currentCharacterColor = _color;
+					$("#charname"+String(_tale)).val(_character);
+					$("#tdColor"+String(_tale)).css("background-color","hsl("+String(_color)+" 100% 50%)");
+					$("#sl"+String(_tale)).val(_color);
+				});
+			}
+			if (true) // ####################################################### Lógica de tale 01. #######################################################
+			{
+				// Varios botones con los que interactuar y enviar el loop al servidor.
+				$("#btnTurnLeft").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
+				});
+				$("#btnTurnRight").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
+				});
+				
+				// Recibe el loop del servidor y actualiza tu ventana.
+				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
+					// Data: player.
+					var _xPlayer = _dataPlayer.xPlayer;
+					var _yPlayer = _dataPlayer.yPlayer;
+					var _dirPlayer = _dataPlayer.dirPlayer;
+					
+					// Actualiza a dónde estás mirando.
+					var _look = "";
+					if 		(absAngleDifference(_dirPlayer,0) <= 22.5) _look = "este";
+					else if (absAngleDifference(_dirPlayer,45) <= 22.5) _look = "noreste";
+					else if (absAngleDifference(_dirPlayer,90) <= 22.5) _look = "norte";
+					else if (absAngleDifference(_dirPlayer,135) <= 22.5) _look = "noroeste";
+					else if (absAngleDifference(_dirPlayer,180) <= 22.5) _look = "oste";
+					else if (absAngleDifference(_dirPlayer,225) <= 22.5) _look = "suroeste";
+					else if (absAngleDifference(_dirPlayer,270) <= 22.5) _look = "sur";
+					else if (absAngleDifference(_dirPlayer,315) <= 22.5) _look = "sureste";
+					$("#isMirandoText").text("Estás mirando al " + String(_look));
+					$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
+					
+					// Actualiza qué hay en tu campo visual.
+					var _txt = "";
+					for (var i = 0; i < _dataEnemies.length; ++i)
+					{
+						_txt += _dataEnemies[i].nameEnemy + "\n";
+					}
+					$("#hasCampoVisual").text(_txt);
+				});
+			}
+			if (true) // ####################################################### Scripts. #######################################################
+			{
+				function tiendeAX(_val,_obj,_inc)
+				{
+					var _ret = _val;
 
-				if ( _inc == 0 ) return _obj;
+					if ( _inc == 0 ) return _obj;
 
-				if ( _ret < _obj ) _ret = Math.min( _ret + _inc, _obj );
-				else _ret = Math.max( _ret - _inc, _obj );
+					if ( _ret < _obj ) _ret = Math.min( _ret + _inc, _obj );
+					else _ret = Math.max( _ret - _inc, _obj );
 
-				return _ret;
-			}
-			
-			function dcos(_ang)
-			{
-				return Math.cos(_ang*Math.PI/180);
-			}
-			
-			function dsin(_ang)
-			{
-				return Math.sin(_ang*Math.PI/180);
-			}
-			
-			function pointDistance(_x1,_y1,_x2,_y2)
-			{
-				return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_y1-_y2,2));
-			}
-			
-			function angular(_dir)
-			{
-				return (_dir%360 + 360)%360;
-			}
-			
-			function pointDirection(_x1,_y1,_x2,_y2)
-			{
-				return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
-			}
-			
-			function absAngleDifference(_a1,_a2)
-			{
-				var _phi = Math.abs(_a2-_a1)%360;
-				var _distance = _phi > 180 ? 360 - _phi : _phi;
-				return _distance;
+					return _ret;
+				}
+				
+				function dcos(_ang)
+				{
+					return Math.cos(_ang*Math.PI/180);
+				}
+				
+				function dsin(_ang)
+				{
+					return Math.sin(_ang*Math.PI/180);
+				}
+				
+				function pointDistance(_x1,_y1,_x2,_y2)
+				{
+					return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_y1-_y2,2));
+				}
+				
+				function angular(_dir)
+				{
+					return (_dir%360 + 360)%360;
+				}
+				
+				function pointDirection(_x1,_y1,_x2,_y2)
+				{
+					return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
+				}
+				
+				function absAngleDifference(_a1,_a2)
+				{
+					var _phi = Math.abs(_a2-_a1)%360;
+					var _distance = _phi > 180 ? 360 - _phi : _phi;
+					return _distance;
+				}
 			}
 		</script>
-		
 	</body>
 </html>
