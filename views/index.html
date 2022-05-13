@@ -340,6 +340,7 @@
 						if (_diff > 20) _lado = "a tu derecha";
 						else if (_diff < -20) _lado = "a tu izquierda";
 						var _inVision = Math.abs(_diff) <= 70;
+						console.log("_diff",_diff);
 						var _isNitido = _inVision && absAngleDifference(_dirPlayer,_dirToEnemy) <= 30;
 						if (_inVision)
 						{
