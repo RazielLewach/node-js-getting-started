@@ -162,7 +162,7 @@ io.on("connection", async (_socket) => {
 			if (selUsers.rowCount > 0)
 			{
 				// Lee el estado actual del jugador.
-				doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {					
+				doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {
 					// Las coordenadas del player.
 					var _xPlayer = selEnvironment.rows[0].xplayer;
 					var _yPlayer = selEnvironment.rows[0].yplayer;
@@ -173,7 +173,7 @@ io.on("connection", async (_socket) => {
 					else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
 					
 					// Data: Player.
-					var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer
+					var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
 				
 					// Guarda los datos.
 					doQuery("UPDATE environments01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
