@@ -339,14 +339,12 @@
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						if (Math.abs(_diffe) <= 70)
 						{
-							var _lado = "frente a ti";
-							if (_diffe > 20) _lado = "a tu derecha";
-							else if (_diffe < -20) _lado = "a tu izquierda";
-							var _plus = "";
-							if (_diffe > 0) _plus = "+";
-							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " (" + String(_plus) + String(_diffe) + "º). ";
+							var _lado = "";
+							if (_diffe > 0) _lado = "a tu derecha";
+							else _lado = "a tu izquierda";
+							_txt += _dataEnemies[i].nameEnemy + " a " + String(Math.abs(Math.round(-_diffe))) + "º " + _lado + ". ";
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
-								_txt += "Blablabla";
+								_txt += "ESTÁ MAMADÍSIMO.";
 							else
 								_txt += "No puedes verlo claramente.";
 							_txt += "\n";

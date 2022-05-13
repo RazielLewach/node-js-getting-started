@@ -218,6 +218,6 @@ io.on("connection", async (_socket) => {
 
 	function pointDirection(_x1,_y1,_x2,_y2)
 	{
-		return angular(Math.atan2(-(_y1-_y2),_x1-_x2)*180/Math.PI);
+		return angular(Math.atan2(-(_y2-_y1),_x2-_x1)*180/Math.PI);
 	}
 //}
