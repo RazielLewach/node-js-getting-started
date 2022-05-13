@@ -1,20 +1,20 @@
 if (true) // ####################################################### Inicializaciones. #######################################################
 {
 	// Init.
-	const express = require('express');
-	const http = require("http");
-	const fs = require("fs");
-	const port = process.env.PORT || 5000;
+	var express = require('express');
+	var http = require("http");
+	var fs = require("fs");
+	var port = process.env.PORT || 5000;
 
 	// Sockets.
-	const app = express();
-	const server = http.createServer(app);
-	const { Server } = require("socket.io");
-	const io = new Server(server);
+	var app = express();
+	var server = http.createServer(app);
+	var { Server } = require("socket.io");
+	var io = new Server(server);
 
 	// PostgreSQL.
-	const { Pool } = require('pg');
-	const pool = new Pool({
+	var { Pool } = require('pg');
+	var pool = new Pool({
 	  connectionString: process.env.DATABASE_URL,
 	  ssl: {
 		rejectUnauthorized: false
