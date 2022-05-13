@@ -334,13 +334,12 @@
 					var _txt = "";
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xenemy,_dataEnemies[i].yenemy);
+						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						var _lado = "frente a ti";
 						if (_diffe > 20) _lado = "a tu derecha";
 						else if (_diffe < -20) _lado = "a tu izquierda";
 						var _inVision = Math.abs(_diffe) <= 70;
-						console.log("_diffe",_diffe);
 						var _isNitido = _inVision && absAngleDifference(_dirPlayer,_dirToEnemy) <= 30;
 						if (_inVision)
 						{
@@ -394,9 +393,6 @@
 				function angleDifference(_a1,_a2)
 				{
 					var _diff = ( _a2 - _a1 + 180 ) % 360 - 180;
-					console.log("a1",_a1);
-					console.log("a2",_a2);
-					console.log("A",_diff);
 					return _diff < -180 ? _diff + 360 : _diff;
 				}
 			}
