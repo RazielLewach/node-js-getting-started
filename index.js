@@ -73,11 +73,11 @@ io.on("connection", async (_socket) => {
 						});
 						
 						// ... y posteriormente accede a BD para ver si inicializar los datos del chapter si no existen o si estabas con otro anterior.
-						// Si no estás viendo ningún chapter, o es distinto al que has seleccionado, inicializa los datos de ese chapter y tale.
+						// Si no estás viendo ningún chapter, o es distinto al que has seleccionado, inicializa los datos de ese chapter y tale. En caso contrario no hará nada: los datos ya son válidos y "carga partida".
 						if ((selUsers.rows[0].taleplaying == '00' && selUsers.rows[0].chapterplaying == '00') || (selUsers.rows[0].taleplaying != _tale && selUsers.rows[0].chapterplaying != _chapter))
 						{
 							// Actualiza qué tale y chapter estás leyendo.
-							doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapter = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';");
+							doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapterplaying = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';");
 							
 							// Limpia el entorno y todos los datos.
 							doQuery("DELETE FROM environments01 where name = '"+String(_name)+"';");
