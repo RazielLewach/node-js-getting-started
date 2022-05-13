@@ -335,16 +335,16 @@
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xenemy,_dataEnemies[i].yenemy);
-						var _diff = angleDifference(_dirPlayer,_dirToEnemy);
+						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						var _lado = "frente a ti";
-						if (_diff > 20) _lado = "a tu derecha";
-						else if (_diff < -20) _lado = "a tu izquierda";
-						var _inVision = Math.abs(_diff) <= 70;
-						console.log("_diff",_diff);
+						if (_diffe > 20) _lado = "a tu derecha";
+						else if (_diffe < -20) _lado = "a tu izquierda";
+						var _inVision = Math.abs(_diffe) <= 70;
+						console.log("_diffe",_diffe);
 						var _isNitido = _inVision && absAngleDifference(_dirPlayer,_dirToEnemy) <= 30;
 						if (_inVision)
 						{
-							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " +(" + String(_diff) + "º). ";
+							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " +(" + String(_diffe) + "º). ";
 							if (_isNitido) _txt += "Blablabla";
 							else _txt += "No puedes verlo claramente.";
 							_txt += "\n";
