@@ -335,13 +335,16 @@
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
+						console.log("_dirToEnemy",_dirToEnemy);
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						if (Math.abs(_diffe) <= 70)
 						{
 							var _lado = "frente a ti";
 							if (_diffe > 20) _lado = "a tu derecha";
 							else if (_diffe < -20) _lado = "a tu izquierda";
-							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " +(" + String(_diffe) + "º). ";
+							var _plus = "";
+							if (_diffe > 0) _plus = "+";
+							_txt += _dataEnemies[i].nameEnemy + " " + String(_lado) + " (" + String(_plus) + String(_diffe) + "º). ";
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 								_txt += "Blablabla";
 							else
