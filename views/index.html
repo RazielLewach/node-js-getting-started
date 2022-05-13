@@ -334,8 +334,8 @@
 					var _txt = "";
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						var _diff = angleDifference(_dirPlayer,_dirToEnemy);
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xenemy,_dataEnemies[i].yenemy);
+						var _diff = angleDifference(_dirPlayer,_dirToEnemy);
 						var _lado = "frente a ti";
 						if (_diff > 20) _lado = "a tu derecha";
 						else if (_diff < -20) _lado = "a tu izquierda";
