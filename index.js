@@ -1,10 +1,13 @@
 //{ ####################################################### Inicializaciones. #######################################################
+	// Imports.
+	import {FliwerColors} from './tools/scripts.js'
+	
 	// Init.
 	var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
 	var port = process.env.PORT || 5000;
-
+	
 	// Sockets.
 	var app = express();
 	var server = http.createServer(app);
