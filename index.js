@@ -162,14 +162,27 @@ io.on("connection", async (_socket) => {
 				{
 					// Lee el estado actual del jugador.
 					doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {
+						// La dirección del player.
+						var _dirPlayer = selEnvironment.rows[0].dirplayer;
+						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+10);
+						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-10);
+						
 						// Las coordenadas del player.
 						var _xPlayer = selEnvironment.rows[0].xplayer;
 						var _yPlayer = selEnvironment.rows[0].yplayer;
 						
-						// La dirección del player.
-						var _dirPlayer = selEnvironment.rows[0].dirplayer;
-						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+15);
-						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-15);
+						// Muévete.
+						var _spd = 5;
+						if (_event == "clickMoveForwards")
+						{
+							_xPlayer += _spd*dcos(_dirPlayer);
+							_yPlayer -= _spd*dsin(_dirPlayer);
+						}
+						else if (_event == "clickMoveBackwards")
+						{
+							_xPlayer -= _spd*dcos(_dirPlayer);
+							_yPlayer += _spd*dsin(_dirPlayer);
+						}
 						
 						// Data: Player.
 						var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
@@ -210,7 +223,17 @@ io.on("connection", async (_socket) => {
 		});
 	}
 
-	// Scripts.
+	// Scripts.	
+	function dcos(_ang)
+	{
+		return Math.cos(_ang*Math.PI/180);
+	}
+	
+	function dsin(_ang)
+	{
+		return Math.sin(_ang*Math.PI/180);
+	}
+	
 	function angular(_dir)
 	{
 		return (_dir%360 + 360)%360;

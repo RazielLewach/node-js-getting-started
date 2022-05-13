@@ -95,8 +95,12 @@
 				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 				
 				<!-- Los comandos -->
-				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 10px;">Girar a la izquierda</button>
-				<button id="btnTurnRight" style="position: absolute; left: 450px; top: 10px;">Girar a la derecha</button>
+				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 10px;">Girar izquierda</button>
+				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 10px;">Girar derecha</button>
+				<button id="btnMoveForwards" style="position: absolute; left: 410px; top: 50px;">Adelante</button>
+				<button id="btnMoveBackwards" style="position: absolute; left: 410px; top: 90px;">Atrás</button>
+				<button id="btnMoveRight" style="position: absolute; left: 360px; top: 70px;">Izquierda</button>
+				<button id="btnMoveRight" style="position: absolute; left: 460px; top: 70px;">Derecha</button>
 				
 				<!-- Los datos a mostrar-->
 				<p id="isMirandoText" style="position: absolute; left: 310px; top: 40px;"></p>
@@ -309,6 +313,18 @@
 				$("#btnTurnRight").click((e) => {
 					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
 				});
+				$("#btnMoveForwards").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveForwards");
+				});
+				$("#btnMoveBackwards").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveBackwards");
+				});
+				$("#btnMoveRight").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveRight");
+				});
+				$("#btnMoveLeft").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveLeft");
+				});
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
@@ -332,24 +348,41 @@
 					
 					// Actualiza qué hay en tu campo visual.
 					var _txt = "";
+					// Para cada enemigo...
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
-						console.log("_dirToEnemy",_dirToEnemy);
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
+						// Si el enemigo está en tu campo visual...
 						if (Math.abs(_diffe) <= 70)
 						{
+							// ... indica el ángulo con el que ves el enemigo.
 							var _lado = "";
 							if (_diffe < 0) _lado = "a tu derecha";
 							else _lado = "a tu izquierda";
 							_txt += _dataEnemies[i].nameEnemy + " a " + String(Math.abs(Math.round(-_diffe))) + "º " + _lado + ". ";
+							
+							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
-								_txt += "ESTÁ MAMADÍSIMO.";
+								// ... indica su dirección de mirada.
+								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
+								var _diffToPlayer = angleDifference(_dataEnemies[i].dirEnemy,_dirToPlayer);
+								var _pos = "";
+								if (Math.abs(_diffToPlayer) <= 45) _pos = "mirándote";
+								else if (Math.abs(_diffToPlayer) >= 135) _pos = "de espaldas";
+								else
+								{
+									if (_diffToPlayer < 0) _pos = "mirando a tu derecha";
+									else _pos = "mirando a tu izquierda";
+								}
+								_txt += "Está " + String(_pos) + ".";
+							// Si no, no ves nada de él.
 							else
 								_txt += "No puedes verlo claramente.";
 							_txt += "\n";
 						}
 					}
+					if (_txt == "") _txt = "No ves nada.";
 					$("#hasCampoVisual").text(_txt);
 				});
 			}
