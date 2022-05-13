@@ -1,6 +1,6 @@
 //{ ####################################################### Inicializaciones. #######################################################
 	// Imports.
-	import {FliwerColors} from './tools/scripts.js'
+	import {scripts} from './tools/scripts.js'
 	
 	// Init.
 	var express = require('express');
