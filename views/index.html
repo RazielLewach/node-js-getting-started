@@ -394,6 +394,8 @@
 				function angleDifference(_a1,_a2)
 				{
 					var _diff = ( _a2 - _a1 + 180 ) % 360 - 180;
+					console.log("a1",_a1);
+					console.log("a2",_a2);
 					console.log("A",_diff);
 					return _diff < -180 ? _diff + 360 : _diff;
 				}
