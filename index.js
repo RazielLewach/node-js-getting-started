@@ -1,6 +1,6 @@
 //{ ####################################################### Inicializaciones. #######################################################
 	// Imports.
-	var scripts = require('./tools/scripts.js)'
+	var scripts = require('./tools/scripts.js');
 	
 	// Init.
 	var express = require('express');
