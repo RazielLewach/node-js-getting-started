@@ -340,7 +340,7 @@
 						if (Math.abs(_diffe) <= 70)
 						{
 							var _lado = "";
-							if (_diffe > 0) _lado = "a tu derecha";
+							if (_diffe < 0) _lado = "a tu derecha";
 							else _lado = "a tu izquierda";
 							_txt += _dataEnemies[i].nameEnemy + " a " + String(Math.abs(Math.round(-_diffe))) + "º " + _lado + ". ";
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
