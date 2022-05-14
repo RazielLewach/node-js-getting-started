@@ -166,17 +166,21 @@ io.on("connection", async (_socket) => {
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
 						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+10);
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-10);
+						else if (_event == "clickLookAt") 
 						
 						// Las coordenadas del player.
 						var _xPlayer = selEnvironment.rows[0].xplayer;
 						var _yPlayer = selEnvironment.rows[0].yplayer;
 						
 						// Muévete.
-						var _spd = 100, _dir = 0;
+						var _spd = 100, _dir = -1;
 						if (_event == "clickMoveForwards") _dir = _dirPlayer;
 						else if (_event == "clickMoveBackwards") _dir = _dirPlayer+180;
-						_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
-						_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
+						if (_dir != -1)
+						{
+							_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
+							_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
+						}
 						
 						// Data: Player.
 						var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};

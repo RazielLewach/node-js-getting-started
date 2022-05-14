@@ -316,10 +316,6 @@
 				$("#btnMoveBackwards").click((e) => {
 					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveBackwards");
 				});
-				$("#lisVisualField").children("li").children("button").click((e) => {
-					console.log(e);
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(e));
-				});
 			
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
@@ -392,6 +388,12 @@
 							if (i < 10) _i = "0"+i;
 							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_i)+"'>Mirar a:</button>"+String(_txt)+"</li>");
 						}
+						
+						// Asigna los listeners a los nuevos botones.
+						$("#lisVisualField").children("li").children("button").click((e) => {
+							console.log(e);
+							socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(e));
+						});
 					}
 					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
 				});
