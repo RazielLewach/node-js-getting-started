@@ -168,7 +168,7 @@ io.on("connection", async (_socket) => {
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-10);
 						else if (_event.substr(0,9) == "btnMirarA")
 						{
-							
+							_dirPlayer = _event.substr(9,3);
 						}
 						
 						// Las coordenadas del player.
