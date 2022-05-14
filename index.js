@@ -168,8 +168,8 @@ io.on("connection", async (_socket) => {
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-10);
 						
 						// Las coordenadas del player.
-						var _xPlayer = selEnvironment.rows[0].xplayer;
-						var _yPlayer = selEnvironment.rows[0].yplayer;
+						var _xPlayer = ParseFloat(selEnvironment.rows[0].xplayer);
+						var _yPlayer = ParseFloat(selEnvironment.rows[0].yplayer);
 						
 						// Muévete.
 						var _spd = 5;
