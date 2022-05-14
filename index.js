@@ -172,7 +172,7 @@ io.on("connection", async (_socket) => {
 						var _yPlayer = selEnvironment.rows[0].yplayer;
 						
 						// Muévete.
-						var _spd = 5;
+						var _spd = 100;
 						if (_event == "clickMoveForwards")
 						{
 							_xPlayer = Math.round(_xPlayer+_spd*dcos(_dirPlayer));
