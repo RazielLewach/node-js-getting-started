@@ -168,22 +168,20 @@ io.on("connection", async (_socket) => {
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-10);
 						
 						// Las coordenadas del player.
-						var _xPlayer = parseFloat(selEnvironment.rows[0].xplayer);
-						var _yPlayer = parseFloat(selEnvironment.rows[0].yplayer);
+						var _xPlayer = selEnvironment.rows[0].xplayer;
+						var _yPlayer = selEnvironment.rows[0].yplayer;
 						
 						// Muévete.
 						var _spd = 5;
 						if (_event == "clickMoveForwards")
 						{
-							_xPlayer += _spd*dcos(_dirPlayer);
-							/*_xPlayer += _spd*dcos(_dirPlayer);
-							_yPlayer -= _spd*dsin(_dirPlayer);*/
-							console.log("forwards");
+							_xPlayer = Math.round(_xPlayer+_spd*dcos(_dirPlayer));
+							_yPlayer = Math.round(_yPlayer-_spd*dsin(_dirPlayer));
 						}
 						else if (_event == "clickMoveBackwards")
 						{
-							_xPlayer -= _spd*dcos(_dirPlayer);
-							_yPlayer += _spd*dsin(_dirPlayer);
+							_xPlayer = Math.round(_xPlayer-_spd*dcos(_dirPlayer));
+							_yPlayer = Math.round(_yPlayer+_spd*dsin(_dirPlayer));
 						}
 						
 						// Data: Player.
