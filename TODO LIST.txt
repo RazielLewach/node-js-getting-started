@@ -1,7 +1,8 @@
 ###### TODO ######
-- Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
+- ¿Hacer estados del player y enemigo? Poder hacer cosas, interactuar.
 
 ###### DONE ######
+- Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
 - Fijar blanco no saca el mensaje "enemigo frente a ti"
 - Cambiar el HTML que muestra las cosas en tu campo visual para que sea una lista y puedas añadir los elementos realmente. Añadir a cada uno un botón para fijar blanco. Y así al limpiar todos los botones al inicio, podrás localizarlos.
 - Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.

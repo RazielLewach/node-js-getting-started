@@ -148,6 +148,7 @@
 				function login()
 				{
 					socket.emit("login",$("#name").val(),$("#pass").val());
+					resetChapter();
 				}
 				
 				// Recibe las señales del login.
