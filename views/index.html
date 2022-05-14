@@ -350,13 +350,13 @@
 						if (Math.abs(_diffe) <= 70)
 						{
 							// ... indica el ángulo con el que ves el enemigo.
-							var _lado = " frente a ti.";
+							var _lado = " frente a ti. ";
 							if (_diffe < -1) _lado = " a tu derecha. ";
 							else if (_diffe > 1) _lado = " a tu izquierda. ";
 							var _txt = _dataEnemies[i].nameEnemy + _lado;
 							
 							// Si lo ves bien porque está centrado...
-							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 45)
+							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 							{
 								// ... indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
