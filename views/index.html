@@ -397,6 +397,7 @@
 							if (_i >= 0 && _i < _dirs.length)
 							{
 								var _dir = _dirs[_i];
+								console.log(_dir);
 								socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
 							}
 						});
