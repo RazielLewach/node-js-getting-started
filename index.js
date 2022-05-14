@@ -175,7 +175,7 @@ io.on("connection", async (_socket) => {
 						var _spd = 5;
 						if (_event == "clickMoveForwards")
 						{
-							_spd*dcos(_dirPlayer);
+							_xPlayer += _spd*dcos(_dirPlayer);
 							/*_xPlayer += _spd*dcos(_dirPlayer);
 							_yPlayer -= _spd*dsin(_dirPlayer);*/
 							console.log("forwards");
