@@ -351,6 +351,7 @@
 						{
 							// ... indica el ángulo con el que ves el enemigo.
 							var _lado = " frente a ti.";
+							console.log("_diffe",_diffe);
 							if (_diffe < 1) _lado = " a tu derecha. ";
 							else if (_diffe > 1) _lado = " a tu izquierda. ";
 							var _txt = _dataEnemies[i].nameEnemy + _lado;
@@ -391,7 +392,6 @@
 						// Asigna los listeners a los nuevos botones.
 						$("#lisVisualField").children("li").children("button").click((e) => {
 							var _dir = $(e.target).attr("id").substr(9,3);
-							console.log("_dir",_dir);
 							socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
 						});
 					}

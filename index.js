@@ -166,11 +166,7 @@ io.on("connection", async (_socket) => {
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
 						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
-						else if (_event.substr(0,11) == "clickLookAt")
-						{
-							_dirPlayer = _event.substr(11,3);
-							console.log("_dirPlayer",_dirPlayer);
-						}
+						else if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
 						
 						// Las coordenadas del player.
 						var _xPlayer = selEnvironment.rows[0].xplayer;
