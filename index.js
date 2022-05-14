@@ -177,6 +177,7 @@ io.on("connection", async (_socket) => {
 						{
 							_xPlayer += _spd*dcos(_dirPlayer);
 							_yPlayer -= _spd*dsin(_dirPlayer);
+							console.log("forwards");
 						}
 						else if (_event == "clickMoveBackwards")
 						{
