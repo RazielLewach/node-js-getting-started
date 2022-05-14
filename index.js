@@ -172,17 +172,13 @@ io.on("connection", async (_socket) => {
 						var _yPlayer = selEnvironment.rows[0].yplayer;
 						
 						// Muévete.
-						var _spd = 100;
-						if (_event == "clickMoveForwards")
-						{
-							_xPlayer = Math.round(_xPlayer+_spd*dcos(_dirPlayer));
-							_yPlayer = Math.round(_yPlayer-_spd*dsin(_dirPlayer));
-						}
-						else if (_event == "clickMoveBackwards")
-						{
-							_xPlayer = Math.round(_xPlayer-_spd*dcos(_dirPlayer));
-							_yPlayer = Math.round(_yPlayer+_spd*dsin(_dirPlayer));
-						}
+						var _spd = 100, _dir = 0;
+						if (_event == "clickMoveForwards") _dir = _dirPlayer;
+						else if (_event == "clickMoveBackwards") _dir = _dirPlayer+180;
+						else if (_event == "clickMoveRight") _dir = _dirPlayer-90;
+						else if (_event == "clickMoveLeft") _dir = _dirPlayer+90;
+						_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
+						_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
 						
 						// Data: Player.
 						var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
