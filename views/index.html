@@ -376,7 +376,14 @@
 									if (_diffToPlayer < 0) _pos = "mirando a tu derecha";
 									else _pos = "mirando a tu izquierda";
 								}
-								_txt += "Está " + String(_pos) + ".";
+								
+								// ... y su distancia.
+								var _dist = Math.ceil(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100);
+								var _s = "";
+								if (_dist > 0) _s = "s";
+								
+								// Pos muestra nomás.
+								_txt += "Está " + String(_pos) + " a " + String(_dist) + " metro" + String(_s) + " de distancia.";
 							}
 							// Si no, no ves nada de él.
 							else
