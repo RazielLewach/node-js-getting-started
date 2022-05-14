@@ -342,9 +342,11 @@
 					
 					// Luego, para cada enemigo...
 					var _found = false;
+					var _dirs = [];
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
+						_dirs.push(_dirToEnemy);
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						// Si el enemigo está en tu campo visual...
 						if (Math.abs(_diffe) <= 70)
@@ -392,7 +394,12 @@
 						// Asigna los listeners a los nuevos botones.
 						$("#lisVisualField").children("li").children("button").click((e) => {
 							console.log(e);
-							socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(e));
+							var _i = $(e.target).text().substr(9,2);
+							if (_i >= 0 && _i < _dirs.length)
+							{
+								var _dir = _dirs[_i];
+								socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
+							}
 						});
 					}
 					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
