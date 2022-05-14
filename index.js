@@ -169,6 +169,7 @@ io.on("connection", async (_socket) => {
 						else if (_event.substr(0,11) == "clickLookAt")
 						{
 							_dirPlayer = _event.substr(11,3);
+							console.log("_dirPlayer",_dirPlayer);
 						}
 						
 						// Las coordenadas del player.
