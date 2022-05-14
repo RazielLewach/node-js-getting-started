@@ -1,7 +1,8 @@
 ###### TODO ######
-- Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.
+- Cambiar el HTML que muestra las cosas en tu campo visual para que sea una lista y puedas añadir los elementos realmente. Añadir a cada uno un botón para fijar blanco. Y así al limpiar todos los botones al inicio, podrás localizarlos.
 
 ###### DONE ######
+- Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.
 - Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
 - Entra en el código de MOVE pero no te mueves.
 - El hover funciona fatal.
@@ -10,59 +11,10 @@
 
 
 ###### INFO AND ANNOTATIONS ######
-Borrar el canvas. Dejar el loop interno.
-El sprite de tu PJ y los botones de acción siguen.
-GIRAR - AVANZAR - INTERACTUAR - ATACAR - (un botón por cada habilidad que poseas)
-Al lado, en texto, te dice actualizándose en tiempo real todos los elementos que ves en esa dirección (enemigos, interactuables...), ordenados según amplitud del ángulo, y la distancia a cada uno.
-Sin casillas. Coordenadas libres.
-Arriba en texto te dice a dónde estás mirando (norte, sur...).
+Concepto: al estar enfocado esto a gente que le gusta leer (pero sólo si lees algo interesante) + no matarme para no abandonar: ¿Que el juego tenga texto?
+- Aunque gusten de leer, sólo gusta si es algo interesante. ¿Puedo hacer que el texto del juego sea interesante y la jugabilidad no sea aburrida?
 
-
-
-
-
-
-
-OLD STUFF?
-Minijuego como el de la física que hice. Va por turnos y por casillas. Cada turno eliges si te quedas quieto, si te mueves a una casilla adyacente, atacas a una casilla adyacente, te defiendes de una casilla adyacente, o usas una habilidad. En el instante en que acabas tu turno, todos los demás enemigos ejecutan sus turnos a la vez. Más enfoque en la batalla (enemigos con barras de vida, diversos ataques, etc) y menos en el entorno. La primera batalla será 100% batalla contra el señor de la pala. Luego, cada batalla tendrá interacciones adicionales únicas según cada situación ocurrida en la trama (minijuegos, puzzles, objetivos secundarios o principales que no sean luchar, o junto a luchar...)
-
-PROGRESIÓN
-La principal progresión es obtener nuevas habilidades para ser más versátil y poder equiparlas y usarlas cuando necesites. Máximo 5 a la vez equipadas. Además de eso, está tu poder. Atributos varios como el daño que causas, cuánta vida tienes, y demás para hacer más interesante todo (pensarlos). Sin embargo, la diferencia es mínima. Entre el inicio del juego, y el final de la historia, cada atributo podrás como máximo llegar a duplicarlo, y como hay muchos atributos, te costará y debes gestionar. Básicamente que hacerte más fuerte no sea algo excesivo que trivialice nada. Que tú puedas repetir batallas anteriores con tu fuerza actual y no sean un paseo. Los stats son una ayuda útil pero que no cambien ni decidan nada demasiado fuertemente.
-
-Podrás resetear tus stats y tus habilidades equipadas, y visualizarlo todo, en cualquier momento, desde el panel derecho, siempre visible en todo momento. Éste muestra además tu estado, progreso, y un sprite detallado de ti, y una referencia a tu color (núcleo en el pecho). Sin embargo, modificar algo aquí reiniciará cualquier juego en proceso.
-
-CONTROLES
-Al clicar a cualquier casilla, el PJ mirará a ésta, y aparecerá un menú circular con: cancelar (no hacer nada), esperar (pasa un turno), moverte (te moverás en diagonal una casilla), y tus ataques y habilidades.
-
-AÑADIR PEQUEÑOS SPRITES ANIMADOS EN EL PROCESO? (PIXEL ART) MOSTRANDO COSAS COMO LA MASA GELATINOSA TOMANDO FORMA. ¿PODRIA SER INTERACTIVO?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Opción: enfocarlo menos al posicionamiento y más a la acción directa con el otro en relativo a.
+- Botones de mirar a los lados igual para buscar blanco.
+- Quitar el movimiento raro arcaico y poner botón de fijar blanco, y que los botones de movimientos sean relativos al blanco.
+- Quitar el movimiento lateral, sólo avanzar y retroceder respecto al blanco fijado, menos complicación innecesaria.

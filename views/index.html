@@ -95,18 +95,16 @@
 				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 				
 				<!-- Los comandos -->
-				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 10px;">Girar izquierda</button>
-				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 10px;">Girar derecha</button>
-				<button id="btnMoveForwards" style="position: absolute; left: 420px; top: 30px;">Adelante</button>
-				<button id="btnMoveBackwards" style="position: absolute; left: 420px; top: 70px;">Atrás</button>
-				<button id="btnMoveLeft" style="position: absolute; left: 370px; top: 50px;">Izquierda</button>
-				<button id="btnMoveRight" style="position: absolute; left: 470px; top: 50px;">Derecha</button>
+				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 40px;">Mirar izquierda</button>
+				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 40px;">Mirar derecha</button>
+				<button id="btnMoveForwards" style="position: absolute; left: 420px; top: 10px;">Avanzar</button>
+				<button id="btnMoveBackwards" style="position: absolute; left: 420px; top: 40px;">Retroceder</button>
 				
 				<!-- Los datos a mostrar-->
 				<p id="isMirandoText" style="position: absolute; left: 310px; top: 100px;"></p>
-				<p id="isMirandoAngle" style="position: absolute; left: 540px; top: 100px;"></p>
 				<p style="position: absolute; left: 310px; top: 130px;">En tu campo visual:</p>
-				<p id="hasCampoVisual" style="position: absolute; left: 330px; top: 160px;"></p>
+				<ul id="lisVisualField"></ul>
+				<p id="hasCampoVisual" style="position: absolute; left: 360px; top: 160px;"></p>
 				
 			</div>
 		</div>
@@ -319,13 +317,11 @@
 				$("#btnMoveBackwards").click((e) => {
 					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveBackwards");
 				});
-				$("#btnMoveRight").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveRight");
+				$("#lisVisualField").children("li").children("button").click((e) => {
+					console.log(e);
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(e));
 				});
-				$("#btnMoveLeft").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveLeft");
-				});
-				
+			
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
 					// Data: player.
@@ -343,12 +339,14 @@
 					else if (Math.abs(angleDifference(_dirPlayer,225)) <= 22.5) _look = "suroeste";
 					else if (Math.abs(angleDifference(_dirPlayer,270)) <= 22.5) _look = "sur";
 					else if (Math.abs(angleDifference(_dirPlayer,315)) <= 22.5) _look = "sureste";
-					$("#isMirandoText").text("Estás mirando al " + String(_look));
-					$("#isMirandoAngle").text("(" + String(_dirPlayer) + "º)");
+					$("#isMirandoText").text("Estás mirando al " + String(_look) + ".");
 					
 					// Actualiza qué hay en tu campo visual.
-					var _txt = "";
-					// Para cada enemigo...
+					// Primero limpia todos los botones de fijar blanco y la información de qué ves.
+					$("#lisVisualField").empty();
+					
+					// Luego, para cada enemigo...
+					var _found = false;
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
@@ -357,10 +355,10 @@
 						if (Math.abs(_diffe) <= 70)
 						{
 							// ... indica el ángulo con el que ves el enemigo.
-							var _lado = "";
-							if (_diffe < 0) _lado = "a tu derecha";
-							else _lado = "a tu izquierda";
-							_txt += _dataEnemies[i].nameEnemy + " a " + String(Math.abs(Math.round(-_diffe))) + "º " + _lado + ". ";
+							var _lado = " frente a ti.";
+							if (_diffe < 1) _lado = " a tu derecha. ";
+							else if (_diffe > 1) _lado = " a tu izquierda. ";
+							var _txt = _dataEnemies[i].nameEnemy + _lado;
 							
 							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 45)
@@ -388,11 +386,15 @@
 							// Si no, no ves nada de él.
 							else
 								_txt += "No puedes verlo claramente.";
-							_txt += "\n";
+								
+							// Añade el objetivo a la lista de visualizaciones.
+							_found = true;
+							var _i = i;
+							if (i < 10) _i = "0"+i;
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_i)"'>Mirar a:</button>"+String(_txt)"</li>");
 						}
 					}
-					if (_txt == "") _txt = "No ves nada.";
-					$("#hasCampoVisual").text(_txt);
+					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
 				});
 			}
 			if (true){ // ####################################################### Scripts. #######################################################
