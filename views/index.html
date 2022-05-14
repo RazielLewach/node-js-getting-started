@@ -363,7 +363,7 @@
 							_txt += _dataEnemies[i].nameEnemy + " a " + String(Math.abs(Math.round(-_diffe))) + "º " + _lado + ". ";
 							
 							// Si lo ves bien porque está centrado...
-							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
+							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 45)
 							{
 								// ... indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
