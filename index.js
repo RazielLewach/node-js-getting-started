@@ -175,14 +175,14 @@ io.on("connection", async (_socket) => {
 						var _spd = 5;
 						if (_event == "clickMoveForwards")
 						{
-							_xPlayer += _spd*dcos(_dirPlayer);
-							_yPlayer -= _spd*dsin(_dirPlayer);
+							_xPlayer += _spd*dcos(parseInt(_dirPlayer));
+							_yPlayer -= _spd*dsin(parseInt(_dirPlayer));
 							console.log("forwards");
 						}
 						else if (_event == "clickMoveBackwards")
 						{
-							_xPlayer -= _spd*dcos(_dirPlayer);
-							_yPlayer += _spd*dsin(_dirPlayer);
+							_xPlayer -= _spd*dcos(parseInt(_dirPlayer));
+							_yPlayer += _spd*dsin(parseInt(_dirPlayer));
 						}
 						
 						// Data: Player.
