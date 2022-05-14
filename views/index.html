@@ -394,7 +394,7 @@
 						// Asigna los listeners a los nuevos botones.
 						$("#lisVisualField").children("li").children("button").click((e) => {
 							var _i = $(e.target).text().substr(9,2);
-							console.log("text",$(e.target).id);
+							console.log("text",$(e.target).id());
 							console.log("_i",_i);
 							if (_i >= 0 && _i < _dirs.length)
 							{
