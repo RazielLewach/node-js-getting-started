@@ -164,7 +164,7 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {
 						// La dirección del player.
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
-						else if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
+						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
 						_dirPlayer = getMult(_dirPlayer,45);
 						if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
