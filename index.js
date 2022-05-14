@@ -164,9 +164,10 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM environments01 WHERE name = '"+String(_name)+"';", (selEnvironment) => {
 						// La dirección del player.
 						var _dirPlayer = selEnvironment.rows[0].dirplayer;
-						if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
+						else if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
 						else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
-						else if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
+						_dirPlayer = getMult(_dirPlayer,45);
+						if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
 						
 						// Las coordenadas del player.
 						var _xPlayer = selEnvironment.rows[0].xplayer;
@@ -240,5 +241,10 @@ io.on("connection", async (_socket) => {
 	function pointDirection(_x1,_y1,_x2,_y2)
 	{
 		return angular(Math.atan2(-(_y2-_y1),_x2-_x1)*180/Math.PI);
+	}
+
+	function getMult(_valor,_mult)
+	{
+		return Math.floor((_valor + _mult/2)/_mult)*_mult;
 	}
 //}

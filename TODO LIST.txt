@@ -1,8 +1,8 @@
 ###### TODO ######
-- Fijar blanco no saca el mensaje "enemigo frente a ti"
 - Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
 
 ###### DONE ######
+- Fijar blanco no saca el mensaje "enemigo frente a ti"
 - Cambiar el HTML que muestra las cosas en tu campo visual para que sea una lista y puedas añadir los elementos realmente. Añadir a cada uno un botón para fijar blanco. Y así al limpiar todos los botones al inicio, podrás localizarlos.
 - Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.
 - Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
