@@ -106,7 +106,7 @@
 				<p id="isMirandoText" style="position: absolute; left: 310px; top: 100px;"></p>
 				<p id="isMirandoAngle" style="position: absolute; left: 540px; top: 100px;"></p>
 				<p style="position: absolute; left: 310px; top: 130px;">En tu campo visual:</p>
-				<p id="hasCampoVisual" style="position: absolute; left: 350px; top: 160px;"></p>
+				<p id="hasCampoVisual" style="position: absolute; left: 330px; top: 160px;"></p>
 				
 			</div>
 		</div>
@@ -237,6 +237,32 @@
 					currentChapter = 00;
 				}
 			}
+			if (true){ // ####################################################### Gestiona los datos de tu personaje. #######################################################
+				// Recibe el nombre actualizado.
+				socket.on("characterNameChanged", (_character) => {
+					currentCharacterName = _character;
+				});
+				
+				// Recibe el género actualizado.
+				socket.on("characterGenderChanged", (_gender) => {
+					currentCharacterGender = _gender;
+				});
+				
+				// Recibe el color actualizado.
+				socket.on("characterColorChanged", (_color) => {
+					currentCharacterColor = _color;
+				});
+				
+				// Carga el character name y gender al elegir una pestaña.
+				socket.on("receiveCharacterData", (_tale,_character,_gender,_color) => {
+					currentCharacterName = _character;
+					currentCharacterGender = _gender;
+					currentCharacterColor = _color;
+					$("#charname"+String(_tale)).val(_character);
+					$("#tdColor"+String(_tale)).css("background-color","hsl("+String(_color)+" 100% 50%)");
+					$("#sl"+String(_tale)).val(_color);
+				});
+			}
 			if (true){ // ####################################################### Setea los datos de tu personaje para la tale 01. #######################################################
 				// Setea el nombre de tu personaje, el género y el color.
 				setCharacterListener("01");
@@ -278,32 +304,6 @@
 						$("#tdColor"+String(_tale)).css("background-color","hsl("+String($(this).val())+" 100% 50%)");
 					});
 				}
-			}
-			if (true){ // ####################################################### Gestiona los datos de tu personaje. #######################################################
-				// Recibe el nombre actualizado.
-				socket.on("characterNameChanged", (_character) => {
-					currentCharacterName = _character;
-				});
-				
-				// Recibe el género actualizado.
-				socket.on("characterGenderChanged", (_gender) => {
-					currentCharacterGender = _gender;
-				});
-				
-				// Recibe el color actualizado.
-				socket.on("characterColorChanged", (_color) => {
-					currentCharacterColor = _color;
-				});
-				
-				// Carga el character name y gender al elegir una pestaña.
-				socket.on("receiveCharacterData", (_tale,_character,_gender,_color) => {
-					currentCharacterName = _character;
-					currentCharacterGender = _gender;
-					currentCharacterColor = _color;
-					$("#charname"+String(_tale)).val(_character);
-					$("#tdColor"+String(_tale)).css("background-color","hsl("+String(_color)+" 100% 50%)");
-					$("#sl"+String(_tale)).val(_color);
-				});
 			}
 			if (true){ // ####################################################### Lógica de tale 01. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
@@ -380,7 +380,7 @@
 								// ... y su distancia.
 								var _dist = Math.ceil(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100);
 								var _s = "";
-								if (_dist > 0) _s = "s";
+								if (_dist > 1) _s = "s";
 								
 								// Pos muestra nomás.
 								_txt += "Está " + String(_pos) + " a " + String(_dist) + " metro" + String(_s) + " de distancia.";
