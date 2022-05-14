@@ -342,11 +342,9 @@
 					
 					// Luego, para cada enemigo...
 					var _found = false;
-					var _dirs = [];
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						var _dirToEnemy = pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy);
-						_dirs.push(_dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy));
+						var _dirToEnemy = Math.round(pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy));
 						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
 						// Si el enemigo está en tu campo visual...
 						if (Math.abs(_diffe) <= 70)
@@ -386,19 +384,15 @@
 								
 							// Añade el objetivo a la lista de visualizaciones.
 							_found = true;
-							var _i = i;
-							if (i < 10) _i = "0"+i;
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_i)+"'>Mirar a:</button>"+String(_txt)+"</li>");
+							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"'>Mirar a:</button>"+String(_txt)+"</li>");
 						}
 						
 						// Asigna los listeners a los nuevos botones.
 						$("#lisVisualField").children("li").children("button").click((e) => {
-							var _i = $(e.target).text().substr(9,2);
-							console.log("text",$(e.target).attr("id"));
-							console.log("_i",_i);
 							if (_i >= 0 && _i < _dirs.length)
 							{
-								var _dir = _dirs[_i];
+								var _dir = $(e.target).attr("id").substr(9,3);
 								console.log("_dir",_dir);
 								socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
 							}
