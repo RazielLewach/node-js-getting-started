@@ -76,19 +76,18 @@ io.on("connection", async (_socket) => {
 							if ((selUsers.rows[0].taleplaying == '00' && selUsers.rows[0].chapterplaying == '00') || (selUsers.rows[0].taleplaying != _tale && selUsers.rows[0].chapterplaying != _chapter))
 							{
 								// Actualiza qué tale y chapter estás leyendo.
-								doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapterplaying = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';");
+								doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapterplaying = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';",() => {});
 								
 								// Limpia el entorno y todos los datos.
-								doQuery("DELETE FROM player01 where name = '"+String(_name)+"';");
-								doQuery("DELETE FROM enemies01 where name = '"+String(_name)+"';");
+								doQuery("DELETE FROM player01 where name = '"+String(_name)+"';",() => {});
+								doQuery("DELETE FROM enemies01 where name = '"+String(_name)+"';",() => {});
 								
 								// Crea el entorno según el tale y chapter.
 								// HUMANO, SANGRE Y PETRÓLEO.
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
-									console.log("AA");
-									doQuery("INSERT INTO player01(name,xplayer,yplayer,dirplayer,spriteplayer,stunplayer) VALUES ('"+String(_name)+"','0','0','0','Still','0');");
-									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','10000','0','180','Chase','10');");
+									doQuery("INSERT INTO player01(name,xplayer,yplayer,dirplayer,spriteplayer,stunplayer) VALUES ('"+String(_name)+"','0','0','0','Still','0');",() => {});
+									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','10000','0','180','Chase','10');",() => {});
 								}
 							}
 						}
