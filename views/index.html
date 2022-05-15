@@ -377,7 +377,13 @@
 								if (_dist > 1) _s = "s";
 								
 								// Pos muestra nomás.
-								_txt += "Está " + String(_pos) + " a " + String(_dist) + " metro" + String(_s) + " de distancia.";
+								_txt += "Está " + String(_pos) + " a " + String(_dist) + " metro" + String(_s) + " de distancia. ";
+								
+								// ¿Qué hace el enemigo?
+								var _txtSprite = "";
+								var _sprite = _dataEnemies[i].spriteEnemy;
+								if (_sprite == "Chase") _txtSprite = "Te está persiguiendo.";
+								_txt += _txtSprite;
 							}
 							// Si no, no ves nada de él.
 							else

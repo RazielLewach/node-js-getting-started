@@ -56,7 +56,7 @@ io.on("connection", async (_socket) => {
 			});
 		});
 	//}
-	//{ ####################################################### Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido. #######################################################
+	//{ ####################################################### Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido (async). #######################################################
 		_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender,_color) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -87,7 +87,7 @@ io.on("connection", async (_socket) => {
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
 									doQuery("INSERT INTO environments01(name, xplayer, yplayer, dirplayer) VALUES ('"+String(_name)+"','0','0','0');");
-									doQuery("INSERT INTO enemies01(name, nameenemy, xenemy, yenemy, direnemy) VALUES ('"+String(_name)+"','Explorador','1000','0','180');");
+									doQuery("INSERT INTO enemies01(name, nameenemy, xenemy, yenemy, direnemy) VALUES ('"+String(_name)+"','Explorador','1000','0','180','chase');");
 								}
 							}
 						}
@@ -194,7 +194,7 @@ io.on("connection", async (_socket) => {
 							var _dataEnemies = [];
 							for (var i = 0; i < selEnemies.rowCount; ++i)
 							{
-								_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy});
+								_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy, spriteEnemy:selEnemies.rows[0].spriteenemy});
 							}
 							
 							// Envía los datos al cliente.
