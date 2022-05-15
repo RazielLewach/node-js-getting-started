@@ -349,6 +349,11 @@ io.on("connection", async (_socket) => {
 	{
 		return angular(Math.atan2(-(_y2-_y1),_x2-_x1)*180/Math.PI);
 	}
+	
+	function pointDistance(_x1,_y1,_x2,_y2)
+	{
+		return Math.sqrt(Math.pow(_x1-_x2,2)+Math.pow(_y1-_y2,2));
+	}
 
 	function getMult(_valor,_mult)
 	{
