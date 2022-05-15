@@ -305,7 +305,7 @@
 			}
 			if (true){ // ####################################################### Lógica de tale 01. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
-				/*$("#btnTurnLeft").click((e) => {
+				$("#btnTurnLeft").click((e) => {
 					socketEmitLoop01("clickTurnLeft");
 				});
 				$("#btnTurnRight").click((e) => {
@@ -325,7 +325,7 @@
 				{
 					socket.emit("loop01",name,pass,currentTale,currentChapter,_accion);
 					$(".btnAccion").attr("disabled","true");
-				}*/
+				}
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
@@ -400,7 +400,7 @@
 							// Añade el objetivo a la lista de visualizaciones.
 							_found = true;
 							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' style="border-right: 5px;">Mirar a:</button>"+String(_txt)+"</li>");
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' style='border-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
 						}
 						
 						// Asigna los listeners a los nuevos botones.
