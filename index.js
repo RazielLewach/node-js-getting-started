@@ -166,7 +166,12 @@ io.on("connection", async (_socket) => {
 						{
 							// Asigna tu sprite y cuánto te stunearás acorde a la acción recibida.
 							var _spritePlayer = "", _stunPlayer = 0;
-							if (_event == "clickWait")
+							if (_event == "")
+							{
+								_spritePlayer = "Still";
+								_stunPlayer = 0;
+							}
+							else if (_event == "clickWait")
 							{
 								_spritePlayer = "Still";
 								_stunPlayer = 1;
@@ -207,27 +212,33 @@ io.on("connection", async (_socket) => {
 		
 		function loop01(_name,_event,selPlayer,_spritePlayer,_stun)
 		{
-			var _stunPlayer = _stun-1;
+			var _stunPlayer = _stun;
 			
 			// La dirección del player.
 			var _dirPlayer = selPlayer.rows[0].dirplayer;
-			if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
-			else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
-			_dirPlayer = getMult(_dirPlayer,45);
-			if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
+			if (_stunPlayer > 0)
+			{
+				if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
+				else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
+				_dirPlayer = getMult(_dirPlayer,45);
+				if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
+			}
 			
 			// Las coordenadas del player.
 			var _xPlayer = selPlayer.rows[0].xplayer;
 			var _yPlayer = selPlayer.rows[0].yplayer;
 			
 			// Muévete.
-			var _spd = 10, _dir = -1;
-			if (_event == "clickMoveForwards") _dir = _dirPlayer;
-			else if (_event == "clickMoveBackwards") _dir = _dirPlayer+180;
-			if (_dir != -1)
+			if (_stunPlayer > 0)
 			{
-				_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
-				_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
+				var _spd = 10, _dir = -1;
+				if (_event == "clickMoveForwards") _dir = _dirPlayer;
+				else if (_event == "clickMoveBackwards") _dir = _dirPlayer+180;
+				if (_dir != -1)
+				{
+					_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
+					_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
+				}
 			}
 			
 			// Data: Player.
@@ -242,14 +253,15 @@ io.on("connection", async (_socket) => {
 				}
 				
 				// END CYCLE. Si todavía sigue paralizado, repite el loop.
+				_stunPlayer = Math.max(_stunPlayer,1-0);
 				if (_stunPlayer > 0) loop01(_name,_event,selPlayer,_spritePlayer,_stunPlayer);
-				
 				// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 				else
 				{
 					_spritePlayer = "Still";
-					doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {});
-					_socket.emit("looped01",_dataPlayer,_dataEnemies);
+					doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+						_socket.emit("looped01",_dataPlayer,_dataEnemies);
+					});
 				}
 			});
 		}
