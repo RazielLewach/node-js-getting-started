@@ -209,7 +209,7 @@ io.on("connection", async (_socket) => {
 									yPlayer:selPlayer.rows[0].yplayer,
 									dirPlayer:selPlayer.rows[0].dirplayer,
 									spritePlayer:_spritePlayer,
-									stunPlayer:0
+									stunPlayer:_stunPlayer
 								};
 								
 								// Crea la estructura de datos de los enemigos.
@@ -227,7 +227,7 @@ io.on("connection", async (_socket) => {
 								}
 								
 								// Ejecuta el loop.
-								loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stunPlayer);
+								loop01(_name,_event,_dataPlayer,_dataEnemies);
 							});
 						}
 					});
@@ -237,20 +237,16 @@ io.on("connection", async (_socket) => {
 		
 		function loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stun)
 		{
-			var _stunPlayer = _stun;
-			
-			// El player gira.
-			if (_stunPlayer > 0)
+			// Ejecuta la lógica sólo si es un turno de lógica. Si el stun es 0 (cargar datos) no.
+			if (_dataPlayer.stunPlayer > 0)
 			{
+				// El player gira.
 				if (_event == "clickTurnLeft") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer+45);
 				else if (_event == "clickTurnRight") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer-45);
 				_dataPlayer.dirPlayer = getMult(_dataPlayer.dirPlayer,45);
 				if (_event.substr(0,11) == "clickLookAt") _dataPlayer.dirPlayer = _event.substr(11,3);
-			}
-			
-			// El player se mueve.
-			if (_stunPlayer > 0)
-			{
+				
+				// El player se mueve.
 				var _spd = 10, _dir = -1;
 				if (_event == "clickMoveForwards") _dir = _dataPlayer.dirPlayer;
 				else if (_event == "clickMoveBackwards") _dir = _dataPlayer.dirPlayer+180;
@@ -259,14 +255,14 @@ io.on("connection", async (_socket) => {
 					_dataPlayer.xPlayer = Math.round(_dataPlayer.xPlayer+_spd*dcos(_dir));
 					_dataPlayer.yPlayer = Math.round(_dataPlayer.yPlayer-_spd*dsin(_dir));
 				}
+			
+				// Los enemigos actúan.
+				// TODO!!!
 			}
 			
-			// Los enemigos actúan.
-			// TODO!!!
-			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
-			_stunPlayer = Math.max(_stunPlayer-1,0);
-			if (_stunPlayer > 0) loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stunPlayer);
+			_dataPlayer.stunPlayer = Math.max(_dataPlayer.stunPlayer-1,0);
+			if (_dataPlayer.stunPlayer > 0) loop01(_name,_event,_dataPlayer,_dataEnemies);
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{

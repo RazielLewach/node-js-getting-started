@@ -1,5 +1,5 @@
 ###### TODO ######
-- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi.
+- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?
 - ¿Hacer estados del player y enemigo? Poder hacer cosas, interactuar.
 
 ###### DONE ######
