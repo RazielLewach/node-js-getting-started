@@ -305,7 +305,7 @@
 			}
 			if (true){ // ####################################################### Lógica de tale 01. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
-				$("#btnTurnLeft").click((e) => {
+				/*$("#btnTurnLeft").click((e) => {
 					socketEmitLoop01("clickTurnLeft");
 				});
 				$("#btnTurnRight").click((e) => {
@@ -325,7 +325,7 @@
 				{
 					socket.emit("loop01",name,pass,currentTale,currentChapter,_accion);
 					$(".btnAccion").attr("disabled","true");
-				}
+				}*/
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
@@ -346,8 +346,7 @@
 					else if (Math.abs(angleDifference(_dirPlayer,315)) <= 22.5) _look = "sureste";
 					$("#isMirandoText").text("Estás mirando al " + String(_look) + ". En tu campo visual:");
 					
-					// Actualiza qué hay en tu campo visual.
-					// Primero limpia todos los botones de fijar blanco y la información de qué ves.
+					// Actualiza qué hay en tu campo visual. Primero limpia todos los botones de fijar blanco y la información de qué ves.
 					$("#lisVisualField").empty();
 					
 					// Luego, para cada enemigo...
