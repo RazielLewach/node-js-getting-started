@@ -400,13 +400,13 @@
 							// Añade el objetivo a la lista de visualizaciones.
 							_found = true;
 							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' class='btnAccion' style='margin-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' class='btnAccion' title='1 instante' style='margin-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
 						}
 						
 						// Asigna los listeners a los nuevos botones.
 						$("#lisVisualField").children("li").children("button").click((e) => {
 							var _dir = $(e.target).attr("id").substr(9,3);
-							socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
+							socketEmitLoop01("clickLookAt"+String(_dir));
 						});
 					}
 					
