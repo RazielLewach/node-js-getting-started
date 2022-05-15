@@ -361,8 +361,8 @@
 							// ... indica el ángulo con el que ves el enemigo.
 							var _lado = " frente a ti. ";
 							console.log("_diffe",_diffe);
-							if (_diffe < -5) _lado = " a tu derecha. ";
-							else if (_diffe > 5) _lado = " a tu izquierda. ";
+							if (_diffe < -15) _lado = " a tu derecha. ";
+							else if (_diffe > 15) _lado = " a tu izquierda. ";
 							var _txt = _dataEnemies[i].nameEnemy + _lado;
 							
 							// Si lo ves bien porque está centrado...
@@ -381,7 +381,7 @@
 								}
 								
 								// ... y su distancia.
-								var _dist = Math.ceil(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100);
+								var _dist = Math.ceil(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/1000);
 								var _s = "";
 								if (_dist > 1) _s = "s";
 								
