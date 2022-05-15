@@ -95,16 +95,15 @@
 				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 				
 				<!-- Los comandos -->
-				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 40px;">Mirar izquierda</button>
-				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 40px;">Mirar derecha</button>
-				<button id="btnMoveForwards" style="position: absolute; left: 420px; top: 10px;">Avanzar</button>
-				<button id="btnMoveBackwards" style="position: absolute; left: 420px; top: 70px;">Retroceder</button>
-				<button id="btnWait" style="position: absolute; left: 420px; top: 40px;">Esperar</button>
+				<button id="btnTurnLeft" class="btnAccion" style="position: absolute; left: 310px; top: 40px;" title="1 instante">Mirar izquierda</button>
+				<button id="btnTurnRight" class="btnAccion" style="position: absolute; left: 510px; top: 40px;" title="1 instante">Mirar derecha</button>
+				<button id="btnMoveForwards" class="btnAccion" style="position: absolute; left: 420px; top: 10px;" title="1 metro, 10 instantes">Avanzar</button>
+				<button id="btnMoveBackwards" class="btnAccion" style="position: absolute; left: 420px; top: 70px;" title="1 metro, 10 instantes">Retroceder</button>
+				<button id="btnWait" class="btnAccion" style="position: absolute; left: 420px; top: 40px;" title="1 instante">Esperar</button>
 				
 				<!-- Los datos a mostrar-->
 				<p id="isMirandoText" style="position: absolute; left: 310px; top: 100px;"></p>
-				<p style="position: absolute; left: 310px; top: 130px;">En tu campo visual:</p>
-				<ul id="lisVisualField" style="position: absolute; left: 310px; top: 180px;"></ul>
+				<ul id="lisVisualField" style="position: absolute; left: 310px; top: 130px;"></ul>
 				
 			</div>
 		</div>
@@ -307,21 +306,27 @@
 			if (true){ // ####################################################### Lógica de tale 01. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btnTurnLeft").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnLeft");
+					socketEmitLoop01("clickTurnLeft");
 				});
 				$("#btnTurnRight").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickTurnRight");
+					socketEmitLoop01("clickTurnRight");
 				});
 				$("#btnMoveForwards").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveForwards");
+					socketEmitLoop01("clickMoveForwards");
 				});
 				$("#btnMoveBackwards").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveBackwards");
+					socketEmitLoop01("clickMoveBackwards");
 				});
 				$("#btnWait").click((e) => {
-					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickWait");
+					socketEmitLoop01("clickWait");
 				});
-			
+				
+				function socketEmitLoop01(_accion)
+				{
+					socket.emit("loop01",name,pass,currentTale,currentChapter,_accion);
+					$(".btnAccion").attr("disabled","true");
+				}
+				
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
 					// Data: player.
@@ -339,7 +344,7 @@
 					else if (Math.abs(angleDifference(_dirPlayer,225)) <= 22.5) _look = "suroeste";
 					else if (Math.abs(angleDifference(_dirPlayer,270)) <= 22.5) _look = "sur";
 					else if (Math.abs(angleDifference(_dirPlayer,315)) <= 22.5) _look = "sureste";
-					$("#isMirandoText").text("Estás mirando al " + String(_look) + ".");
+					$("#isMirandoText").text("Estás mirando al " + String(_look) + ". En tu campo visual:");
 					
 					// Actualiza qué hay en tu campo visual.
 					// Primero limpia todos los botones de fijar blanco y la información de qué ves.
@@ -396,7 +401,7 @@
 							// Añade el objetivo a la lista de visualizaciones.
 							_found = true;
 							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"'>Mirar a:</button>"+String(_txt)+"</li>");
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' style="border-right: 5px;">Mirar a:</button>"+String(_txt)+"</li>");
 						}
 						
 						// Asigna los listeners a los nuevos botones.
@@ -405,7 +410,9 @@
 							socket.emit("loop01",name,pass,currentTale,currentChapter,"clickLookAt"+String(_dir));
 						});
 					}
+					
 					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
+					$(".btnAccion").attr("disabled","false");
 				});
 			}
 			if (true){ // ####################################################### Scripts. #######################################################

@@ -1,4 +1,5 @@
 ###### TODO ######
+- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi.
 - ¿Hacer estados del player y enemigo? Poder hacer cosas, interactuar.
 
 ###### DONE ######
@@ -14,10 +15,8 @@
 
 
 ###### INFO AND ANNOTATIONS ######
-Concepto: al estar enfocado esto a gente que le gusta leer (pero sólo si lees algo interesante) + no matarme para no abandonar: ¿Que el juego tenga texto?
-- Aunque gusten de leer, sólo gusta si es algo interesante. ¿Puedo hacer que el texto del juego sea interesante y la jugabilidad no sea aburrida?
-
-- Opción: enfocarlo menos al posicionamiento y más a la acción directa con el otro en relativo a.
-- Botones de mirar a los lados igual para buscar blanco.
-- Quitar el movimiento raro arcaico y poner botón de fijar blanco, y que los botones de movimientos sean relativos al blanco.
-- Quitar el movimiento lateral, sólo avanzar y retroceder respecto al blanco fijado, menos complicación innecesaria.
+- No especifico concepto de tiempo. Sólo son instantes. El mínimo es 1. Para la práctica, cada instante son 0.05 segundos (0.5s = 10i, 10s = 20i), pero no hace falta decirlo.
+- La distancia va a metros. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros.
+- El ataque ligero tarda 10i y el ataque pesado tarda 25i.
+¿Cómo implementar el sistema?
+Función "loop01" que contenga todo el loop por cada instante. Al llamar al socket con tu orden, se setea el sprite del player acorde a la acción y su contador para ver cuánto tarda. Entonces el loop se ejecuta en bucle hasta que el contador baja a 0. Y ahí se devuelve el control al player.
