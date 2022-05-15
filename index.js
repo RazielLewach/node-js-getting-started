@@ -189,13 +189,13 @@ io.on("connection", async (_socket) => {
 								}
 								else if (_event == "clickMoveForwards")
 								{
-									_spritePlayer = "Move";
+									_spritePlayer = "MoveForwards";
 									_stunPlayer = 10;
 								}
 								else if (_event == "clickMoveBackwards")
 								{
-									_spritePlayer = "Move";
-									_stunPlayer = 10;
+									_spritePlayer = "MoveBackwards";
+									_stunPlayer = 20;
 								}
 								else if (_event.substr(0,11) == "clickLookAt")
 								{
@@ -247,7 +247,7 @@ io.on("connection", async (_socket) => {
 				if (_event.substr(0,11) == "clickLookAt") _dataPlayer.dirPlayer = _event.substr(11,3);
 				
 				// El player se mueve.
-				var _spd = 100, _dir = -1;
+				var _spd = 100 - 50*(_dataPlayer.spritePlayer == "MoveBackwards"), _dir = -1;
 				if (_event == "clickMoveForwards") _dir = _dataPlayer.dirPlayer;
 				else if (_event == "clickMoveBackwards") _dir = _dataPlayer.dirPlayer+180;
 				if (_dir != -1)

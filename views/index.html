@@ -98,7 +98,7 @@
 				<button id="btnTurnLeft" class="btnAccion" style="position: absolute; left: 310px; top: 40px;" title="1 instante">Mirar izquierda</button>
 				<button id="btnTurnRight" class="btnAccion" style="position: absolute; left: 510px; top: 40px;" title="1 instante">Mirar derecha</button>
 				<button id="btnMoveForwards" class="btnAccion" style="position: absolute; left: 420px; top: 10px;" title="1 metro, 10 instantes">Avanzar</button>
-				<button id="btnMoveBackwards" class="btnAccion" style="position: absolute; left: 420px; top: 70px;" title="1 metro, 10 instantes">Retroceder</button>
+				<button id="btnMoveBackwards" class="btnAccion" style="position: absolute; left: 420px; top: 70px;" title="1 metro, 20 instantes">Retroceder</button>
 				<button id="btnWait" class="btnAccion" style="position: absolute; left: 420px; top: 40px;" title="1 instante">Esperar</button>
 				
 				<!-- Los datos a mostrar-->
@@ -381,8 +381,8 @@
 								
 								// ... y su distancia.
 								var _dist = Math.round(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100)/10;
-								var _s = "";
-								if (_dist > 1) _s = "s";
+								var _s = "s";
+								if (_dist == 1) _s = "";
 								
 								// Pos muestra nomás.
 								_txt += "Está " + String(_dist) + " metro" + String(_s) + " de distancia y " + String(_pos) + ". ";
