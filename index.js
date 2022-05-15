@@ -259,13 +259,25 @@ io.on("connection", async (_socket) => {
 				// Los enemigos actúan.
 				for (var i = 0; i < _dataEnemies.length; ++i)
 				{
+					// Puede decidir.
+					if (_dataEnemies[i].spriteEnemy == "Still")
+					{
+						// Decide perseguirte.
+						if (pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer) > 1000)
+						{
+							_dataEnemies[i].spriteEnemy = "Chase";
+							_dataEnemies[i].stunEnemy = 10;
+						}
+					}
 					// Te persigue.
-					if (_dataEnemies[0].spriteEnemy == "Chase")
+					else if (_dataEnemies[i].spriteEnemy == "Chase")
 					{
 						var _spd = 40;
-						var _dir = pointDirection(_dataEnemies[0].xEnemy,_dataEnemies[0].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
-						_dataEnemies[0].xEnemy = Math.round(_dataEnemies[0].xEnemy+_spd*dcos(_dir));
-						_dataEnemies[0].yEnemy = Math.round(_dataEnemies[0].yEnemy-_spd*dsin(_dir));
+						var _dir = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+						_dataEnemies[i].xEnemy = Math.round(_dataEnemies[i].xEnemy+_spd*dcos(_dir));
+						_dataEnemies[i].yEnemy = Math.round(_dataEnemies[i].yEnemy-_spd*dsin(_dir));
+						_dataEnemies[i].stunEnemy = Math.max(_dataEnemies[i].stunEnemy-1,0);
+						if (_dataEnemies[i].stunEnemy == 0) _dataEnemies[i].spriteEnemy = "Still";
 					}
 				}
 			}
