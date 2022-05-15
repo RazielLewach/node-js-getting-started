@@ -258,6 +258,7 @@ io.on("connection", async (_socket) => {
 				// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 				else
 				{
+					console.log("Cycle ended serv");
 					_spritePlayer = "Still";
 					doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
 						_socket.emit("looped01",_dataPlayer,_dataEnemies);
