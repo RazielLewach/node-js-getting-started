@@ -203,8 +203,28 @@ io.on("connection", async (_socket) => {
 									_stunPlayer = 1;
 								}
 				
+								// Crea la estructura de datos del player.
+								var _dataPlayer = {
+									xPlayer:selPlayer.rows[0].xplayer,
+									yPlayer:selPlayer.rows[0].yplayer,
+									dirPlayer:selPlayer.rows[0].dirplayer
+								};
+								
+								// Crea la estructura de datos de los enemigos.
+								var _dataEnemies = [];
+								for (var i = 0; i < selEnemies.rowCount; ++i)
+								{
+									_dataEnemies.push({
+										nameEnemy:selEnemies.rows[0].nameenemy,
+										xEnemy:selEnemies.rows[0].xenemy,
+										yEnemy:selEnemies.rows[0].yenemy,
+										dirEnemy:selEnemies.rows[0].direnemy,
+										spriteEnemy:selEnemies.rows[0].spriteenemy
+									});
+								}
+								
 								// Ejecuta el loop.
-								loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stunPlayer);
+								loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stunPlayer);
 							});
 						}
 					});
@@ -212,55 +232,43 @@ io.on("connection", async (_socket) => {
 			});
 		});
 		
-		function loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stun)
+		function loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stun)
 		{
 			var _stunPlayer = _stun;
 			
-			// La dirección del player.
-			var _dirPlayer = selPlayer.rows[0].dirplayer;
+			// El player gira.
 			if (_stunPlayer > 0)
 			{
-				if (_event == "clickTurnLeft") _dirPlayer = angular(_dirPlayer+45);
-				else if (_event == "clickTurnRight") _dirPlayer = angular(_dirPlayer-45);
-				_dirPlayer = getMult(_dirPlayer,45);
-				if (_event.substr(0,11) == "clickLookAt") _dirPlayer = _event.substr(11,3);
+				if (_event == "clickTurnLeft") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer+45);
+				else if (_event == "clickTurnRight") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer-45);
+				_dataPlayer.dirPlayer = getMult(_dataPlayer.dirPlayer,45);
+				if (_event.substr(0,11) == "clickLookAt") _dataPlayer.dirPlayer = _event.substr(11,3);
 			}
 			
-			// Las coordenadas del player.
-			var _xPlayer = selPlayer.rows[0].xplayer;
-			var _yPlayer = selPlayer.rows[0].yplayer;
-			
-			// Muévete.
+			// El player se mueve.
 			if (_stunPlayer > 0)
 			{
 				var _spd = 10, _dir = -1;
-				if (_event == "clickMoveForwards") _dir = _dirPlayer;
-				else if (_event == "clickMoveBackwards") _dir = _dirPlayer+180;
+				if (_event == "clickMoveForwards") _dir = _dataPlayer.dirPlayer;
+				else if (_event == "clickMoveBackwards") _dir = _dataPlayer.dirPlayer+180;
 				if (_dir != -1)
 				{
-					_xPlayer = Math.round(_xPlayer+_spd*dcos(_dir));
-					_yPlayer = Math.round(_yPlayer-_spd*dsin(_dir));
+					_dataPlayer.xPlayer = Math.round(_dataPlayer.xPlayer+_spd*dcos(_dir));
+					_dataPlayer.yPlayer = Math.round(_dataPlayer.yPlayer-_spd*dsin(_dir));
 				}
 			}
 			
-			// Data: Player.
-			var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
-			
-			// Array con los datos de los enemigos.
-			var _dataEnemies = [];
-			for (var i = 0; i < selEnemies.rowCount; ++i)
-			{
-				_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy, spriteEnemy:selEnemies.rows[0].spriteenemy});
-			}
+			// Los enemigos actúan.
+			// TODO!!!
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
 			_stunPlayer = Math.max(_stunPlayer-1,0);
-			if (_stunPlayer > 0) loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stunPlayer);
+			if (_stunPlayer > 0) loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stunPlayer);
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
 				_spritePlayer = "Still";
-				doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+				doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
 					_socket.emit("looped01",_dataPlayer,_dataEnemies);
 				});
 			}
