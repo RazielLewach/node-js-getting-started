@@ -288,6 +288,7 @@ io.on("connection", async (_socket) => {
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
+				console.log("Antes de la llamada");
 				_dataPlayer.spritePlayer = "Still";
 				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
