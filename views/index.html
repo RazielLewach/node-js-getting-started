@@ -400,7 +400,7 @@
 							// Añade el objetivo a la lista de visualizaciones.
 							_found = true;
 							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' style='border-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
+							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' class='btnAccion' style='margin-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
 						}
 						
 						// Asigna los listeners a los nuevos botones.
@@ -411,7 +411,7 @@
 					}
 					
 					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
-					$(".btnAccion").attr("disabled","false");
+					$(".btnAccion").removeAttr("disabled");
 				});
 			}
 			if (true){ // ####################################################### Scripts. #######################################################
