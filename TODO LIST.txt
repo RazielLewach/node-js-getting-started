@@ -16,7 +16,7 @@
 
 ###### INFO AND ANNOTATIONS ######
 - No especifico concepto de tiempo. Sólo son instantes. El mínimo es 1. Para la práctica, cada instante son 0.05 segundos (0.5s = 10i, 10s = 20i), pero no hace falta decirlo.
-- La distancia va a metros. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros.
+- La distancia va a metros. Un metro son 1000 unidades. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros.
 - El ataque ligero tarda 10i y el ataque pesado tarda 25i.
 ¿Cómo implementar el sistema?
 Función "loop01" que contenga todo el loop por cada instante. Al llamar al socket con tu orden, se setea el sprite del player acorde a la acción y su contador para ver cuánto tarda. Entonces el loop se ejecuta en bucle hasta que el contador baja a 0. Y ahí se devuelve el control al player.

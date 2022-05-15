@@ -87,7 +87,7 @@ io.on("connection", async (_socket) => {
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
 									doQuery("INSERT INTO player01(name,xplayer,yplayer,dirplayer,spriteplayer,stunplayer) VALUES ('"+String(_name)+"','0','0','0','Still','0');");
-									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','1000','0','180','Chase','10');");
+									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','10000','0','180','Chase','10');");
 								}
 							}
 						}
@@ -247,7 +247,7 @@ io.on("connection", async (_socket) => {
 				if (_event.substr(0,11) == "clickLookAt") _dataPlayer.dirPlayer = _event.substr(11,3);
 				
 				// El player se mueve.
-				var _spd = 10, _dir = -1;
+				var _spd = 100, _dir = -1;
 				if (_event == "clickMoveForwards") _dir = _dataPlayer.dirPlayer;
 				else if (_event == "clickMoveBackwards") _dir = _dataPlayer.dirPlayer+180;
 				if (_dir != -1)
