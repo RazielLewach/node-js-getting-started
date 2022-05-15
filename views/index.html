@@ -95,10 +95,11 @@
 				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 				
 				<!-- Los comandos -->
-				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 25px;">Mirar izquierda</button>
-				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 25px;">Mirar derecha</button>
+				<button id="btnTurnLeft" style="position: absolute; left: 310px; top: 40px;">Mirar izquierda</button>
+				<button id="btnTurnRight" style="position: absolute; left: 510px; top: 40px;">Mirar derecha</button>
 				<button id="btnMoveForwards" style="position: absolute; left: 420px; top: 10px;">Avanzar</button>
-				<button id="btnMoveBackwards" style="position: absolute; left: 420px; top: 40px;">Retroceder</button>
+				<button id="btnMoveBackwards" style="position: absolute; left: 420px; top: 55px;">Retroceder</button>
+				<button id="btnWait" style="position: absolute; left: 420px; top: 40px;">Esperar</button>
 				
 				<!-- Los datos a mostrar-->
 				<p id="isMirandoText" style="position: absolute; left: 310px; top: 50px;"></p>
@@ -317,6 +318,9 @@
 				$("#btnMoveBackwards").click((e) => {
 					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickMoveBackwards");
 				});
+				$("#btnWait").click((e) => {
+					socket.emit("loop01",name,pass,currentTale,currentChapter,"clickWait");
+				});
 			
 				// Recibe el loop del servidor y actualiza tu ventana.
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
@@ -377,7 +381,7 @@
 								if (_dist > 1) _s = "s";
 								
 								// Pos muestra nomás.
-								_txt += "Está " + String(_dist) + " metro" + String(_s) + " de distancia y " + String(_pos) + ".";
+								_txt += "Está " + String(_dist) + " metro" + String(_s) + " de distancia y " + String(_pos) + ". ";
 								
 								// ¿Qué hace el enemigo?
 								var _txtSprite = "";
