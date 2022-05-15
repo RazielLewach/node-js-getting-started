@@ -35,7 +35,6 @@ io.on("connection", async (_socket) => {
 		_socket.on("login", async (_name,_pass) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"';", (selUsers) => {
 				// Caso: cuenta no existe, la crea.
-				console.log("Holita");
 				if (selUsers.rowCount == 0)
 				{
 					doQuery("INSERT INTO users(name, pass, taleplaying, chapterplaying) VALUES ('"+String(_name)+"', '"+String(_pass)+"', '00', '00');", () => {
@@ -44,7 +43,6 @@ io.on("connection", async (_socket) => {
 						// Inicializa valores default de todas las tablas generales para la nueva cuenta. No afecta a las tablas por cada tale-chapter, eso va a parte cuando abres el capítulo por primera vez.
 						doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);",() => {});
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');",() => {});
-						console.log("Adiosito");
 					});
 				}
 				// Caso: cuenta existe.
@@ -88,6 +86,7 @@ io.on("connection", async (_socket) => {
 								// HUMANO, SANGRE Y PETRÓLEO.
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
+									console.log("AA");
 									doQuery("INSERT INTO player01(name,xplayer,yplayer,dirplayer,spriteplayer,stunplayer) VALUES ('"+String(_name)+"','0','0','0','Still','0');");
 									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','10000','0','180','Chase','10');");
 								}
