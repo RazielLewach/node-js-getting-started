@@ -35,6 +35,7 @@ io.on("connection", async (_socket) => {
 		_socket.on("login", async (_name,_pass) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"';", (selUsers) => {
 				// Caso: cuenta no existe, la crea.
+				console.log("Holita");
 				if (selUsers.rowCount == 0)
 				{
 					doQuery("INSERT INTO users(name, pass, taleplaying, chapterplaying) VALUES ('"+String(_name)+"', '"+String(_pass)+"', '00', '00');", () => {
@@ -43,6 +44,7 @@ io.on("connection", async (_socket) => {
 						// Inicializa valores default de todas las tablas generales para la nueva cuenta. No afecta a las tablas por cada tale-chapter, eso va a parte cuando abres el capítulo por primera vez.
 						doQuery("INSERT INTO chapters(name, tale, chapter) VALUES ('"+String(_name)+"',01,01);");
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');");
+						console.log("Adiosito");
 					});
 				}
 				// Caso: cuenta existe.
@@ -288,7 +290,6 @@ io.on("connection", async (_socket) => {
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
-				console.log("Antes de la llamada");
 				_dataPlayer.spritePlayer = "Still";
 				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
@@ -297,10 +298,8 @@ io.on("connection", async (_socket) => {
 		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
 		{
 			// Primero guarda el player.
-			console.log("Vamos a guardar el player");
 			doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
-				console.log("player guardado");
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
 			});
 		}
@@ -308,9 +307,7 @@ io.on("connection", async (_socket) => {
 		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index)
 		{
 			var _i = _index;
-			console.log("Vamos a guardar el enemigo");
 			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"', xenemy = '"+String(_dataEnemies[_i].xEnemy)+"', yenemy = '"+String(_dataEnemies[_i].yEnemy)+"', direnemy = '"+String(_dataEnemies[_i].dirEnemy)+"', spriteenemy = '"+String(_dataEnemies[_i].spriteEnemy)+"', stunenemy = '"+String(_dataEnemies[_i].stunEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
-				console.log("enemigo guardado");
 				_i++
 				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
 				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
