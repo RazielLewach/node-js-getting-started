@@ -263,7 +263,7 @@ io.on("connection", async (_socket) => {
 					if (_dataEnemies[0].spriteEnemy == "Chase")
 					{
 						var _spd = 40;
-						var _dir = pointdirection(_dataEnemies[0].xEnemy,_dataEnemies[0].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+						var _dir = pointDirection(_dataEnemies[0].xEnemy,_dataEnemies[0].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
 						_dataEnemies[0].xEnemy = Math.round(_dataEnemies[0].xEnemy+_spd*dcos(_dir));
 						_dataEnemies[0].yEnemy = Math.round(_dataEnemies[0].yEnemy-_spd*dsin(_dir));
 					}
