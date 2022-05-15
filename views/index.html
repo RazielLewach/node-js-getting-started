@@ -380,7 +380,7 @@
 								}
 								
 								// ... y su distancia.
-								var _dist = Math.ceil(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/1000);
+								var _dist = Math.round(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)*10)/10000);
 								var _s = "";
 								if (_dist > 1) _s = "s";
 								
