@@ -227,6 +227,7 @@ io.on("connection", async (_socket) => {
 								}
 								
 								// Ejecuta el loop.
+								console.log("Vamos a ejecutar el bucle");
 								loop01(_name,_event,_dataPlayer,_dataEnemies);
 							});
 						}
@@ -288,6 +289,7 @@ io.on("connection", async (_socket) => {
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
+				console.log("Vamos a guardar");
 				_dataPlayer.spritePlayer = "Still";
 				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
