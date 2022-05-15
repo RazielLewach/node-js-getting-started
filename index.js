@@ -227,7 +227,6 @@ io.on("connection", async (_socket) => {
 								}
 								
 								// Ejecuta el loop.
-								console.log("Vamos a ejecutar el bucle");
 								loop01(_name,_event,_dataPlayer,_dataEnemies);
 							});
 						}
@@ -289,7 +288,6 @@ io.on("connection", async (_socket) => {
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
-				console.log("Vamos a guardar");
 				_dataPlayer.spritePlayer = "Still";
 				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
@@ -298,8 +296,10 @@ io.on("connection", async (_socket) => {
 		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
 		{
 			// Primero guarda el player.
+			console.log("Vamos a guardar el player");
 			doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
+				console.log("player guardado");
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
 			});
 		}
@@ -307,7 +307,9 @@ io.on("connection", async (_socket) => {
 		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index)
 		{
 			var _i = _index;
+			console.log("Vamos a guardar el enemigo");
 			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"', xenemy = '"+String(_dataEnemies[_i].xEnemy)+"', yenemy = '"+String(_dataEnemies[_i].yEnemy)+"', direnemy = '"+String(_dataEnemies[_i].dirEnemy)+"', spriteenemy = '"+String(_dataEnemies[_i].spriteEnemy)+"', stunenemy = '"+String(_dataEnemies[_i].stunEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
+				console.log("enemigo guardado");
 				_i++
 				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
 				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
