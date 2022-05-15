@@ -215,7 +215,7 @@ io.on("connection", async (_socket) => {
 		function loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stun)
 		{
 			var _stunPlayer = _stun;
-			console.log("init loop",_stun);
+			
 			// La dirección del player.
 			var _dirPlayer = selPlayer.rows[0].dirplayer;
 			if (_stunPlayer > 0)
@@ -254,8 +254,7 @@ io.on("connection", async (_socket) => {
 			}
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
-			_stunPlayer = Math.max(_stunPlayer,1-0);
-			console.log("entramos al loop?",_stunPlayer);
+			_stunPlayer = Math.max(_stunPlayer-1,0);
 			if (_stunPlayer > 0) loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stunPlayer);
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
