@@ -207,7 +207,9 @@ io.on("connection", async (_socket) => {
 								var _dataPlayer = {
 									xPlayer:selPlayer.rows[0].xplayer,
 									yPlayer:selPlayer.rows[0].yplayer,
-									dirPlayer:selPlayer.rows[0].dirplayer
+									dirPlayer:selPlayer.rows[0].dirplayer,
+									spritePlayer:_spritePlayer,
+									stunPlayer:0
 								};
 								
 								// Crea la estructura de datos de los enemigos.
@@ -219,7 +221,8 @@ io.on("connection", async (_socket) => {
 										xEnemy:selEnemies.rows[0].xenemy,
 										yEnemy:selEnemies.rows[0].yenemy,
 										dirEnemy:selEnemies.rows[0].direnemy,
-										spriteEnemy:selEnemies.rows[0].spriteenemy
+										spriteEnemy:selEnemies.rows[0].spriteenemy,
+										stunEnemy:selEnemies.rows[0].stunenemy
 									});
 								}
 								
