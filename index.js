@@ -235,7 +235,7 @@ io.on("connection", async (_socket) => {
 			});
 		});
 		
-		function loop01(_name,_event,_dataPlayer,_dataEnemies,_spritePlayer,_stun)
+		function loop01(_name,_event,_dataPlayer,_dataEnemies)
 		{
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el stun es 0 (cargar datos) no.
 			if (_dataPlayer.stunPlayer > 0)
@@ -260,12 +260,12 @@ io.on("connection", async (_socket) => {
 				for (var i = 0; i < _dataEnemies.length; ++i)
 				{
 					// Te persigue.
-					if (_dataEnemies.spriteEnemy == "Chase")
+					if (_dataEnemies[0].spriteEnemy == "Chase")
 					{
 						var _spd = 40;
-						var _dir = pointdirection(_dataEnemies.xEnemy,_dataEnemies.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
-						_dataEnemies.xEnemy = Math.round(_dataEnemies.xEnemy+_spd*dcos(_dir));
-						_dataEnemies.yEnemy = Math.round(_dataEnemies.yEnemy-_spd*dsin(_dir));
+						var _dir = pointdirection(_dataEnemies[0].xEnemy,_dataEnemies[0].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+						_dataEnemies[0].xEnemy = Math.round(_dataEnemies[0].xEnemy+_spd*dcos(_dir));
+						_dataEnemies[0].yEnemy = Math.round(_dataEnemies[0].yEnemy-_spd*dsin(_dir));
 					}
 				}
 			}
@@ -276,11 +276,28 @@ io.on("connection", async (_socket) => {
 			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
 			else
 			{
-				_spritePlayer = "Still";
-				doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
-					_socket.emit("looped01",_dataPlayer,_dataEnemies);
-				});
+				_dataPlayer.spritePlayer = "Still";
+				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
+		}
+		
+		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
+		{
+			// Primero guarda el player.
+			doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+				// Luego guarda cada enemigo.
+				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
+			});
+		}
+		
+		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index)
+		{
+			var _i = _index;
+			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"', xememy = '"+String(_dataEnemies[_i].xEnemy)+"', yenemy = '"+String(_dataEnemies[_i].yEnemy)+"', direnemy = '"+String(_dataEnemies[_i].dirEnemy)+"', spriteenemy = '"+String(_dataEnemies[_i].spriteEnemy)+"', stunenemy = '"+String(_dataEnemies[_i].stunEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
+				_i++
+				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
+				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
+			});
 		}
 	//}
 });
