@@ -1,8 +1,8 @@
 ###### TODO ######
-- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?
 - ¿Hacer estados del player y enemigo? Poder hacer cosas, interactuar.
 
 ###### DONE ######
+- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?
 - Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
 - Fijar blanco no saca el mensaje "enemigo frente a ti"
 - Cambiar el HTML que muestra las cosas en tu campo visual para que sea una lista y puedas añadir los elementos realmente. Añadir a cada uno un botón para fijar blanco. Y así al limpiar todos los botones al inicio, podrás localizarlos.

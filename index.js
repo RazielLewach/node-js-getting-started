@@ -257,7 +257,11 @@ io.on("connection", async (_socket) => {
 				}
 			
 				// Los enemigos actúan.
-				// TODO!!!
+				console.log("length",Object.keys(_dataEnemies).length);
+				/*for (var i = 0; i < _dataEnemies.; ++i)
+				{
+					
+				}*/
 			}
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
