@@ -257,11 +257,17 @@ io.on("connection", async (_socket) => {
 				}
 			
 				// Los enemigos actúan.
-				console.log("length",Object.keys(_dataEnemies).length);
-				/*for (var i = 0; i < _dataEnemies.; ++i)
+				for (var i = 0; i < _dataEnemies.length; ++i)
 				{
-					
-				}*/
+					// Te persigue.
+					if (_dataEnemies.spriteEnemy == "Chase")
+					{
+						var _spd = 40;
+						var _dir = pointdirection(_dataEnemies.xEnemy,_dataEnemies.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+						_dataEnemies.xEnemy = Math.round(_dataEnemies.xEnemy+_spd*dcos(_dir));
+						_dataEnemies.yEnemy = Math.round(_dataEnemies.yEnemy-_spd*dsin(_dir));
+					}
+				}
 			}
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
