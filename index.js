@@ -164,56 +164,58 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
 						if (selPlayer.rows[0].stunplayer == 0)
 						{
-							// Asigna tu sprite y cuánto te stunearás acorde a la acción recibida.
-							var _spritePlayer = "", _stunPlayer = 0;
-							if (_event == "")
-							{
-								_spritePlayer = "Still";
-								_stunPlayer = 0;
-							}
-							else if (_event == "clickWait")
-							{
-								_spritePlayer = "Still";
-								_stunPlayer = 1;
-							}
-							else if (_event == "clickTurnLeft")
-							{
-								_spritePlayer = "Look";
-								_stunPlayer = 1;
-							}
-							else if (_event == "clickTurnRight")
-							{
-								_spritePlayer = "Look";
-								_stunPlayer = 1;
-							}
-							else if (_event == "clickMoveForwards")
-							{
-								_spritePlayer = "Move";
-								_stunPlayer = 10;
-							}
-							else if (_event == "clickMoveBackwards")
-							{
-								_spritePlayer = "Move";
-								_stunPlayer = 10;
-							}
-							else if (_event == "clickLookAt")
-							{
-								_spritePlayer = "Look";
-								_stunPlayer = 1;
-							}
-			
-							// Ejecuta el loop.
-							loop01(_name,_event,selPlayer,_spritePlayer,_stunPlayer);
+							doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
+								// Asigna tu sprite y cuánto te stunearás acorde a la acción recibida.
+								var _spritePlayer = "", _stunPlayer = 0;
+								if (_event == "")
+								{
+									_spritePlayer = "Still";
+									_stunPlayer = 0;
+								}
+								else if (_event == "clickWait")
+								{
+									_spritePlayer = "Still";
+									_stunPlayer = 1;
+								}
+								else if (_event == "clickTurnLeft")
+								{
+									_spritePlayer = "Look";
+									_stunPlayer = 1;
+								}
+								else if (_event == "clickTurnRight")
+								{
+									_spritePlayer = "Look";
+									_stunPlayer = 1;
+								}
+								else if (_event == "clickMoveForwards")
+								{
+									_spritePlayer = "Move";
+									_stunPlayer = 10;
+								}
+								else if (_event == "clickMoveBackwards")
+								{
+									_spritePlayer = "Move";
+									_stunPlayer = 10;
+								}
+								else if (_event.substr(0,11) == "clickLookAt")
+								{
+									_spritePlayer = "Look";
+									_stunPlayer = 1;
+								}
+				
+								// Ejecuta el loop.
+								loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stunPlayer);
+							});
 						}
 					});
 				}
 			});
 		});
 		
-		function loop01(_name,_event,selPlayer,_spritePlayer,_stun)
+		function loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stun)
 		{
 			var _stunPlayer = _stun;
-			
+			console.log("init loop",_stun);
 			// La dirección del player.
 			var _dirPlayer = selPlayer.rows[0].dirplayer;
 			if (_stunPlayer > 0)
@@ -244,27 +246,25 @@ io.on("connection", async (_socket) => {
 			// Data: Player.
 			var _dataPlayer = {xPlayer:_xPlayer, yPlayer:_yPlayer, dirPlayer:_dirPlayer};
 			
-			doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
-				// Array con los datos de los enemigos.
-				var _dataEnemies = [];
-				for (var i = 0; i < selEnemies.rowCount; ++i)
-				{
-					_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy, spriteEnemy:selEnemies.rows[0].spriteenemy});
-				}
-				
-				// END CYCLE. Si todavía sigue paralizado, repite el loop.
-				_stunPlayer = Math.max(_stunPlayer,1-0);
-				if (_stunPlayer > 0) loop01(_name,_event,selPlayer,_spritePlayer,_stunPlayer);
-				// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
-				else
-				{
-					console.log("Cycle ended serv");
-					_spritePlayer = "Still";
-					doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
-						_socket.emit("looped01",_dataPlayer,_dataEnemies);
-					});
-				}
-			});
+			// Array con los datos de los enemigos.
+			var _dataEnemies = [];
+			for (var i = 0; i < selEnemies.rowCount; ++i)
+			{
+				_dataEnemies.push({nameEnemy:selEnemies.rows[0].nameenemy, xEnemy:selEnemies.rows[0].xenemy, yEnemy:selEnemies.rows[0].yenemy, dirEnemy:selEnemies.rows[0].direnemy, spriteEnemy:selEnemies.rows[0].spriteenemy});
+			}
+			
+			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
+			_stunPlayer = Math.max(_stunPlayer,1-0);
+			console.log("entramos al loop?",_stunPlayer);
+			if (_stunPlayer > 0) loop01(_name,_event,selPlayer,selEnemies,_spritePlayer,_stunPlayer);
+			// Si ya llegó al final, guarda datos, recupera el control y envía los datos al cliente.
+			else
+			{
+				_spritePlayer = "Still";
+				doQuery("UPDATE player01 SET xplayer = '"+String(_xPlayer)+"', yplayer = '"+String(_yPlayer)+"', dirplayer = '"+String(_dirPlayer)+"', spriteplayer = '"+String(_spritePlayer)+"', stunplayer = '"+String(_stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+					_socket.emit("looped01",_dataPlayer,_dataEnemies);
+				});
+			}
 		}
 	//}
 });
