@@ -362,11 +362,15 @@
 							var _lado = " frente a ti. ";
 							if (_diffe < -15) _lado = " a tu derecha. ";
 							else if (_diffe > 15) _lado = " a tu izquierda. ";
-							var _txt = getEnemyDescription(_dataEnemies[i].nameEnemy) + _lado;
+							var _enemyDescription = getEnemyDescription(_dataEnemies[i].nameEnemy);
+							var _txt = _enemyDescription[0] + _lado;
 							
 							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 							{
+								// Si lo ves, ¿qué lleva?
+								_txt += _enemyDescription[1] + ". ";
+								
 								// Indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
 								var _diffToPlayer = angleDifference(_dataEnemies[i].dirEnemy,_dirToPlayer);
@@ -417,8 +421,8 @@
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
-					else return "";
+					if (_nameEnemy == "ExploradorPala") return ["Un explorador","Sujeta una pala con sus manos"];
+					else return ["",""];
 				}				
 			}
 			if (true){ // ####################################################### Tale 01: lee estado enemigo (ExploradorPala). #######################################################
