@@ -239,7 +239,7 @@ io.on("connection", async (_socket) => {
 		{
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el stun es 0 (cargar datos) no.
 			if (_dataPlayer.stunPlayer > 0)
-				executePlayerStep(_dataPlayer);
+				executePlayerStep(_event,_dataPlayer);
 			
 			// Los enemigos actúan.
 			for (var i = 0; i < _dataEnemies.length; ++i)
@@ -276,7 +276,7 @@ io.on("connection", async (_socket) => {
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
-		function executePlayerStep(_player)
+		function executePlayerStep(_event,_player)
 		{
 			// El player gira.
 			if (_event == "clickTurnLeft") _player.dirPlayer = angular(_player.dirPlayer+45);
