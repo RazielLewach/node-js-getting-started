@@ -369,7 +369,7 @@
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 							{
 								// Si lo ves, ¿qué lleva?
-								_txt += _enemyDescription[1] + ". ";
+								_txt += _enemyDescription[1] + ", ";
 								
 								// Indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
@@ -392,7 +392,7 @@
 								var _rango = "";
 								if (_dist > 1) _rango = "fuera de tu alcance";
 								else _rango = "dentro del alcance de tus ataques";
-								_txt += "Está a " + String(_dist) + " metro" + String(_s) + " de distancia, " + String(_rango) + ".";
+								_txt += "Está a " + String(_dist) + " metro" + String(_s) + " de distancia, " + String(_rango) + ". ";
 								
 								// Datos concretos de qué hace cada enemigo.
 								_txt += getEnemyBehaviour(_dataEnemies[i]);
