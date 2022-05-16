@@ -438,7 +438,8 @@
 							// Está atacándote.
 							if (_enemy.spriteEnemy == "AttackPala")
 							{
-								if (_enemy.stunEnemy > 20) _txt = "Está alzando su pala, preparando su ataque. ";
+								if (_enemy.stunEnemy > 25) _txt = "Está alzando su pala, preparando su ataque. ";
+								else if (_enemy.stunEnemy > 20) _txt = "Está descendiendo su pala, a punto de ejecutar su ataque. ";
 								else _txt = "Ha realizado su ataque con su pala y está aturdido. ";
 							}
 							
