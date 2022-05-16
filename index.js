@@ -298,7 +298,7 @@ io.on("connection", async (_socket) => {
 	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################
 		function executeEnemyStep(_enemy)
 		{
-			if (_enemy.enemyName == "ExploradorPala")
+			if (_enemy.nameEnemy == "ExploradorPala")
 			{
 				// Puede decidir.
 				if (_enemy.spriteEnemy == "Still")
