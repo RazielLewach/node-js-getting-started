@@ -433,10 +433,10 @@
 							var _txt = "";
 							
 							// Está no haciendo nada.
-							if (_sprite == "Still") _txt = "Está pensando qué hacer. ";
+							if (_enemy.spriteEnemy == "Still") _txt = "Está pensando qué hacer. ";
 							
 							// Está persiguiéndote.
-							else if (_sprite == "Chase") _txt = "Te está persiguiendo. ";
+							else if (_enemy.spriteEnemy == "Chase") _txt = "Te está persiguiendo. ";
 							
 							// Está atacándote.
 							else if (_enemy.spriteEnemy == "AttackPala")
