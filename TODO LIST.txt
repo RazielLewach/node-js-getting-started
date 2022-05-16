@@ -1,5 +1,7 @@
 ###### TODO ######
-- ¿Hacer estados del player y enemigo? Poder hacer cosas, interactuar.
+- Indicar si estás tú en su alcance?
+- ¿Resaltar de color la parte del texto que respecto a tu click anterior cambió?
+- Al Esperar, se descuadra y deja de estar frente a ti. Ocurre sólo si lo miras en diagonal?
 
 ###### DONE ######
 - Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?

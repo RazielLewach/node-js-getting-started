@@ -386,13 +386,17 @@
 								_txt += String(_pos) + ". ";
 								
 								// Su distancia.
-								var _dist = Math.round(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100)/10;
+								var _dist = pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
+								var _distCheck = Math.round(_dist/100)/10;
 								var _s = "s";
-								if (_dist == 1) _s = "";
-								var _rango = "";
-								if (_dist > 1) _rango = "fuera de tu alcance";
-								else _rango = "dentro del alcance de tus ataques";
-								_txt += "Está a " + String(_dist) + " metro" + String(_s) + " de distancia, " + String(_rango) + ". ";
+								if (_distCheck == 1) _s = "";
+								var _rangoTu = "";
+								if (_distCheck > 1) _rangoTu = "fuera de tu alcance";
+								else _rangoTu = "dentro del alcance de tus ataques";
+								var _rangoEl = "";
+								if (_dist > 700) _rangoEl = "fuera del suyo";
+								else _rangoEl = "dentro del suyo";
+								_txt += "Está a " + String(_dist) + " metro" + String(_s) + " de distancia, " + String(_rangoTu) + ", y tú " + String(_rangoEl) + ". ";
 								
 								// Datos concretos de qué hace cada enemigo.
 								_txt += getEnemyBehaviour(_dataEnemies[i]);

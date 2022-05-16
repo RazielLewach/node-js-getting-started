@@ -304,7 +304,7 @@ io.on("connection", async (_socket) => {
 				if (_enemy.spriteEnemy == "Still")
 				{
 					// Decide perseguirte.
-					if (pointDistance(_enemy.xEnemy,_enemy.yEnemy,_player.xPlayer,_player.yPlayer) > 1000)
+					if (pointDistance(_enemy.xEnemy,_enemy.yEnemy,_player.xPlayer,_player.yPlayer) > 700)
 					{
 						_enemy.spriteEnemy = "Chase";
 						_enemy.stunEnemy = 10;
