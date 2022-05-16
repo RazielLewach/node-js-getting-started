@@ -358,7 +358,7 @@
 						// Si el enemigo está en tu campo visual...
 						if (Math.abs(_diffe) <= 70)
 						{
-							// ... indica el ángulo con el que ves el enemigo.
+							// Indica el ángulo con el que ves el enemigo.
 							var _lado = " frente a ti. ";
 							if (_diffe < -15) _lado = " a tu derecha. ";
 							else if (_diffe > 15) _lado = " a tu izquierda. ";
@@ -367,7 +367,7 @@
 							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
 							{
-								// ... indica su dirección de mirada.
+								// Indica su dirección de mirada.
 								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
 								var _diffToPlayer = angleDifference(_dataEnemies[i].dirEnemy,_dirToPlayer);
 								var _pos = "";
@@ -379,22 +379,18 @@
 									else _pos = "mirando a tu izquierda";
 								}
 								
-								// ... y su distancia.
+								_txt += String(_pos) + ". ";
+								
+								// Su distancia.
 								var _dist = Math.round(pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer)/100)/10;
 								var _s = "s";
 								if (_dist == 1) _s = "";
+								var _rango = "";
+								if (_dist > 1) _rango = "fuera de tu alcance";
+								else _rango = "dentro del alcance de tus ataques";
+								_txt += "Está a " + String(_dist) + " metro" + String(_s) + " de distancia, " + String(_rango) + ".";
 								
-								// Pos muestra nomás.
-								_txt += "Está " + String(_dist) + " metro" + String(_s) + " de distancia y " + String(_pos) + ". ";
-								
-								// ¿Qué hace el enemigo?
-								var _txtSprite = "";
-								var _sprite = _dataEnemies[i].spriteEnemy;
-								if (_sprite == "Still") _txtSprite = "Está pensando qué hacer. ";
-								else if (_sprite == "Chase") _txtSprite = "Te está persiguiendo. ";
-								_txt += _txtSprite;
-								
-								// Datos concretos de cada enemigo.
+								// Datos concretos de qué hace cada enemigo.
 								_txt += getEnemyBehaviour(_dataEnemies[i]);
 							}
 							// Si no, no ves nada de él.
@@ -421,7 +417,7 @@
 				// Obtén la descripción completa del enemigo para identificarlo.
 				function getEnemyDescription(_enemyName)
 				{
-					if (_enemyName.nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
+					if (nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
 					else return "";
 				}
 				
@@ -435,8 +431,14 @@
 						{
 							var _txt = "";
 							
+							// Está no haciendo nada.
+							if (_sprite == "Still") _txt = "Está pensando qué hacer. ";
+							
+							// Está persiguiéndote.
+							else if (_sprite == "Chase") _txt = "Te está persiguiendo. ";
+							
 							// Está atacándote.
-							if (_enemy.spriteEnemy == "AttackPala")
+							else if (_enemy.spriteEnemy == "AttackPala")
 							{
 								if (_enemy.stunEnemy > 25) _txt = "Está alzando su pala, preparando su ataque. ";
 								else if (_enemy.stunEnemy > 20) _txt = "Está descendiendo su pala, a punto de ejecutar su ataque. ";
