@@ -87,7 +87,7 @@ io.on("connection", async (_socket) => {
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
 									doQuery("INSERT INTO player01(name,xplayer,yplayer,dirplayer,spriteplayer,stunplayer) VALUES ('"+String(_name)+"','0','0','0','Still','0');",() => {});
-									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','Explorador','10000','0','180','Chase','10');",() => {});
+									doQuery("INSERT INTO enemies01(name,nameenemy,xenemy,yenemy,direnemy,spriteenemy,stunenemy) VALUES ('"+String(_name)+"','ExploradorPala','10000','0','180','Chase','10');",() => {});
 								}
 							}
 						}
@@ -239,48 +239,11 @@ io.on("connection", async (_socket) => {
 		{
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el stun es 0 (cargar datos) no.
 			if (_dataPlayer.stunPlayer > 0)
-			{
-				// El player gira.
-				if (_event == "clickTurnLeft") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer+45);
-				else if (_event == "clickTurnRight") _dataPlayer.dirPlayer = angular(_dataPlayer.dirPlayer-45);
-				_dataPlayer.dirPlayer = getMult(_dataPlayer.dirPlayer,45);
-				if (_event.substr(0,11) == "clickLookAt") _dataPlayer.dirPlayer = _event.substr(11,3);
-				
-				// El player se mueve.
-				var _spd = 100 - 50*(_dataPlayer.spritePlayer == "MoveBackwards"), _dir = -1;
-				if (_event == "clickMoveForwards") _dir = _dataPlayer.dirPlayer;
-				else if (_event == "clickMoveBackwards") _dir = _dataPlayer.dirPlayer+180;
-				if (_dir != -1)
-				{
-					_dataPlayer.xPlayer = Math.round(_dataPlayer.xPlayer+_spd*dcos(_dir));
-					_dataPlayer.yPlayer = Math.round(_dataPlayer.yPlayer-_spd*dsin(_dir));
-				}
+				executePlayerStep(_dataPlayer);
 			
-				// Los enemigos actúan.
-				for (var i = 0; i < _dataEnemies.length; ++i)
-				{
-					// Puede decidir.
-					if (_dataEnemies[i].spriteEnemy == "Still")
-					{
-						// Decide perseguirte.
-						if (pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer) > 1000)
-						{
-							_dataEnemies[i].spriteEnemy = "Chase";
-							_dataEnemies[i].stunEnemy = 10;
-						}
-					}
-					// Te persigue.
-					else if (_dataEnemies[i].spriteEnemy == "Chase")
-					{
-						var _spd = 40;
-						var _dir = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
-						_dataEnemies[i].xEnemy = Math.round(_dataEnemies[i].xEnemy+_spd*dcos(_dir));
-						_dataEnemies[i].yEnemy = Math.round(_dataEnemies[i].yEnemy-_spd*dsin(_dir));
-						_dataEnemies[i].stunEnemy = Math.max(_dataEnemies[i].stunEnemy-1,0);
-						if (_dataEnemies[i].stunEnemy == 0) _dataEnemies[i].spriteEnemy = "Still";
-					}
-				}
-			}
+			// Los enemigos actúan.
+			for (var i = 0; i < _dataEnemies.length; ++i)
+				executeEnemyStep(_dataEnemies[i]);
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
 			_dataPlayer.stunPlayer = Math.max(_dataPlayer.stunPlayer-1,0);
@@ -310,6 +273,70 @@ io.on("connection", async (_socket) => {
 				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
 				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
 			});
+		}
+	//}
+	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
+		function executePlayerStep(_player)
+		{
+			// El player gira.
+			if (_event == "clickTurnLeft") _player.dirPlayer = angular(_player.dirPlayer+45);
+			else if (_event == "clickTurnRight") _player.dirPlayer = angular(_player.dirPlayer-45);
+			_player.dirPlayer = getMult(_player.dirPlayer,45);
+			if (_event.substr(0,11) == "clickLookAt") _player.dirPlayer = _event.substr(11,3);
+			
+			// El player se mueve.
+			var _spd = 100 - 50*(_player.spritePlayer == "MoveBackwards"), _dir = -1;
+			if (_event == "clickMoveForwards") _dir = _player.dirPlayer;
+			else if (_event == "clickMoveBackwards") _dir = _player.dirPlayer+180;
+			if (_dir != -1)
+			{
+				_player.xPlayer = Math.round(_player.xPlayer+_spd*dcos(_dir));
+				_player.yPlayer = Math.round(_player.yPlayer-_spd*dsin(_dir));
+			}
+		}
+	//}
+	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################
+		function executeEnemyStep(_enemy)
+		{
+			if (_enemy.enemyName == "ExploradorPala")
+			{
+				// Puede decidir.
+				if (_enemy.spriteEnemy == "Still")
+				{
+					// Decide perseguirte.
+					if (pointDistance(_enemy.xEnemy,_enemy.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer) > 1000)
+					{
+						_enemy.spriteEnemy = "Chase";
+						_enemy.stunEnemy = 10;
+					}
+					
+					// Decide atacarte con la pala.
+					else
+					{
+						_enemy.spriteEnemy = "AttackPala";
+						_enemy.stunEnemy = 40;
+					}
+				}
+				// Te persigue.
+				else if (_enemy.spriteEnemy == "Chase")
+				{
+					var _spd = 40;
+					var _dir = pointDirection(_enemy.xEnemy,_enemy.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+					_enemy.xEnemy = Math.round(_enemy.xEnemy+_spd*dcos(_dir));
+					_enemy.yEnemy = Math.round(_enemy.yEnemy-_spd*dsin(_dir));
+				}
+				// Te ataca con la pala.
+				else if (_enemy.spriteEnemy == "AttackPala")
+				{
+					
+				}
+				// Gestiona animaciones.
+				if (_enemy.spriteEnemy == "Chase" || _enemy.spriteEnemy == "AttackPala")
+				{
+					_enemy.stunEnemy = Math.max(_enemy.stunEnemy-1,0);
+					if (_enemy.stunEnemy == 0) _enemy.spriteEnemy = "Still";
+				}
+			}
 		}
 	//}
 });

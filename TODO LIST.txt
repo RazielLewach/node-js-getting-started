@@ -15,8 +15,19 @@
 
 
 ###### INFO AND ANNOTATIONS ######
-- No especifico concepto de tiempo. Sólo son instantes. El mínimo es 1. Para la práctica, cada instante son 0.05 segundos (0.5s = 10i, 10s = 20i), pero no hace falta decirlo.
-- La distancia va a metros. Un metro son 1000 unidades. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros.
-- El ataque ligero tarda 10i y el ataque pesado tarda 25i.
-¿Cómo implementar el sistema?
-Función "loop01" que contenga todo el loop por cada instante. Al llamar al socket con tu orden, se setea el sprite del player acorde a la acción y su contador para ver cuánto tarda. Entonces el loop se ejecuta en bucle hasta que el contador baja a 0. Y ahí se devuelve el control al player.
+- Mínimo instante es 1. Cada instante son 0.05 segundos (0.5s = 10i, 1s = 20i).
+- Un metro son 1000 unidades. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros. Hacia atrás son 20 instantes el metro, más lento.
+
+###### IDEAS ######
+- Sistema de daño. Tú y el enemigo tenéis el cuerpo dividido en: cabeza, brazos, cuerpo, piernas. Cada parte tiene 3 estados: "sana", "herida", "grave" o "anulada". El estado empeora según el daño recibido, que va por unidades.
+- En todo momento hay unos radiobuttons para marcar a qué parte del cuerpo rival apuntar. Tus ataques suelen ser en dirección en que miras y en área, afectando a todo enemigo en el rango y causando daño a la parte apuntada.
+- Al causar daño a las piernas, el enemigo tendrá dificultad para moverse, dependiendo de la gravedad. Al anularle las piernas no podrá moverse. Esto puede ser útil si hay muchos enemigos, para entorpecer a unos y evitar ser rodeado, o para reducir la mobilidad enemiga para poder atacar mejor.
+- Al causar daño a los brazos, el enemigo tendrá dificultad para realizar ataques, impidiéndole atacar si se los anulas.
+- Al causar daño a la cabeza, el enemigo tendrá dificultades para localizarte y para poder pensar, pudiendo imposibilitarle utilizar ciertas tácticas o habilidades. Si se le anula no podrá saber dónde estás.
+- Causar daño al cuerpo no reduce las habilidades del rival, pero anular el cuerpo es la única forma de derrotarle.
+- ¿Por qué no atacar directamente al cuerpo y ahorrar tiempo, entonces? El cuerpo es una parte especial, pues puedes desviar los ataques contra él. El rival puede reaccionar rápidamente y en un momento que esté acorralado, desviar el ataque hacia su cuerpo con sus brazos o con sus piernas, evitando el daño totalmente. El desvío no puede ejecutarse si atacas a las extremidades, pues no puede desviar con algo si es ese mismo algo el que está siendo atacado, así que se trata de atacar a las extremidades para buscar ventajas adicionales estratégicas pero tardar más, o atacar al cuerpo para matar más rápidamente arriesgándote a que te desvíen y tus ataques sean nulos. La cabeza también puede ser protegida, pero sólo con los brazos. Esto sirve porque recibir daño a la cabeza te da el peor debilitamiento posible: dificultades para actuar y no poder ver al enemigo porque tu visión falla. Para que el desvío sea efectivo, debes estar no haciendo ninguna acción. En el instante que inicies la acción de bloquear, quedarás aturdido mientras dure, pero si recibes daño en los primeros instantes del desvío, te protegerás. Al desviar en cabeza, sólo será valido si tus manos no están anuladas. Al desviar en cuerpo, lo intentará con las manos, y si están anuladas, con las piernas. Si están anuladas, el desviar fallará.
+
+- Ataque ligero: 1 daño, 10 instantes (daño al final) + 5 instantes (aturdido).
+- Ataque moderado: 2 daño, 14 instantes (daño al final) + 7 instantes (aturdido).
+- Ataque fuerte: 3 daño, 18 instantes (daño al final) + 9 instantes (aturdido).
+- Desviar (cuerpo) y Desviar (cabeza): 5 instantes (desvía en todos) + 5 instantes (aturdido).
