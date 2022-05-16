@@ -243,7 +243,7 @@ io.on("connection", async (_socket) => {
 			
 			// Los enemigos actúan.
 			for (var i = 0; i < _dataEnemies.length; ++i)
-				executeEnemyStep(_dataEnemies[i]);
+				executeEnemyStep(_dataEnemies[i],_dataPlayer);
 			
 			// END CYCLE. Si todavía sigue paralizado, repite el loop con los datos actualizados.
 			_dataPlayer.stunPlayer = Math.max(_dataPlayer.stunPlayer-1,0);
@@ -296,7 +296,7 @@ io.on("connection", async (_socket) => {
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################
-		function executeEnemyStep(_enemy)
+		function executeEnemyStep(_enemy,_player)
 		{
 			if (_enemy.nameEnemy == "ExploradorPala")
 			{
@@ -304,7 +304,7 @@ io.on("connection", async (_socket) => {
 				if (_enemy.spriteEnemy == "Still")
 				{
 					// Decide perseguirte.
-					if (pointDistance(_enemy.xEnemy,_enemy.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer) > 1000)
+					if (pointDistance(_enemy.xEnemy,_enemy.yEnemy,_player.xPlayer,_player.yPlayer) > 1000)
 					{
 						_enemy.spriteEnemy = "Chase";
 						_enemy.stunEnemy = 10;
@@ -321,7 +321,7 @@ io.on("connection", async (_socket) => {
 				else if (_enemy.spriteEnemy == "Chase")
 				{
 					var _spd = 40;
-					var _dir = pointDirection(_enemy.xEnemy,_enemy.yEnemy,_dataPlayer.xPlayer,_dataPlayer.yPlayer);
+					var _dir = pointDirection(_enemy.xEnemy,_enemy.yEnemy,_player.xPlayer,_player.yPlayer);
 					_enemy.xEnemy = Math.round(_enemy.xEnemy+_spd*dcos(_dir));
 					_enemy.yEnemy = Math.round(_enemy.yEnemy-_spd*dsin(_dir));
 				}
