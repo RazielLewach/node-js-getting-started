@@ -303,7 +303,7 @@
 					});
 				}
 			}
-			if (true){ // ####################################################### Lógica de tale 01. #######################################################
+			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btnTurnLeft").click((e) => {
 					socketEmitLoop01("clickTurnLeft");
@@ -362,7 +362,7 @@
 							var _lado = " frente a ti. ";
 							if (_diffe < -15) _lado = " a tu derecha. ";
 							else if (_diffe > 15) _lado = " a tu izquierda. ";
-							var _txt = getEnemyName(_dataEnemies[i].nameEnemy) + _lado;
+							var _txt = getEnemyDescription(_dataEnemies[i].nameEnemy) + _lado;
 							
 							// Si lo ves bien porque está centrado...
 							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
@@ -393,6 +393,9 @@
 								if (_sprite == "Still") _txtSprite = "Está pensando qué hacer. ";
 								else if (_sprite == "Chase") _txtSprite = "Te está persiguiendo. ";
 								_txt += _txtSprite;
+								
+								// Datos concretos de cada enemigo.
+								_txt += getEnemyBehaviour(_dataEnemies[i]);
 							}
 							// Si no, no ves nada de él.
 							else
@@ -415,12 +418,34 @@
 					$(".btnAccion").removeAttr("disabled");
 				});
 				
-				function getEnemyName(_enemyName)
+				// Obtén la descripción completa del enemigo para identificarlo.
+				function getEnemyDescription(_enemyName)
 				{
 					if (_enemyName.nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
 					else return "";
 				}
+				
+				// Obtén el estado y comportamiento del enemigo (qué está haciendo exactamente).
+				
 			}
+			if (true){ // ####################################################### Tale 01: lee estado enemigo (ExploradorPala). #######################################################
+				function getEnemyBehaviour(_enemy)
+					{
+						if (_enemy.nameEnemy == "ExploradorPala")
+						{
+							var _txt = "";
+							
+							// Está atacándote.
+							if (_enemy.spriteEnemy == "AttackPala")
+							{
+								if (_enemy.stunEnemy > 20) _txt = "Está alzando su pala, preparando su ataque. ";
+								else _txt = "Ha realizado su ataque con su pala y está aturdido. ";
+							}
+							
+							return _txt;
+						}
+					}
+				}
 			if (true){ // ####################################################### Scripts. #######################################################
 				function tiendeAX(_val,_obj,_inc)
 				{
