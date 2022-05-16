@@ -413,16 +413,13 @@
 					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
 					$(".btnAccion").removeAttr("disabled");
 				});
-				
-				// Obtén la descripción completa del enemigo para identificarlo.
+			}
+			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_enemyName)
 				{
-					if (nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
+					if (_nameEnemy == "ExploradorPala") return "Un explorador sujetando una pala con sus manos";
 					else return "";
-				}
-				
-				// Obtén el estado y comportamiento del enemigo (qué está haciendo exactamente).
-				
+				}				
 			}
 			if (true){ // ####################################################### Tale 01: lee estado enemigo (ExploradorPala). #######################################################
 				function getEnemyBehaviour(_enemy)
