@@ -1,9 +1,9 @@
 ###### TODO ######
-- Indicar si estás tú en su alcance?
 - ¿Resaltar de color la parte del texto que respecto a tu click anterior cambió?
 - Al Esperar, se descuadra y deja de estar frente a ti. Ocurre sólo si lo miras en diagonal?
 
 ###### DONE ######
+- Indicar si estás tú en su alcance?
 - Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?
 - Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
 - Fijar blanco no saca el mensaje "enemigo frente a ti"
