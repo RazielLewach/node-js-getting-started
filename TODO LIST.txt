@@ -1,5 +1,6 @@
 ###### TODO ######
 - ¿Resaltar de color la parte del texto que respecto a tu click anterior cambió?
+- La dir del enemigo deberia cambiar sólo mientras te persigue. Ahora mismo nunca cambia?
 
 ###### DONE ######
 - Al Esperar, se descuadra y deja de estar frente a ti. Ocurre sólo si lo miras en diagonal?
