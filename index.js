@@ -281,7 +281,7 @@ io.on("connection", async (_socket) => {
 			// El player gira.
 			if (_event == "clickTurnLeft") _player.dirPlayer = angular(_player.dirPlayer+45);
 			else if (_event == "clickTurnRight") _player.dirPlayer = angular(_player.dirPlayer-45);
-			_player.dirPlayer = getMult(_player.dirPlayer,45);
+			if (_event == "clickTurnLeft" || _event == "clickTurnRight") _player.dirPlayer = getMult(_player.dirPlayer,45);
 			if (_event.substr(0,11) == "clickLookAt") _player.dirPlayer = _event.substr(11,3);
 			
 			// El player se mueve.
