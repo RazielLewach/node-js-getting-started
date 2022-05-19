@@ -218,20 +218,20 @@ io.on("connection", async (_socket) => {
 		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
 		{
 			// Primero guarda el player.
-			/*doQuery("UPDATE player01 SET xplayer = '"+String(_dataPlayer.xPlayer)+"', yplayer = '"+String(_dataPlayer.yPlayer)+"', dirplayer = '"+String(_dataPlayer.dirPlayer)+"', spriteplayer = '"+String(_dataPlayer.spritePlayer)+"', stunplayer = '"+String(_dataPlayer.stunPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+			doQuery("UPDATE player01 SET canactplayer = '"+String(_dataPlayer.canActPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
-			});*/
+			});
 		}
 		
 		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index)
 		{
-			/*var _i = _index;
-			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"', xenemy = '"+String(_dataEnemies[_i].xEnemy)+"', yenemy = '"+String(_dataEnemies[_i].yEnemy)+"', direnemy = '"+String(_dataEnemies[_i].dirEnemy)+"', spriteenemy = '"+String(_dataEnemies[_i].spriteEnemy)+"', stunenemy = '"+String(_dataEnemies[_i].stunEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
+			var _i = _index;
+			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
 				_i++
 				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
 				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
-			});*/
+			});
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
