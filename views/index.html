@@ -108,31 +108,31 @@
 								<tr> <!-- Stats ofensivos -->
 									<td>
 										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer">
-										<label for="rbFuerzaPlayer">${currentCharacterName} Fuerza</label>
+										<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
 									</td><td>
 										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer">
-										<label for="rbPrecisionPlayer">Precisión</label>
+										<label for="rbPrecisionPlayer" id="lbPrecisionPlayer">Precisión</label>
 									</td><td>
 										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer">
-										<label for="rbPercepcionPlayer">Percepción</label>
+										<label for="rbPercepcionPlayer" id="lbPercepcionPlayer">Percepción</label>
 									</td><td>
 										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer">
-										<label for="rbInteligenciaPlayer">Inteligencia</label>
+										<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
 									</td>
 								</tr>
 								<tr> <!-- Stats defensivos -->
 									<td>
 										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer">
-										<label for="rbResistenciaPlayer">Resistencia</label>
+										<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
 									</td><td>
 										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer">
-										<label for="rbReflejosPlayer">Reflejos</label>
+										<label for="rbReflejosPlayer" id="lbReflejosPlayer">Reflejos</label>
 									</td><td>
 										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer">
-										<label for="rbCamuflajePlayer">Camuflaje</label>
+										<label for="rbCamuflajePlayer" id="lbCamuflajePlayer">Camuflaje</label>
 									</td><td>
 										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer">
-										<label for="rbVoluntadPlayer">Voluntad</label>
+										<label for="rbVoluntadPlayer" id="lbVoluntadPlayer">Voluntad</label>
 									</td>
 								</tr>
 							</table>
@@ -363,6 +363,9 @@
 				socket.on("looped01", (_dataPlayer,_dataEnemies) => {					
 					// Actualiza qué hay en la sala.
 					$("#lisVisualField").empty();
+					
+					// Setea los parámetros.
+					$("#lbFuerzaPlayer").text("[" + String(_dataPlayer.fuerzaPlayer)+"] Fuerza");
 					
 					// Luego, para cada enemigo...
 					for (var i = 0; i < _dataEnemies.length; ++i)
