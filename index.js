@@ -163,7 +163,7 @@ io.on("connection", async (_socket) => {
 				{
 					// Lee el estado actual del jugador. Valida que no esté a mitad de un turno para poder ejecutarse.
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
-						console.log("selPlayer.rows[0].canact",selPlayer.rows[0].canact);
+						console.log("selPlayer.rows[0].canactplayer",selPlayer.rows[0].canactplayer);
 						if (selPlayer.rows[0].canact)
 						{
 							doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
