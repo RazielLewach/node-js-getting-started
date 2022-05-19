@@ -66,6 +66,11 @@
 			.colNPC {
 				color: #888888;
 			}
+			
+			/* Tabla de acciones */
+			.tdAcc {
+				width: 150px;
+			}
 		</style>
 	</head>
 	<body style="font-family: 'verdana';">
@@ -89,7 +94,7 @@
 			</div>
 			
 			<br>
-			<div id="game" style="display: none; position: relative; height: 670px">
+			<div id="game" style="display: none; height: 670px">
 				<table>
 					<tr>
 						<td style="width:300px;"> <!-- La imagen del PJ-->
@@ -98,29 +103,29 @@
 						<td>
 							<table>
 								<tr> <!-- Categorías -->
-									<td>FÍSICO</td><td>AGILIDAD</td><td>SIGILO</td><td>MENTE</td>
+									<td class="tdAcc">FÍSICO</td><td class="tdAcc">AGILIDAD</td><td class="tdAcc">SIGILO</td><td class="tdAcc">MENTE</td>
 								</tr>
 								<tr> <!-- Stats ofensivos -->
 									<td>
-										<label for="rbFuerzaPlayer">Fuerza</label><br>
+										<label for="rbFuerzaPlayer">Fuerza</label>
 										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer">
-										<label for="rbPrecisionPlayer">Precisión</label><br>
+										<label for="rbPrecisionPlayer">Precisión</label>
 										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer">
-										<label for="rbPercepcionPlayer">Percepción</label><br>
+										<label for="rbPercepcionPlayer">Percepción</label>
 										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer">
-										<label for="rbInteligenciaPlayer">Inteligencia</label><br>
+										<label for="rbInteligenciaPlayer">Inteligencia</label>
 										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer">
 									</td>
 								</tr>
 								<tr> <!-- Stats defensivos -->
 									<td>
-										<label for="rbResistenciaPlayer">Resistencia</label><br>
+										<label for="rbResistenciaPlayer">Resistencia</label>
 										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer">
-										<label for="rbReflejosPlayer">Reflejos</label><br>
+										<label for="rbReflejosPlayer">Reflejos</label>
 										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer">
-										<label for="rbCamuflajePlayer">Camuflaje</label><br>
+										<label for="rbCamuflajePlayer">Camuflaje</label>
 										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer">
-										<label for="rbVoluntadPlayer">Voluntad</label><br>
+										<label for="rbVoluntadPlayer">Voluntad</label>
 										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer">
 									</td>
 								</tr>
@@ -139,12 +144,6 @@
 						</td>
 					</tr>
 				</table>
-				
-				<button id="btnTurnLeft" class="btnAccion" style="position: absolute; left: 310px; top: 40px;" title="1 instante">Mirar izquierda</button>
-				<button id="btnTurnRight" class="btnAccion" style="position: absolute; left: 510px; top: 40px;" title="1 instante">Mirar derecha</button>
-				<button id="btnMoveForwards" class="btnAccion" style="position: absolute; left: 420px; top: 10px;" title="1 metro, 10 instantes">Avanzar</button>
-				<button id="btnMoveBackwards" class="btnAccion" style="position: absolute; left: 420px; top: 70px;" title="1 metro, 20 instantes">Retroceder</button>
-				<button id="btnWait" class="btnAccion" style="position: absolute; left: 420px; top: 40px;" title="1 instante">Esperar</button>
 				
 				<!-- Los datos a mostrar-->
 				<ul id="lisVisualField" style="position: absolute; left: 310px; top: 100px;"></ul>
