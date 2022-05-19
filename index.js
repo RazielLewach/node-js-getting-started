@@ -247,6 +247,7 @@ io.on("connection", async (_socket) => {
 			if (_enemy.nameEnemy == "ExploradorPala")
 			{
 				
+			}
 		}
 	//}
 });
