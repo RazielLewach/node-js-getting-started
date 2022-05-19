@@ -90,10 +90,56 @@
 			
 			<br>
 			<div id="game" style="display: none; position: relative; height: 670px">
-				<!-- La imagen del PJ-->
-				<img style="position: absolute; left: 0px; top: 0px;" src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
+				<table>
+					<tr>
+						<td style="width:300px;"> <!-- La imagen del PJ-->
+							<img src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
+						</td>
+						<td>
+							<table>
+								<tr> <!-- Categorías -->
+									<td>FÍSICO</td><td>AGILIDAD</td><td>SIGILO</td><td>MENTE</td>
+								</tr>
+								<tr> <!-- Stats ofensivos -->
+									<td>
+										<label for="rbFuerzaPlayer">Fuerza</label><br>
+										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer">
+										<label for="rbPrecisionPlayer">Precisión</label><br>
+										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer">
+										<label for="rbPercepcionPlayer">Percepción</label><br>
+										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer">
+										<label for="rbInteligenciaPlayer">Inteligencia</label><br>
+										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer">
+									</td>
+								</tr>
+								<tr> <!-- Stats defensivos -->
+									<td>
+										<label for="rbResistenciaPlayer">Resistencia</label><br>
+										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer">
+										<label for="rbReflejosPlayer">Reflejos</label><br>
+										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer">
+										<label for="rbCamuflajePlayer">Camuflaje</label><br>
+										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer">
+										<label for="rbVoluntadPlayer">Voluntad</label><br>
+										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer">
+									</td>
+								</tr>
+								<tr> <!-- Acciones -->
+									<td>
+										<button id="btCombatir" class="btnAccion">Combatir</button>
+									</td>
+									<td>
+										<button id="btRecolectar" class="btnAccion">Recolectar</button>
+									</td>
+									<td>
+										<button id="btInteractuar" class="btnAccion">Interactuar</button>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 				
-				<!-- Los comandos -->
 				<button id="btnTurnLeft" class="btnAccion" style="position: absolute; left: 310px; top: 40px;" title="1 instante">Mirar izquierda</button>
 				<button id="btnTurnRight" class="btnAccion" style="position: absolute; left: 510px; top: 40px;" title="1 instante">Mirar derecha</button>
 				<button id="btnMoveForwards" class="btnAccion" style="position: absolute; left: 420px; top: 10px;" title="1 metro, 10 instantes">Avanzar</button>
@@ -101,8 +147,7 @@
 				<button id="btnWait" class="btnAccion" style="position: absolute; left: 420px; top: 40px;" title="1 instante">Esperar</button>
 				
 				<!-- Los datos a mostrar-->
-				<p id="isMirandoText" style="position: absolute; left: 310px; top: 100px;"></p>
-				<ul id="lisVisualField" style="position: absolute; left: 310px; top: 130px;"></ul>
+				<ul id="lisVisualField" style="position: absolute; left: 310px; top: 100px;"></ul>
 				
 			</div>
 		</div>
@@ -128,12 +173,6 @@
 				var xPlayer = -1; // La x del player.
 				var yPlayer = -1; // La y del player.
 				var dirAngular01 = 0; // Angular a velocidad 01.
-				
-				// Variables de servidor almacenadas.
-				var storedField = 0; // El campo de batalla.
-				var storedXPlayer = 0; // La x del player.
-				var storedYPlayer = 0; // La y del player.
-				var storedDirPlayer = 0; // La dir del player.
 			}
 			if (true){ // ####################################################### Login. #######################################################
 				// Envia las señales del login.
@@ -304,20 +343,14 @@
 			}
 			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
-				$("#btnTurnLeft").click((e) => {
-					socketEmitLoop01("clickTurnLeft");
+				$("#btCombatir").click((e) => {
+					socketEmitLoop01("clickCombatir");
 				});
-				$("#btnTurnRight").click((e) => {
-					socketEmitLoop01("clickTurnRight");
+				$("#btRecolectar").click((e) => {
+					socketEmitLoop01("clickRecolectar");
 				});
-				$("#btnMoveForwards").click((e) => {
-					socketEmitLoop01("clickMoveForwards");
-				});
-				$("#btnMoveBackwards").click((e) => {
-					socketEmitLoop01("clickMoveBackwards");
-				});
-				$("#btnWait").click((e) => {
-					socketEmitLoop01("clickWait");
+				$("#btInteractuar").click((e) => {
+					socketEmitLoop01("clickInteractuar");
 				});
 				
 				function socketEmitLoop01(_accion)
@@ -327,97 +360,20 @@
 				}
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
-				socket.on("looped01", (_dataPlayer,_dataEnemies) => {
-					// Data: player.
-					var _xPlayer = _dataPlayer.xPlayer;
-					var _yPlayer = _dataPlayer.yPlayer;
-					var _dirPlayer = _dataPlayer.dirPlayer;
-					
-					// Actualiza a dónde estás mirando.
-					var _look = "";
-					if 		(Math.abs(angleDifference(_dirPlayer,0)) <= 22.5) _look = "este";
-					else if (Math.abs(angleDifference(_dirPlayer,45)) <= 22.5) _look = "noreste";
-					else if (Math.abs(angleDifference(_dirPlayer,90)) <= 22.5) _look = "norte";
-					else if (Math.abs(angleDifference(_dirPlayer,135)) <= 22.5) _look = "noroeste";
-					else if (Math.abs(angleDifference(_dirPlayer,180)) <= 22.5) _look = "oste";
-					else if (Math.abs(angleDifference(_dirPlayer,225)) <= 22.5) _look = "suroeste";
-					else if (Math.abs(angleDifference(_dirPlayer,270)) <= 22.5) _look = "sur";
-					else if (Math.abs(angleDifference(_dirPlayer,315)) <= 22.5) _look = "sureste";
-					$("#isMirandoText").text("Estás mirando al " + String(_look) + ". En tu campo visual:");
-					
-					// Actualiza qué hay en tu campo visual. Primero limpia todos los botones de fijar blanco y la información de qué ves.
+				socket.on("looped01", (_dataPlayer,_dataEnemies) => {					
+					// Actualiza qué hay en la sala.
 					$("#lisVisualField").empty();
 					
 					// Luego, para cada enemigo...
-					var _found = false;
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						var _dirToEnemy = Math.round(pointDirection(_xPlayer,_yPlayer,_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy));
-						var _diffe = angleDifference(_dirPlayer,_dirToEnemy);
-						// Si el enemigo está en tu campo visual...
-						if (Math.abs(_diffe) <= 70)
-						{
-							// Indica el ángulo con el que ves el enemigo.
-							var _lado = " frente a ti. ";
-							if (_diffe < -15) _lado = " a tu derecha. ";
-							else if (_diffe > 15) _lado = " a tu izquierda. ";
-							var _enemyDescription = getEnemyDescription(_dataEnemies[i].nameEnemy);
-							var _txt = _enemyDescription[0] + _lado;
+						var _enemyDescription = getEnemyDescription(_dataEnemies[i].nameEnemy);
+						var _txt = String(_enemyDescription[0]) + ". " + String(_enemyDescription[1]) + ".";
 							
-							// Si lo ves bien porque está centrado...
-							if (Math.abs(angleDifference(_dirPlayer,_dirToEnemy)) <= 30)
-							{
-								// Si lo ves, ¿qué lleva?
-								_txt += _enemyDescription[1] + ", ";
-								
-								// Indica su dirección de mirada.
-								var _dirToPlayer = pointDirection(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
-								var _diffToPlayer = angleDifference(_dataEnemies[i].dirEnemy,_dirToPlayer);
-								var _pos = "";
-								if (Math.abs(_diffToPlayer) <= 45) _pos = "mirándote";
-								else if (Math.abs(_diffToPlayer) >= 135) _pos = "de espaldas";
-								else
-								{
-									if (_diffToPlayer < 0) _pos = "mirando a tu derecha";
-									else _pos = "mirando a tu izquierda";
-								}
-								
-								_txt += String(_pos) + ". ";
-								
-								// Su distancia.
-								var _dist = pointDistance(_dataEnemies[i].xEnemy,_dataEnemies[i].yEnemy,_xPlayer,_yPlayer);
-								var _distCheck = Math.round(_dist/100)/10;
-								var _s = "s";
-								if (_distCheck == 1) _s = "";
-								var _rangoTu = "";
-								if (_distCheck > 1) _rangoTu = "fuera de tu alcance";
-								else _rangoTu = "dentro del alcance de tus ataques";
-								var _rangoEl = "";
-								if (_dist > 700) _rangoEl = "fuera del suyo";
-								else _rangoEl = "dentro del suyo";
-								_txt += "Está a " + String(_distCheck) + " metro" + String(_s) + " de distancia, " + String(_rangoTu) + ", y tú " + String(_rangoEl) + ". ";
-								
-								// Datos concretos de qué hace cada enemigo.
-								_txt += getEnemyBehaviour(_dataEnemies[i]);
-							}
-							// Si no, no ves nada de él.
-							else
-								_txt += "No puedes verlo claramente.";
-								
-							// Añade el objetivo a la lista de visualizaciones.
-							_found = true;
-							var _dirTo = _dirToEnemy < 10 ? "00"+_dirToEnemy : (_dirToEnemy < 100 ? "0"+_dirToEnemy : _dirToEnemy);
-							$("#lisVisualField").append("<li><button id='btnMirarA"+String(_dirTo)+"' class='btnAccion' title='1 instante' style='margin-right: 5px;'>Mirar a:</button>"+String(_txt)+"</li>");
-						}
-						
-						// Asigna los listeners a los nuevos botones.
-						$("#lisVisualField").children("li").children("button").click((e) => {
-							var _dir = $(e.target).attr("id").substr(9,3);
-							socketEmitLoop01("clickLookAt"+String(_dir));
-						});
+						// Añade el objetivo a la lista de visualizaciones.
+						$("#lisVisualField").append("<li>"+String(_txt)+"</li>");
 					}
 					
-					if (!_found) $("#lisVisualField").append("<li>No ves nada.</li>");
 					$(".btnAccion").removeAttr("disabled");
 				});
 			}
@@ -428,31 +384,6 @@
 					else return ["",""];
 				}				
 			}
-			if (true){ // ####################################################### Tale 01: lee estado enemigo (ExploradorPala). #######################################################
-				function getEnemyBehaviour(_enemy)
-					{
-						if (_enemy.nameEnemy == "ExploradorPala")
-						{
-							var _txt = "";
-							
-							// Está no haciendo nada.
-							if (_enemy.spriteEnemy == "Still") _txt = "Está pensando qué hacer. ";
-							
-							// Está persiguiéndote.
-							else if (_enemy.spriteEnemy == "Chase") _txt = "Te está persiguiendo. ";
-							
-							// Está atacándote.
-							else if (_enemy.spriteEnemy == "AttackPala")
-							{
-								if (_enemy.stunEnemy > 25) _txt = "Está alzando su pala, preparando su ataque. ";
-								else if (_enemy.stunEnemy > 20) _txt = "Está descendiendo su pala, a punto de ejecutar su ataque. ";
-								else _txt = "Ha realizado su ataque con su pala y está aturdido. ";
-							}
-							
-							return _txt;
-						}
-					}
-				}
 			if (true){ // ####################################################### Scripts. #######################################################
 				function tiendeAX(_val,_obj,_inc)
 				{
