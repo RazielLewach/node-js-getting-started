@@ -165,33 +165,33 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
 						if (selPlayer.rows[0].canactplayer)
 						{
-							doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
-								// Crea la estructura de datos del player.
-								var _canActPlayer = selPlayer.rows[0].canactplayer;
-								if (_event == "") _canActPlayer = false;
-								var _dataPlayer = {
-									fuerzaPlayer:selPlayer.rows[0].fuerzaplayer,
-									resistenciaPlayer:selPlayer.rows[0].resistenciaplayer,
-									precisionPlayer:selPlayer.rows[0].precisionplayer,
-									reflejosPlayer:selPlayer.rows[0].reflejosplayer,
-									percepcionPlayer:selPlayer.rows[0].percepcionplayer,
-									camuflajePlayer:selPlayer.rows[0].camuflajeplayer,
-									inteligenciaPlayer:selPlayer.rows[0].inteligenciaplayer,
-									voluntadPlayer:selPlayer.rows[0].voluntadplayer,
-									canActPlayer:_canActPlayer
-								};
-								
-								// Crea la estructura de datos de los enemigos.
-								var _dataEnemies = [];
-								for (var i = 0; i < selEnemies.rowCount; ++i)
-								{
-									_dataEnemies.push({
-										nameEnemy:selEnemies.rows[0].nameenemy
-									});
-								}
-								
-								// Ejecuta el loop.
-								loop01(_name,_event,_dataPlayer,_dataEnemies);
+							doQuery("UPDATE player01 SET canactplayer = '"+String(false)+"' WHERE name = '"+String(_name)+"';", () => {
+								doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
+									// Crea la estructura de datos del player.
+									var _dataPlayer = {
+										fuerzaPlayer:selPlayer.rows[0].fuerzaplayer,
+										resistenciaPlayer:selPlayer.rows[0].resistenciaplayer,
+										precisionPlayer:selPlayer.rows[0].precisionplayer,
+										reflejosPlayer:selPlayer.rows[0].reflejosplayer,
+										percepcionPlayer:selPlayer.rows[0].percepcionplayer,
+										camuflajePlayer:selPlayer.rows[0].camuflajeplayer,
+										inteligenciaPlayer:selPlayer.rows[0].inteligenciaplayer,
+										voluntadPlayer:selPlayer.rows[0].voluntadplayer,
+										canActPlayer:selPlayer.rows[0].canactplayer
+									};
+									
+									// Crea la estructura de datos de los enemigos.
+									var _dataEnemies = [];
+									for (var i = 0; i < selEnemies.rowCount; ++i)
+									{
+										_dataEnemies.push({
+											nameEnemy:selEnemies.rows[0].nameenemy
+										});
+									}
+									
+									// Ejecuta el loop.
+									loop01(_name,_event,_dataPlayer,_dataEnemies);
+								});
 							});
 						}
 					});
@@ -218,7 +218,7 @@ io.on("connection", async (_socket) => {
 		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
 		{
 			// Primero guarda el player.
-			doQuery("UPDATE player01 SET canactplayer = '"+String(_dataPlayer.canActPlayer)+"' WHERE name = '"+String(_name)+"';", () => {
+			doQuery("UPDATE player01 SET canactplayer = '"+String(true)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
 			});
