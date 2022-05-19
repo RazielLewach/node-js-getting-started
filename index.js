@@ -209,10 +209,10 @@ io.on("connection", async (_socket) => {
 				// Los enemigos actúan.
 				for (var i = 0; i < _dataEnemies.length; ++i)
 					executeEnemyStep(_dataEnemies[i],_dataPlayer);
-			
-				// Guarda los datos.
-				loop01SaveData(_name,_dataPlayer,_dataEnemies);
 			}
+			
+			// Guarda los datos.
+			loop01SaveData(_name,_dataPlayer,_dataEnemies);
 		}
 		
 		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
