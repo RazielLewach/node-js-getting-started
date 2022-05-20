@@ -392,7 +392,7 @@
 						_txt += getEnemyState(_dataEnemies[i].stateEnemy);
 							
 						// Añade el objetivo a la lista de visualizaciones.
-						$("#lisVisualField").append("<li>"+String(_txt)+"</li>");
+						$("#lisVisualField").append("<li> Observas "+String(_txt)+"</li>");
 					}
 					
 					$(".btnAccion").removeAttr("disabled");
@@ -401,7 +401,7 @@
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return "Un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
+					if (_nameEnemy == "ExploradorPala") return "un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
 					else return ""
 				}
 				function getEnemyState(_stateEnemy)
