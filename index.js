@@ -247,11 +247,11 @@ io.on("connection", async (_socket) => {
 		function executePlayerStep(_event,_player)
 		{
 			var _ret = "";
+			var _arr = _event.split("/");
 			
 			// Si decides combatir contra un enemigo, le causas daño con prioridad.
-			if (_event.substr(0,13) == "clickCombatir")
+			if (_arr[0] == "clickCombatir")
 			{
-				var _arr = _event.split("/");
 				var _chosenObjective = _arr[1];
 				var _chosenOffensive = _arr[2];
 				var _chosenDefensive = _arr[3];
