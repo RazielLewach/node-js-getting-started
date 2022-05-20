@@ -210,41 +210,44 @@ io.on("connection", async (_socket) => {
 		function loop01(_name,_event,_dataPlayer,_dataEnemies)
 		{
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el cargar datos no.
+			var _ret = "";
 			if (_event != "")
 			{
-				executePlayerStep(_event,_dataPlayer);
+				_ret += executePlayerStep(_event,_dataPlayer);
 			
 				// Los enemigos actúan.
 				for (var i = 0; i < _dataEnemies.length; ++i)
-					executeEnemyStep(_dataEnemies[i],_dataPlayer);
+					_ret += executeEnemyStep(_event,_dataPlayer,_dataEnemies[i]);
 			}
 			
 			// Guarda los datos.
-			loop01SaveData(_name,_dataPlayer,_dataEnemies);
+			loop01SaveData(_name,_dataPlayer,_dataEnemies,_ret);
 		}
 		
-		function loop01SaveData(_name,_dataPlayer,_dataEnemies)
+		function loop01SaveData(_name,_dataPlayer,_dataEnemies,_ret)
 		{
 			// Primero guarda el player.
 			doQuery("UPDATE player01 SET canactplayer = '"+String(true)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
-				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
+				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0,_ret);
 			});
 		}
 		
-		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index)
+		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index,_ret)
 		{
 			var _i = _index;
 			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
 				_i++
-				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i);
-				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
+				if (_i < _dataEnemies.length) loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_i,_ret);
+				else _socket.emit("looped01",_dataPlayer,_dataEnemies,_ret);
 			});
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
 		function executePlayerStep(_event,_player)
 		{
+			var _ret = "";
+			
 			// Si decides combatir contra un enemigo, le causas daño con prioridad.
 			if (_event.substr(0,13) == "clickCombatir")
 			{
@@ -252,17 +255,28 @@ io.on("connection", async (_socket) => {
 				var _chosenObjective = _arr[1];
 				var _chosenOffensive = _arr[2];
 				var _chosenDefensive = _arr[3];
-				console.log("Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive));
+				_ret += "Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive);
 			}
+			
+			return _ret;
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################
-		function executeEnemyStep(_enemy,_player)
+		function executeEnemyStep(_event,_player,_enemy)
 		{
+			var _ret = "";
+			
+			// Enemigo: explorador de las nieves con una pala.
 			if (_enemy.nameEnemy == "ExploradorPala")
 			{
-				
+				// Cada loop te intenta causar daño si está agresivo.
+				if (_enemy.stateEnemy == "Aggressive")
+				{
+					
+				}
 			}
+			
+			return _ret;
 		}
 	//}
 });

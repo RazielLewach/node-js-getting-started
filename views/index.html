@@ -415,7 +415,7 @@
 				}
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
-				socket.on("looped01", (_dataPlayer,_dataEnemies) => {					
+				socket.on("looped01", (_dataPlayer,_dataEnemies,_ret) => {					
 					// Actualiza qué hay en la sala.
 					$("#lisVisualField").empty();
 					
@@ -451,9 +451,11 @@
 						$("#rbChooseEnemy"+String(i)).change(_event => {
 							chosenObjective = "enemy"+String(i);
 							enableAction();
-							console.log("i",i);
 						});
 					}
+					
+					// Finalmente añade el resultado del turno procesado.
+					$("#lisVisualField").append("<li>"+String(_ret)+"</li>");
 				});
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
