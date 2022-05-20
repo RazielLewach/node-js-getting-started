@@ -158,7 +158,6 @@ io.on("connection", async (_socket) => {
 	//{ ####################################################### Tale 01: recibe el loop del cliente, haz la lógica, acceso a BD, y envía el loop de vuelta. #######################################################
 		_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_event) => {
 			// Si el usuario es válido...
-			console.log("Loop01 server");
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
 				{
@@ -166,7 +165,9 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
 						if (selPlayer.rows[0].canactplayer)
 						{
+							console.log("A");
 							doQuery("UPDATE player01 SET canactplayer = '"+String(false)+"' WHERE name = '"+String(_name)+"';", () => {
+								console.log("B");
 								doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
 									// Crea la estructura de datos del player.
 									var _dataPlayer = {
@@ -191,6 +192,7 @@ io.on("connection", async (_socket) => {
 									}
 									
 									// Ejecuta el loop.
+									console.log("C");
 									loop01(_name,_event,_dataPlayer,_dataEnemies);
 								});
 							});
