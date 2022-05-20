@@ -1,132 +1,7 @@
 ###### TODO ######
-- ¿Resaltar de color la parte del texto que respecto a tu click anterior cambió?
-- La dir del enemigo deberia cambiar sólo mientras te persigue. Ahora mismo nunca cambia?
+- 
 
 ###### DONE ######
-- Al Esperar, se descuadra y deja de estar frente a ti. Ocurre sólo si lo miras en diagonal?
-- Indicar si estás tú en su alcance?
-- Por qué si estoy mirando al rival y retrocedo, dejo de tenerlo frente a mi. ¿No está actualizando datos? ¿Se pierde por el camino?
-- Al darle a girarte: alinearte al multiplo de 45 si no lo estás. Si lo estás, pos gira 45.
-- Fijar blanco no saca el mensaje "enemigo frente a ti"
-- Cambiar el HTML que muestra las cosas en tu campo visual para que sea una lista y puedas añadir los elementos realmente. Añadir a cada uno un botón para fijar blanco. Y así al limpiar todos los botones al inicio, podrás localizarlos.
-- Preparar el output que muestre los datos del enemigo si está en tu alcance (si no, no lo muestra), el ángulo, en qué dirección mira, su distancia, etc.
-- Preparar el server.js y las BD para poder tener soporte a environment01 y enemies01 y generar enemigos segun chapter y mostrarlos en el cliente al mirarles.
-- Entra en el código de MOVE pero no te mueves.
-- El hover funciona fatal.
-- Al pulsar un boton, que esa pulsación no cambie la dirección.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-################### Darle la vuelta totalmente al sistema y pensar otra cosa ##################
-- ¿Y si no pienso las batallas en individual sino en plan dungeon?
-- Rogelite. Genero dungeons conectando salas aleatoriamente. Si mueres, tu núcleo quedará como un pegote en el suelo y saldrás huyendo rodando para sobrevivir. Tiempo después te regenerarás a partir del pegote, pero estarás en una zona distinta a la que huiste, por eso tendrás que volver a comenzar en un mapa nuevo.
-- Tendrá toques aleatorios (por ejemplo, tras un combate, probabilidad de salir herido).
-- Las salas consisten en una cuadrícula donde se van formando salas con varias formas, con aberturas en las 4 direcciones (posibles) que se unen con otras salas por pasillos. Los pasillos no tienen bifurcaciones: cada salida de una sala lleva a únicamente otra sala.
-
-STATS
-- Combate: tu capacidad para combatir y derrotar a tus enemigos sin recibir mucho daño.
-- Supervivencia: tu capacidad para no perder vitalidad explorando y recuperarla rápido con tus recursos.
-- Perspicacia: tu capacidad para descubrir secretos, tesoros y recursos que no están visibles a simple vista.
-- Estrategia: tu capacidad para utilizar los recursos y artefactos de tu entorno a tu favor.
-
-- Obtendrás un punto para subir un stat cada vez que completes el dungeon de un episodio.
-- Jugablemente, tienes los siguientes comandos.
-[Ir derecha]: sal por la obertura de la derecha hasta llegar a la próxima sala.
-[Ir izquierda]: sal por la obertura de la izquierda hasta llegar a la próxima sala.
-[Ir arriba]: sal por la obertura de arriba hasta llegar a la próxima sala.
-[Ir abajo]: sal por la obertura de abajo hasta llegar a la próxima sala.
-[Luchar]: Ejecuta una ronda de combate contra todos los enemigos de la sala a la vez, equivalente a una cantidad fija de instantes (sistema se simplificará mucho).
-[Explorar]: Recolecta objetos a la vista. Lanza una probabilidad según tu Perspicacia de encontrar algo oculto. Sacrifica vitalidad. Un iconito en algún lado te indicará si en esa sala queda algo por encontrar. (¿Pensar mejor mecánica?). Podrás curarte, recibir buffs y mejoras por recolectar. Adicionalmente podrás encontrar materiales para crear artefactos.
-[Crear]: Utiliza los materiales obtenidos en esta sesión cuando haya algo en tu entorno interactuable para interactuar y tomar ventaja.
-
-MECÁNICAS
-- Si hay enemigos en una sala y usas el comando de ir a otra sala, se activará automáticamente una ronda de Lucha pero en la que no atacarás, sólo intentarás defenderte para huir. Siempre asegura la huida, aunque puede haber casos o habilidades especiales que la impidan.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-####### PENSANDO IDEAS, ÉSTA NO ME CONVENCE MUXO #########
-- Mismo sistema actual. Se te describirá el estado del campo en detalle MÁXIMO y tendrás botones para elegir qué hacer. La diferencia es que no serán botones de acciones individuales sino generales, se procesarán muchos instantes de golpe hasta cumplir un requisito y ahí recuperarás el control. El combate constará de varias rondas así.
-- Para cada ronda, habrá una seria de categorías, cada una con varias opciones para elegir. Debes elegir sólo una (radiobuttons individuales) de cada categoría, y pulsar el botón de "actuar" para ejecutar.
-- No hace falta añadir parametros a base de datos. El string de accion elegida que le entra al socket, que sea array de opciones, y se trabaja en base a eso. Entonces la IA asignará sprites (acciones) automaticamente en base a tus decisiones.
-
-Opciones a elegir en tus rondas.
-- Iniciativa: [Agresivo] [Medio] [Cauteloso]. ¿Qué tanto tratarás de actuar cuando veas la mínima oportunidad en vez de mantenerte alerta y alejado?
-- Estrategia: [Directo] [Común] [Pensador]. ¿Qué tanto priorizarás causar daño cuando veas la ocasión en vez de usar una estrategia?
-- Oportunista: [Daño] [Medio] [Efectos]. ¿Qué tanto buscarás preparar una estrategia cuando tengas tiempo en vez de asegurar tu supervivencia?
-- Habilidad ofensiva: [?]. Elige con qué habilidad quieres causar daño.
-- Habilidad defensiva: [?]. Elige con qué habilidad quieres protegerte del daño.
-- Habilidad de apoyo: [?]. Elige con qué habilidad quieres causar efectos.
-
-Acciones
-- Te puedes mover a velocidad de 0.1 metros por instante. 
-- Tienes una larga serie de habilidades con efectos muy distintos. Sin embargo, cada habilidad está asociada a una parte del cuerpo, y a medida que la parte recibe daño, es menos efectiva, hasta que cuando la parte es anulada, la efectividad para usar esa habilidad es mínima. Comienzas con capacidad para 6 habilidades, aumentable al volverte más fuerte. ¡Recuerda llevar como mínimo una ofensiva para poder derrotar al rival! Iniciarás con 2 de cada tipo, pero no estás obligado. Puedes, por ejemplo, tener 3 de ataque, 2 de apoyo y 1 defensiva, por ejemplo.
-- Por un lado tienes muchos tipos distintos de ataque en daño, rango, tiempos... Por otro lado, tienes efectos para dar características especiales a los ataques.
-
-Habilidades ofensivas:
-- Estocada: forma un pincho todavía más puntiagudo con tus manos y ataca. Daño: 1 herida, Rango: 1 metro, Tiempo: 8+4 instantes. (+1+1+3 = 5)
-- Corte: forma una hoja afilada con tus manos y ataca. Daño: 2 heridas, Rango: 1 metro, Tiempo: 12+6 instantes. (+2+1+2 = 5)
-- Impacto: forma una esfera sólida con tus manos y ataca. Daño: 3 heridas, Rango: 1 metro, Tiempo: 16+8 instantes. (+3+1+1 = 5)
-- Ametralladora: forma pequeños proyectiles con tu cuerpo y los lanza. Daño: 1, Rango: 2 metros, Tiempo: 12+6 instantes. (+1+2+2 = 5)
-- Francotiradora: forma un proyectil moderado con tu cuerpo y lo lanza con precisión y velocidad. Daño: 1, Rango: 3 metros, Tiempo: 16+8 instantes. (+1+3+1 = 5)
-- Escopeta: forma varios proyectiles con tu cuerpo y los lanza de forma concentrada. Daño: 2, Rango: 2 metros, Tiempo: 16+8 instantes. (+2+2+1 = 5)
-
-Habilidades defensivas:
-- 
-
-Habilidades de apoyo:
 - 
 
 
@@ -151,20 +26,12 @@ Habilidades de apoyo:
 
 
 
-###### INFO AND ANNOTATIONS ######
-- Mínimo instante es 1. Cada instante son 0.05 segundos (0.5s = 10i, 1s = 20i).
-- Un metro son 1000 unidades. Tu velocidad es de 2 metros por segundo corriendo. Son 2 metros por 20i. 1 metro son 10 instantes. Por cada instante recorres 0.1 metros. Hacia atrás son 20 instantes el metro, más lento.
 
-###### IDEAS ######
-- Sistema de daño. Tú y el enemigo tenéis el cuerpo dividido en: cabeza, brazos, cuerpo, piernas. Cada parte tiene 3 estados: "sana", "herida", "grave" o "anulada". El estado empeora según el daño recibido, que va por unidades.
-- En todo momento hay unos radiobuttons para marcar a qué parte del cuerpo rival apuntar. Tus ataques suelen ser en dirección en que miras y en área, afectando a todo enemigo en el rango y causando daño a la parte apuntada.
-- Al causar daño a las piernas, el enemigo tendrá dificultad para moverse, dependiendo de la gravedad. Al anularle las piernas no podrá moverse. Esto puede ser útil si hay muchos enemigos, para entorpecer a unos y evitar ser rodeado, o para reducir la mobilidad enemiga para poder atacar mejor.
-- Al causar daño a los brazos, el enemigo tendrá dificultad para realizar ataques, impidiéndole atacar si se los anulas.
-- Al causar daño a la cabeza, el enemigo tendrá dificultades para localizarte y para poder pensar, pudiendo imposibilitarle utilizar ciertas tácticas o habilidades. Si se le anula no podrá saber dónde estás.
-- Causar daño al cuerpo no reduce las habilidades del rival, pero anular el cuerpo es la única forma de derrotarle.
-- ¿Por qué no atacar directamente al cuerpo y ahorrar tiempo, entonces? El cuerpo es una parte especial, pues puedes desviar los ataques contra él. El rival puede reaccionar rápidamente y en un momento que esté acorralado, desviar el ataque hacia su cuerpo con sus brazos o con sus piernas, evitando el daño totalmente. El desvío no puede ejecutarse si atacas a las extremidades, pues no puede desviar con algo si es ese mismo algo el que está siendo atacado, así que se trata de atacar a las extremidades para buscar ventajas adicionales estratégicas pero tardar más, o atacar al cuerpo para matar más rápidamente arriesgándote a que te desvíen y tus ataques sean nulos. La cabeza también puede ser protegida, pero sólo con los brazos. Esto sirve porque recibir daño a la cabeza te da el peor debilitamiento posible: dificultades para actuar y no poder ver al enemigo porque tu visión falla. Para que el desvío sea efectivo, debes estar no haciendo ninguna acción. En el instante que inicies la acción de bloquear, quedarás aturdido mientras dure, pero si recibes daño en los primeros instantes del desvío, te protegerás. Al desviar en cabeza, sólo será valido si tus manos no están anuladas. Al desviar en cuerpo, lo intentará con las manos, y si están anuladas, con las piernas. Si están anuladas, el desviar fallará.
 
-- Ataque ligero: 1 daño, 10 instantes (daño al final) + 5 instantes (aturdido).
-- Ataque moderado: 2 daño, 14 instantes (daño al final) + 7 instantes (aturdido).
-- Ataque fuerte: 3 daño, 18 instantes (daño al final) + 9 instantes (aturdido).
-- Desviar (cuerpo) y Desviar (cabeza): 5 instantes (desvía en todos) + 5 instantes (aturdido).
+
+
+
+
+
+
+

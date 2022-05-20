@@ -3,15 +3,16 @@ cd node-js-getting-started & heroku login
 
 - OPEN DATABASE TO DO QUERIES
 heroku pg:psql
-\q para cerrar
-\dt show tables
 
 drop table enemies01; drop table player01; drop table characters; drop table chapters; drop table users;
 create table users (name varchar(255) not null unique, pass varchar(255) not null, taleplaying int not null, chapterplaying int not null, primary key (name, pass));
 create table chapters (name varchar(255) not null, tale int not null, chapter int not null, primary key (name, tale, chapter), CONSTRAINT hasChapter FOREIGN KEY(name) REFERENCES users(name));
 create table characters (name varchar(255) not null, tale int not null, character varchar(255) not null, gender varchar(1) not null, color varchar(3) not null, primary key (name, tale, character, gender), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
-create table player01 (name varchar(255) not null, fuerzaPlayer int not null, resistenciaPlayer int not null, precisionPlayer int not null, reflejosPlayer int not null, percepcionPlayer int not null, camuflajePlayer int not null, inteligenciaPlayer int not null, voluntadPlayer int not null, canActPlayer bool not null, primary key (name), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
+create table player01 (name varchar(255) not null, fuerzaPlayer int not null, resistenciaPlayer int not null, precisionPlayer int not null, reflejosPlayer int not null, percepcionPlayer int not null, camuflajePlayer int not null, inteligenciaPlayer int not null, voluntadPlayer int not null, canActPlayer bool not null, heridasCabeza int not null, heridasCuerpo int not null, heridasBrazos int not null, heridasPiernas int not null, primary key (name), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
 create table enemies01 (id SERIAL, name varchar(255) not null, nameEnemy varchar(255) not null, CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
+
+\q para cerrar
+\dt show tables
 
 - COMMIT, PUSH AND DEPLOY
 git add . & git commit -m "justcommitdamnit" & git push origin main & git push heroku main

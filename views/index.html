@@ -138,16 +138,17 @@
 							</table>
 							<br>
 							<!-- Acciones -->
-							<button id="btCombatir" class="btnAccion">Combatir</button><br>
-							<button id="btRecolectar" class="btnAccion">Recolectar</button><br>
-							<button id="btInteractuar" class="btnAccion">Interactuar</button><br>
+							<button id="btCombatir" class="btnAccion">Combatir</button>
+							<button id="btRecolectar" class="btnAccion">Recolectar</button>
+							<button id="btInteractuar" class="btnAccion">Interactuar</button>
+							
+							<!-- Los datos a mostrar-->
+							<br>
+							<ul id="lisVisualField"></ul>
 						</td>
 					</tr>
 				</table>
 				
-				<!-- Los datos a mostrar-->
-				<br>
-				<ul id="lisVisualField"></ul>
 				
 			</div>
 		</div>
@@ -366,6 +367,23 @@
 					
 					// Setea los parámetros.
 					$("#lbFuerzaPlayer").text("[" + String(_dataPlayer.fuerzaPlayer)+"] Fuerza");
+					$("#lbResistenciaPlayer").text("[" + String(_dataPlayer.resistenciaPlayer)+"] Resistencia");
+					$("#lbPrecisionPlayer").text("[" + String(_dataPlayer.precisionPlayer)+"] Precisión");
+					$("#lbReflejosPlayer").text("[" + String(_dataPlayer.reflejosPlayer)+"] Reflejos");
+					$("#lbPercepcionPlayer").text("[" + String(_dataPlayer.percepcionPlayer)+"] Percepción");
+					$("#lbCamuflajePlayer").text("[" + String(_dataPlayer.camuflajePlayer)+"] Camuflaje");
+					$("#lbInteligenciaPlayer").text("[" + String(_dataPlayer.inteligenciaPlayer)+"] Inteligencia");
+					$("#lbVoluntadPlayer").text("[" + String(_dataPlayer.voluntadPlayer)+"] Voluntad");
+					
+					// Las posibles heridas de tu cuerpo.
+					var _txtCabeza = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "herida levemente." : (_dataPlayer.heridasCabeza == 2 ? "herida gravemente" : "totalmente inutilizada"));
+					$("#lisVisualField").append("<li>Tu cabeza está "+String(_txtCabeza)+".</li>");
+					var _txtCuerpo = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "herido levemente." : (_dataPlayer.heridasCabeza == 2 ? "herido gravemente" : "totalmente inutilizada"));
+					$("#lisVisualField").append("<li>Tu cuerpo está "+String(_txtCuerpo)+".</li>");
+					var _txtBrazos = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "heridos levemente." : (_dataPlayer.heridasCabeza == 2 ? "heridos gravemente" : "totalmente inutilizada"));
+					$("#lisVisualField").append("<li>Tus brazos están "+String(_txtBrazos)+".</li>");
+					var _txtPiernas = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "heridas levemente." : (_dataPlayer.heridasCabeza == 2 ? "heridas gravemente" : "totalmente inutilizada"));
+					$("#lisVisualField").append("<li>Tus piernas están "+String(_txtPiernas)+".</li>");					
 					
 					// Luego, para cada enemigo...
 					for (var i = 0; i < _dataEnemies.length; ++i)

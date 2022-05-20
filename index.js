@@ -45,7 +45,7 @@ io.on("connection", async (_socket) => {
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');",() => {});
 						
 						// Inicializa las tablas de información permanente para cada tale.
-						doQuery("INSERT INTO player01(name,fuerzaplayer,resistenciaplayer,precisionplayer,reflejosplayer,percepcionplayer,camuflajeplayer,inteligenciaplayer,voluntadplayer,canactplayer) VALUES ('"+String(_name)+"','30','30','30','30','30','30','30','30','TRUE');",() => {});
+						doQuery("INSERT INTO player01(name,fuerzaplayer,resistenciaplayer,precisionplayer,reflejosplayer,percepcionplayer,camuflajeplayer,inteligenciaplayer,voluntadplayer,canactplayer,heridasCabeza,heridasCuerpo,heridasBrazos,heridasPiernas) VALUES ('"+String(_name)+"','30','30','30','30','30','30','30','30','TRUE','0','0','0','0');",() => {});
 					});
 				}
 				// Caso: cuenta existe.
@@ -178,7 +178,11 @@ io.on("connection", async (_socket) => {
 										camuflajePlayer:selPlayer.rows[0].camuflajeplayer,
 										inteligenciaPlayer:selPlayer.rows[0].inteligenciaplayer,
 										voluntadPlayer:selPlayer.rows[0].voluntadplayer,
-										canActPlayer:selPlayer.rows[0].canactplayer
+										canActPlayer:selPlayer.rows[0].canactplayer,
+										heridasCabeza:selPlayer.rows[0].heridascabeza,
+										heridasCuerpo:selPlayer.rows[0].heridascuerpo,
+										heridasBrazos:selPlayer.rows[0].heridasbrazos,
+										heridasPiernas:selPlayer.rows[0].heridaspiernas
 									};
 									
 									// Crea la estructura de datos de los enemigos.
