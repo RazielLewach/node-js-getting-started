@@ -146,6 +146,11 @@
 								</tr>
 							</table>
 							<br>
+							
+							<!-- Las acciones -->
+							<button id="btCombatir" class="btnAccion">Combatir</button>
+							<button id="btRecolectar" class="btnAccion">Recolectar</button>
+							<button id="btInteractuar" class="btnAccion">Interactuar</button>
 						</td>
 					</tr>
 				</table>
@@ -394,7 +399,7 @@
 							
 						// Añade el objetivo a la lista de visualizaciones.
 						var _name = "Enemy"+String(i);
-						$("#lisVisualField").append("<li> <button id='btCombatir"+String(_name)+"' class='btnAccion'>Combatir</button><button id='btRecolectar"+String(_name)+"' class='btnAccion'>Recolectar</button><button id='btInteractuar"+String(_name)+"' class='btnAccion'>Interactuar</button>Observas "+String(_txt)+"</li>");
+						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
 					}
 					
 					$(".btnAccion").removeAttr("disabled");
@@ -403,7 +408,7 @@
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return "un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
+					if (_nameEnemy == "ExploradorPala") return "Observas un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
 					else return ""
 				}
 				function getEnemyState(_stateEnemy)
