@@ -101,6 +101,11 @@
 							<img src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
 						</td>
 						<td>
+							<!-- Los datos a mostrar-->
+							<ul id="lisVisualField"></ul>
+							<br>
+							
+							<!-- Los stats. -->
 							<table>
 								<tr> <!-- Categorías -->
 									<td class="tdAcc">FÍSICO</td><td class="tdAcc">AGILIDAD</td><td class="tdAcc">SIGILO</td><td class="tdAcc">MENTE</td>
@@ -137,14 +142,6 @@
 								</tr>
 							</table>
 							<br>
-							<!-- Acciones -->
-							<button id="btCombatir" class="btnAccion">Combatir</button>
-							<button id="btRecolectar" class="btnAccion">Recolectar</button>
-							<button id="btInteractuar" class="btnAccion">Interactuar</button>
-							
-							<!-- Los datos a mostrar-->
-							<br>
-							<ul id="lisVisualField"></ul>
 						</td>
 					</tr>
 				</table>
@@ -392,7 +389,8 @@
 						_txt += getEnemyState(_dataEnemies[i].stateEnemy);
 							
 						// Añade el objetivo a la lista de visualizaciones.
-						$("#lisVisualField").append("<li> Observas "+String(_txt)+"</li>");
+						var _name = "Enemy"+String(i);
+						$("#lisVisualField").append("<button id='btCombatir"+String(_name)+"' class='btnAccion'>Combatir</button><button id='btRecolectar"+String(_name)+"' class='btnAccion'>Recolectar</button><button id='btInteractuar"+String(_name)+"' class='btnAccion'>Interactuar</button><li> Observas "+String(_txt)+"</li>");
 					}
 					
 					$(".btnAccion").removeAttr("disabled");
