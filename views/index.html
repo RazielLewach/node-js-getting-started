@@ -456,7 +456,7 @@
 					}
 					
 					// Finalmente añade el resultado del turno procesado.
-					$("#lisVisualField").append("<li>"+String(_ret)+"</li>");
+					if (_ret != "") $("#lisVisualField").append("<li>"+String(_ret)+"</li>");
 				});
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
