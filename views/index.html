@@ -437,7 +437,7 @@
 					$("#lisVisualField").append("<li>Tu cabeza está "+String(_txtCabeza)+". Tu cuerpo está "+String(_txtCuerpo)+". Tus brazos están "+String(_txtBrazos)+". Tus piernas están "+String(_txtPiernas)+".</li>");			
 					
 					// Luego, para cada enemigo...
-					for (var i = 0; i < _dataEnemies.length; i++)
+					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
 						// Su descripción.
 						var _txt = String(getEnemyDescription(_dataEnemies[i].nameEnemy));
@@ -448,7 +448,7 @@
 						// Añade el objetivo a la lista de visualizaciones.
 						var _name = "Enemy"+String(i);
 						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"' class='rbChoose'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
-						$("#rbChooseEnemy"+String(i)).change(_event => {
+						$("#rbChooseEnemy"+String(i)).change(function (_event) {
 							chosenObjective = "enemy"+String(i);
 							enableAction();
 						});
