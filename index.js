@@ -245,7 +245,15 @@ io.on("connection", async (_socket) => {
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
 		function executePlayerStep(_event,_player)
 		{
-			
+			// Si decides combatir contra un enemigo, le causas daño con prioridad.
+			if (_event.substr(0,13) == "clickCombatir")
+			{
+				var _arr = _event.split("/");
+				var _chosenObjective = _arr[1];
+				var _chosenOffensive = _arr[2];
+				var _chosenDefensive = _arr[3];
+				console.log("Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive));
+			}
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################

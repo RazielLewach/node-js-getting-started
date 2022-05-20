@@ -116,31 +116,31 @@
 								</tr>
 								<tr> <!-- Stats ofensivos -->
 									<td>
-										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer">
+										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer" class="rbChoose">
 										<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
 									</td><td>
-										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer">
+										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer" class="rbChoose">
 										<label for="rbPrecisionPlayer" id="lbPrecisionPlayer">Precisión</label>
 									</td><td>
-										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer">
+										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer" class="rbChoose">
 										<label for="rbPercepcionPlayer" id="lbPercepcionPlayer">Percepción</label>
 									</td><td>
-										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer">
+										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer" class="rbChoose">
 										<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
 									</td>
 								</tr>
 								<tr> <!-- Stats defensivos -->
 									<td>
-										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer">
+										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer" class="rbChoose">
 										<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
 									</td><td>
-										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer">
+										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer" class="rbChoose">
 										<label for="rbReflejosPlayer" id="lbReflejosPlayer">Reflejos</label>
 									</td><td>
-										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer">
+										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer" class="rbChoose">
 										<label for="rbCamuflajePlayer" id="lbCamuflajePlayer">Camuflaje</label>
 									</td><td>
-										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer">
+										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer" class="rbChoose">
 										<label for="rbVoluntadPlayer" id="lbVoluntadPlayer">Voluntad</label>
 									</td>
 								</tr>
@@ -148,9 +148,9 @@
 							<br>
 							
 							<!-- Las acciones -->
-							<button id="btCombatir" class="btnAccion">Combatir</button>
-							<button id="btRecolectar" class="btnAccion">Recolectar</button>
-							<button id="btInteractuar" class="btnAccion">Interactuar</button>
+							<button id="btCombatir" class="btnAccion" disabled>Combatir</button>
+							<button id="btRecolectar" class="btnAccion" disabled>Recolectar</button>
+							<button id="btInteractuar" class="btnAccion" disabled>Interactuar</button>
 						</td>
 					</tr>
 				</table>
@@ -170,6 +170,9 @@
 				var currentCharacterColor = ""; // Pos el color.
 				var currentTale = 00; // ¿Qué tale andas viendo?
 				var currentChapter = 00; // ¿Qué episodio andas viendo?
+				var chosenObjective = ""; // ¿Sobre qué actúas?
+				var chosenOffensive = ""; // ¿Cómo actúas ofensivamente?
+				var chosenDefensive = ""; // ¿Cómo actúas defensivamente?
 				
 				// Variables de lógica que el servidor no requiere guardar.
 				var playerImageIndex = 0; // Qué frame dibuja.
@@ -351,7 +354,7 @@
 			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btCombatir").click((e) => {
-					socketEmitLoop01("clickCombatir");
+					socketEmitLoop01("clickCombatir/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
 				});
 				$("#btRecolectar").click((e) => {
 					socketEmitLoop01("clickRecolectar");
@@ -364,6 +367,51 @@
 				{
 					socket.emit("loop01",name,pass,currentTale,currentChapter,_accion);
 					$(".btnAccion").attr("disabled","true");
+					$(".rbChoose").attr('checked',false);
+					chosenObjective = "";
+					chosenOffensive = "";
+					chosenDefensive = "";
+				}
+				
+				$(".rbFuerzaPlayer").change(_event => {
+					chosenOffensive = "Fuerza";
+					enableAction();
+				});
+				$(".rbPrecisionPlayer").change(_event => {
+					chosenOffensive = "Precision";
+					enableAction();
+				});
+				$(".rbPercepcionPlayer").change(_event => {
+					chosenOffensive = "Percepcion";
+					enableAction();
+				});
+				$(".rbInteligenciaPlayer").change(_event => {
+					chosenOffensive = "Inteligencia";
+					enableAction();
+				});
+				$(".rbResistenciaPlayer").change(_event => {
+					chosenDefensive = "Resistencia";
+					enableAction();
+				});
+				$(".rbReflejosPlayer").change(_event => {
+					chosenDefensive = "Reflejos";
+					enableAction();
+				});
+				$(".rbCamuflajePlayer").change(_event => {
+					chosenDefensive = "Camuflaje";
+					enableAction();
+				});
+				$(".rbVoluntadPlayer").change(_event => {
+					chosenDefensive = "Voluntad";
+					enableAction();
+				});
+				
+				function enableAction()
+				{
+					if (chosenObjective != "" && chosenOffensive != "" && chosenDefensive != "")
+					{
+						$(".btnAccion").removeAttr("disabled");
+					}
 				}
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
@@ -399,10 +447,12 @@
 							
 						// Añade el objetivo a la lista de visualizaciones.
 						var _name = "Enemy"+String(i);
-						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
+						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"' class='rbChoose'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
+						$("#rbChooseEnemy"+String(i)).change(_event => {
+							chosenObjective = "enemy"+String(i);
+							enableAction();
+						});
 					}
-					
-					$(".btnAccion").removeAttr("disabled");
 				});
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
