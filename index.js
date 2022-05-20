@@ -201,7 +201,6 @@ io.on("connection", async (_socket) => {
 		
 		function loop01(_name,_event,_dataPlayer,_dataEnemies)
 		{
-			console.log("start loop");
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el cargar datos no.
 			if (_event != "")
 			{
@@ -221,7 +220,6 @@ io.on("connection", async (_socket) => {
 			// Primero guarda el player.
 			doQuery("UPDATE player01 SET canactplayer = '"+String(true)+"' WHERE name = '"+String(_name)+"';", () => {
 				// Luego guarda cada enemigo.
-				console.log("player saved");
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0);
 			});
 		}
