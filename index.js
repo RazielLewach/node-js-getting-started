@@ -88,7 +88,7 @@ io.on("connection", async (_socket) => {
 								// HUMANO, SANGRE Y PETRÓLEO.
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
-									doQuery("INSERT INTO enemies01(name,nameenemy) VALUES ('"+String(_name)+"','ExploradorPala');",() => {});
+									doQuery("INSERT INTO enemies01(name,nameenemy,stateenemy) VALUES ('"+String(_name)+"','ExploradorPala','Aggressive');",() => {});
 								}
 							}
 						}
@@ -190,7 +190,8 @@ io.on("connection", async (_socket) => {
 									for (var i = 0; i < selEnemies.rowCount; ++i)
 									{
 										_dataEnemies.push({
-											nameEnemy:selEnemies.rows[0].nameenemy
+											nameEnemy:selEnemies.rows[0].nameenemy,
+											stateEnemy:selEnemies.rows[0].stateenemy
 										});
 									}
 									

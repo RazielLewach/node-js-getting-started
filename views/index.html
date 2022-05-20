@@ -385,8 +385,11 @@
 					// Luego, para cada enemigo...
 					for (var i = 0; i < _dataEnemies.length; ++i)
 					{
-						var _enemyDescription = getEnemyDescription(_dataEnemies[i].nameEnemy);
-						var _txt = String(_enemyDescription[0]) + ". " + String(_enemyDescription[1]) + ".";
+						// Su descripción.
+						var _txt = String(getEnemyDescription(_dataEnemies[i].nameEnemy));
+						
+						// El estado.
+						_txt += getEnemyState(_dataEnemies[i].stateEnemy);
 							
 						// Añade el objetivo a la lista de visualizaciones.
 						$("#lisVisualField").append("<li>"+String(_txt)+"</li>");
@@ -398,9 +401,14 @@
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return ["Un explorador","Sujeta una pala con sus manos"];
-					else return ["",""];
-				}				
+					if (_nameEnemy == "ExploradorPala") return "Un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
+					else return ""
+				}
+				function getEnemyState(_stateEnemy)
+				{
+					if (_stateEnemy == "Aggressive") return "Su mirada está fija en ti y tiene intención de matarte. ";
+					else return "";
+				}
 			}
 			if (true){ // ####################################################### Scripts. #######################################################
 				function tiendeAX(_val,_obj,_inc)
