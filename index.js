@@ -158,6 +158,7 @@ io.on("connection", async (_socket) => {
 	//{ ####################################################### Tale 01: recibe el loop del cliente, haz la lógica, acceso a BD, y envía el loop de vuelta. #######################################################
 		_socket.on("loop01", async (_name,_pass,_currentTale,_currentChapter,_event) => {
 			// Si el usuario es válido...
+			console.log("Loop01 server");
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
 				{
