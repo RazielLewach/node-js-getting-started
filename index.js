@@ -163,11 +163,10 @@ io.on("connection", async (_socket) => {
 				{
 					// Lee el estado actual del jugador. Valida que no esté a mitad de un turno para poder ejecutarse.
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
-						if (selPlayer.rows[0].canactplayer)
+						if (selPlayer.rowCount > 0)
 						{
-							console.log("A");
+							var _loops = selPlayer.rows[0].canactplayer;
 							doQuery("UPDATE player01 SET canactplayer = '"+String(false)+"' WHERE name = '"+String(_name)+"';", () => {
-								console.log("B");
 								doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
 									// Crea la estructura de datos del player.
 									var _dataPlayer = {
@@ -191,9 +190,10 @@ io.on("connection", async (_socket) => {
 										});
 									}
 									
-									// Ejecuta el loop.
-									console.log("C");
-									loop01(_name,_event,_dataPlayer,_dataEnemies);
+									// Ejecuta el loop si es un turno posible a hacer.
+									if (_loops) loop01(_name,_event,_dataPlayer,_dataEnemies);
+									// Si no lo es, envía la vuelta sin más.
+									else _socket.emit("looped01",_dataPlayer,_dataEnemies);
 								});
 							});
 						}
