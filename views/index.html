@@ -69,7 +69,7 @@
 			
 			/* Tabla de acciones */
 			.tdAcc {
-				width: 150px;
+				width: 200px;
 			}
 		</style>
 	</head>
@@ -377,13 +377,10 @@
 					
 					// Las posibles heridas de tu cuerpo.
 					var _txtCabeza = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "herida levemente." : (_dataPlayer.heridasCabeza == 2 ? "herida gravemente" : "totalmente inutilizada"));
-					$("#lisVisualField").append("<li>Tu cabeza está "+String(_txtCabeza)+".</li>");
 					var _txtCuerpo = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "herido levemente." : (_dataPlayer.heridasCabeza == 2 ? "herido gravemente" : "totalmente inutilizada"));
-					$("#lisVisualField").append("<li>Tu cuerpo está "+String(_txtCuerpo)+".</li>");
 					var _txtBrazos = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "heridos levemente." : (_dataPlayer.heridasCabeza == 2 ? "heridos gravemente" : "totalmente inutilizada"));
-					$("#lisVisualField").append("<li>Tus brazos están "+String(_txtBrazos)+".</li>");
-					var _txtPiernas = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "heridas levemente." : (_dataPlayer.heridasCabeza == 2 ? "heridas gravemente" : "totalmente inutilizada"));
-					$("#lisVisualField").append("<li>Tus piernas están "+String(_txtPiernas)+".</li>");					
+					var _txtPiernas = _dataPlayer.heridasCabeza == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabeza == 1 ? "heridas levemente." : (_dataPlayer.heridasCabeza == 2 ? "heridas gravemente" : "totalmente inutilizada"));	
+					$("#lisVisualField").append("<li>Tu cabeza está "+String(_txtCabeza)+". Tu cuerpo está "+String(_txtCuerpo)+". Tus brazos están "+String(_txtBrazos)+". Tus piernas están "+String(_txtPiernas)+".</li>");			
 					
 					// Luego, para cada enemigo...
 					for (var i = 0; i < _dataEnemies.length; ++i)
