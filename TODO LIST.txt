@@ -21,7 +21,11 @@
 
 
 ####### MECÁNICA: COMBATE ########
-- 
+- Primero calculamos tu ataque contra el rival. Cada rival tiene sus 4 stats defensivos y éstos se compararán con el tuyo correspondiente. Si tu ataque fue de fuerza, se dividirá entre su Resistencia. Si ambos tienen el mismo valor, por ej 30/30, el daño será de 1 herida, y a medida que el Math.floor pase de 2 o 3, hará ese mayor número de heridas. 1 es el mínimo daño que puedes hacer, para que la batalla no se estanque.
+- Luego, cada turno, todos los enemigos tratarán de atacarte (a menos que en casos especiales gasten su turno en otra acción) e igual usarán su stat ofensivo contra tu defensivo con la misma regla. 
+- Con este sistema de batalla las tornas están bastante equilibradas, así que la victoria es pareja. Sin embargo, en el momento que comienzan a juntarse más de un enemigo a la vez en batalla, es cuando las tornas están totalmente imposibles a tu favor, y donde tendrás que usar tu estrategia y tus otros comandos para sobrevivir, pues el combate puro ya no servirá.
+- ¿Cómo funciona el daño? Debes elegir a qué parte del cuerpo apuntar (cabeza, cuerpo, brazos o piernas). Cada parte tiene sus propias heridas (perfecto, herida leve, herida grave, inutilizada). Para ganar debes inutilizar todas las partes del cuerpo. Si atacas a una parte ya inutilizada, el daño pasará a otra. El orden en que lo hagas forma parte del factor estrategia, pues cada parte tiene varios efectos.
+- El cuerpo gobierna los atributos de Físico (Fuerza y Resistencia). Los brazos gobiernan el Sigilo (Percepción y Camuflaje). Las piernas gobiernan la Agilidad (Precisión y Reflejos). La cabeza gobierna la Mente (Inteligencia y Voluntad). Cuando la parte está sana, puedes utilizar sus atributos asociados al 100%, pero éstos se reducen en un 20% por cada herida, hasta sólo un 40% de efectividad con la parte inutilizada.
 
 
 

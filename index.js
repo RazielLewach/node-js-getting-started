@@ -45,7 +45,8 @@ io.on("connection", async (_socket) => {
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');",() => {});
 						
 						// Inicializa las tablas de información permanente para cada tale.
-						doQuery("INSERT INTO player01(name,fuerzaplayer,resistenciaplayer,precisionplayer,reflejosplayer,percepcionplayer,camuflajeplayer,inteligenciaplayer,voluntadplayer,canactplayer,heridasCabeza,heridasCuerpo,heridasBrazos,heridasPiernas) VALUES ('"+String(_name)+"','30','30','30','30','30','30','30','30','TRUE','0','0','0','0');",() => {});
+						doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('0','30','30','30','30','30','30','30','30','0','0','0','0');",() => {});
+						doQuery("INSERT INTO player01(name,entity,canactplayer) VALUES ('"+String(_name)+"','0','TRUE');",() => {});
 					});
 				}
 				// Caso: cuenta existe.
@@ -88,7 +89,8 @@ io.on("connection", async (_socket) => {
 								// HUMANO, SANGRE Y PETRÓLEO.
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
-									doQuery("INSERT INTO enemies01(name,nameenemy,stateenemy) VALUES ('"+String(_name)+"','ExploradorPala','Aggressive');",() => {});
+									doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('1','10','10','10','10','10','10','10','10','0','0','0','0');",() => {});
+									doQuery("INSERT INTO enemies01(entity,name,nameenemy,stateenemy) VALUES ('1','"+String(_name)+"','ExploradorPala','Aggressive');",() => {});
 								}
 							}
 						}
@@ -165,40 +167,31 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM player01 WHERE name = '"+String(_name)+"';", (selPlayer) => {
 						if (selPlayer.rowCount > 0)
 						{
-							var _loops = selPlayer.rows[0].canactplayer;
-							doQuery("UPDATE player01 SET canactplayer = '"+String(false)+"' WHERE name = '"+String(_name)+"';", () => {
-								doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
-									// Crea la estructura de datos del player.
-									var _dataPlayer = {
-										fuerzaPlayer:selPlayer.rows[0].fuerzaplayer,
-										resistenciaPlayer:selPlayer.rows[0].resistenciaplayer,
-										precisionPlayer:selPlayer.rows[0].precisionplayer,
-										reflejosPlayer:selPlayer.rows[0].reflejosplayer,
-										percepcionPlayer:selPlayer.rows[0].percepcionplayer,
-										camuflajePlayer:selPlayer.rows[0].camuflajeplayer,
-										inteligenciaPlayer:selPlayer.rows[0].inteligenciaplayer,
-										voluntadPlayer:selPlayer.rows[0].voluntadplayer,
-										canActPlayer:selPlayer.rows[0].canactplayer,
-										heridasCabeza:selPlayer.rows[0].heridascabeza,
-										heridasCuerpo:selPlayer.rows[0].heridascuerpo,
-										heridasBrazos:selPlayer.rows[0].heridasbrazos,
-										heridasPiernas:selPlayer.rows[0].heridaspiernas
-									};
-									
-									// Crea la estructura de datos de los enemigos.
-									var _dataEnemies = [];
-									for (var i = 0; i < selEnemies.rowCount; ++i)
-									{
-										_dataEnemies.push({
-											nameEnemy:selEnemies.rows[0].nameenemy,
-											stateEnemy:selEnemies.rows[0].stateenemy
-										});
-									}
-									
-									// Ejecuta el loop si es un turno posible a hacer.
-									if (_loops) loop01(_name,_event,_dataPlayer,_dataEnemies);
-									// Si no lo es, envía la vuelta sin más.
-									else _socket.emit("looped01",_dataPlayer,_dataEnemies);
+							doQuery("SELECT * FROM entity01 WHERE entity = '"+String(selPlayer.rows[0].entity)+"';", (selPlayerEntity) => {
+								var _loops = selPlayer.rows[0].canactplayer;
+								doQuery("UPDATE player01 SET canactplayer = '"+String(false)+"' WHERE name = '"+String(_name)+"';", () => {
+									doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
+										// Crea la estructura de datos del player.
+										var _dataPlayer = {
+											canActPlayer:selPlayer.rows[0].canactplayer,
+											fuerzaPlayer:selPlayerEntity.rows[0].fuerzaentity,
+											resistenciaPlayer:selPlayerEntity.rows[0].resistenciaentity,
+											precisionPlayer:selPlayerEntity.rows[0].precisionentity,
+											reflejosPlayer:selPlayerEntity.rows[0].reflejosentity,
+											percepcionPlayer:selPlayerEntity.rows[0].percepcionentity,
+											camuflajePlayer:selPlayerEntity.rows[0].camuflajeentity,
+											inteligenciaPlayer:selPlayerEntity.rows[0].inteligenciaentity,
+											voluntadPlayer:selPlayerEntity.rows[0].voluntadentity,
+											heridasCabezaPlayer:selPlayerEntity.rows[0].heridascabezaentity,
+											heridasCuerpoPlayer:selPlayerEntity.rows[0].heridascuerpoentity,
+											heridasBrazosPlayer:selPlayerEntity.rows[0].heridasbrazosentity,
+											heridasPiernasPlayer:selPlayerEntity.rows[0].heridaspiernasentity
+										};
+										
+										// Crea la estructura de datos de los enemigos.
+										var _dataEnemies = [];
+										loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,0,_loops);
+									});
 								});
 							});
 						}
@@ -207,13 +200,46 @@ io.on("connection", async (_socket) => {
 			});
 		});
 		
+		function loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,_i,_loops)
+		{
+			if (_i < selEnemies.rowCount)
+			{
+				doQuery("SELECT * FROM entity01 WHERE entity = '"+String(selEnemies.rows[_i].entity)+"';", (selEnemyEntity) => {
+					_dataEnemies.push({
+						nameEnemy:selEnemies.rows[_i].nameenemy,
+						stateEnemy:selEnemies.rows[_i].stateenemy,
+						fuerzaEnemy:selEnemyEntity.rows[i].fuerzaentity,
+						resistenciaEnemy:selEnemyEntity.rows[i].resistenciaentity,
+						precisionEnemy:selEnemyEntity.rows[i].precisionentity,
+						reflejosEnemy:selEnemyEntity.rows[i].reflejosentity,
+						percepcionEnemy:selEnemyEntity.rows[i].percepcionentity,
+						camuflajeEnemy:selEnemyEntity.rows[i].camuflajeentity,
+						inteligenciaEnemy:selEnemyEntity.rows[i].inteligenciaentity,
+						voluntadEnemy:selEnemyEntity.rows[i].voluntadentity,
+						heridasCabezaEnemy:selEnemyEntity.rows[i].heridascabezaentity,
+						heridasCuerpoEnemy:selEnemyEntity.rows[i].heridascuerpoentity,
+						heridasBrazosEnemy:selEnemyEntity.rows[i].heridasbrazosentity,
+						heridasPiernasEnemy:selEnemyEntity.rows[i].heridaspiernasentity
+					});
+					loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,_i++,_loops);
+				});
+			}
+			else
+			{
+				// Ejecuta el loop si es un turno posible a hacer.
+				if (_loops) loop01(_name,_event,_dataPlayer,_dataEnemies);
+				// Si no lo es, envía la vuelta sin más.
+				else _socket.emit("looped01",_dataPlayer,_dataEnemies);
+			}
+		}
+		
 		function loop01(_name,_event,_dataPlayer,_dataEnemies)
 		{
 			// Ejecuta la lógica sólo si es un turno de lógica. Si el cargar datos no.
 			var _ret = "";
 			if (_event != "")
 			{
-				_ret += executePlayerStep(_event,_dataPlayer);
+				_ret += executePlayerStep(_event,_dataPlayer,_dataEnemies);
 			
 				// Los enemigos actúan.
 				for (var i = 0; i < _dataEnemies.length; ++i)
@@ -244,18 +270,32 @@ io.on("connection", async (_socket) => {
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
-		function executePlayerStep(_event,_player)
+		function executePlayerStep(_event,_player,_enemies)
 		{
 			var _ret = "";
 			var _arr = _event.split("/");
 			
 			// Si decides combatir contra un enemigo, le causas daño con prioridad.
-			if (_arr[0] == "clickCombatir")
+			if (_arr[0] == "clickAtacar")
 			{
-				var _chosenObjective = _arr[1];
-				var _chosenOffensive = _arr[2];
-				var _chosenDefensive = _arr[3];
+				// Decide la potencia de tu ataque tomando tu stat usado.
+				var _chosenOffensive = _arr[3];
+				var _statOffensive = _player[_chosenOffensive+"Player"];
+				
+				// Decide la defensa del rival tomando su stat. Decide qué stat usará según su IA.
+				var _chosenObjective = _arr[2];
+				var _enemy = _enemies[_chosenObjective];
+				console.log("Player",_player);
+				console.log("_enemy",_enemy);
+				
+				// Causa daño a la parte escogida.
+				var _chosenpart = _arr[1];
+				
+				// Muestra el texto de la acción resultante.
 				_ret += "Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive);
+				
+				// ESTA PARTE DEBE USARSE DONDE EL ENEMIGO??????
+				//var _chosenDefensive = _arr[4];
 			}
 			
 			return _ret;
