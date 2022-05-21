@@ -222,7 +222,8 @@ io.on("connection", async (_socket) => {
 					});
 					console.log("añade enemigo numero",_i);
 					console.log("max enemigos",_selEnemies.rowCount);
-					loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,_i++,_loops);
+					var _iTo = ++_i;
+					loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,_iTo,_loops);
 				});
 			}
 			else
