@@ -208,18 +208,18 @@ io.on("connection", async (_socket) => {
 					_dataEnemies.push({
 						nameEnemy:selEnemies.rows[_i].nameenemy,
 						stateEnemy:selEnemies.rows[_i].stateenemy,
-						fuerzaEnemy:selEnemyEntity.rows[i].fuerzaentity,
-						resistenciaEnemy:selEnemyEntity.rows[i].resistenciaentity,
-						precisionEnemy:selEnemyEntity.rows[i].precisionentity,
-						reflejosEnemy:selEnemyEntity.rows[i].reflejosentity,
-						percepcionEnemy:selEnemyEntity.rows[i].percepcionentity,
-						camuflajeEnemy:selEnemyEntity.rows[i].camuflajeentity,
-						inteligenciaEnemy:selEnemyEntity.rows[i].inteligenciaentity,
-						voluntadEnemy:selEnemyEntity.rows[i].voluntadentity,
-						heridasCabezaEnemy:selEnemyEntity.rows[i].heridascabezaentity,
-						heridasCuerpoEnemy:selEnemyEntity.rows[i].heridascuerpoentity,
-						heridasBrazosEnemy:selEnemyEntity.rows[i].heridasbrazosentity,
-						heridasPiernasEnemy:selEnemyEntity.rows[i].heridaspiernasentity
+						fuerzaEnemy:selEnemyEntity.rows[_i].fuerzaentity,
+						resistenciaEnemy:selEnemyEntity.rows[_i].resistenciaentity,
+						precisionEnemy:selEnemyEntity.rows[_i].precisionentity,
+						reflejosEnemy:selEnemyEntity.rows[_i].reflejosentity,
+						percepcionEnemy:selEnemyEntity.rows[_i].percepcionentity,
+						camuflajeEnemy:selEnemyEntity.rows[_i].camuflajeentity,
+						inteligenciaEnemy:selEnemyEntity.rows[_i].inteligenciaentity,
+						voluntadEnemy:selEnemyEntity.rows[_i].voluntadentity,
+						heridasCabezaEnemy:selEnemyEntity.rows[_i].heridascabezaentity,
+						heridasCuerpoEnemy:selEnemyEntity.rows[_i].heridascuerpoentity,
+						heridasBrazosEnemy:selEnemyEntity.rows[_i].heridasbrazosentity,
+						heridasPiernasEnemy:selEnemyEntity.rows[_i].heridaspiernasentity
 					});
 					loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,_i++,_loops);
 				});
@@ -285,14 +285,12 @@ io.on("connection", async (_socket) => {
 				// Decide la defensa del rival tomando su stat. Decide qué stat usará según su IA.
 				var _chosenObjective = _arr[2];
 				var _enemy = _enemies[_chosenObjective];
-				console.log("Player",_player);
-				console.log("_enemy",_enemy);
 				
 				// Causa daño a la parte escogida.
 				var _chosenpart = _arr[1];
 				
 				// Muestra el texto de la acción resultante.
-				_ret += "Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive);
+				//_ret += "Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive);
 				
 				// ESTA PARTE DEBE USARSE DONDE EL ENEMIGO??????
 				//var _chosenDefensive = _arr[4];
