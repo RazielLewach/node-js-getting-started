@@ -186,8 +186,6 @@ io.on("connection", async (_socket) => {
 										heridasBrazosPlayer:selPlayerEntity.rows[0].heridasbrazosentity,
 										heridasPiernasPlayer:selPlayerEntity.rows[0].heridaspiernasentity
 									};
-									
-									console.log("Player creado");
 										
 									doQuery("SELECT * FROM enemies01 WHERE name = '"+String(_name)+"';", (selEnemies) => {
 										// Crea la estructura de datos de los enemigos.
@@ -201,14 +199,14 @@ io.on("connection", async (_socket) => {
 			});
 		});
 		
-		function loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,_i,_loops)
+		function loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,_i,_loops)
 		{
-			if (_i < selEnemies.rowCount)
+			if (_i < _selEnemies.rowCount)
 			{
-				doQuery("SELECT * FROM entity01 WHERE entity = '"+String(selEnemies.rows[_i].entity)+"';", (selEnemyEntity) => {
+				doQuery("SELECT * FROM entity01 WHERE entity = '"+String(_selEnemies.rows[_i].entity)+"';", (selEnemyEntity) => {
 					_dataEnemies.push({
-						nameEnemy:selEnemies.rows[_i].nameenemy,
-						stateEnemy:selEnemies.rows[_i].stateenemy,
+						nameEnemy:_selEnemies.rows[_i].nameenemy,
+						stateEnemy:_selEnemies.rows[_i].stateenemy,
 						fuerzaEnemy:selEnemyEntity.rows[_i].fuerzaentity,
 						resistenciaEnemy:selEnemyEntity.rows[_i].resistenciaentity,
 						precisionEnemy:selEnemyEntity.rows[_i].precisionentity,
@@ -222,13 +220,13 @@ io.on("connection", async (_socket) => {
 						heridasBrazosEnemy:selEnemyEntity.rows[_i].heridasbrazosentity,
 						heridasPiernasEnemy:selEnemyEntity.rows[_i].heridaspiernasentity
 					});
-					console.log("Nuevo enemigo añadido");
-					loadEnemy(_name,_event,_dataPlayer,selEnemies,_dataEnemies,_i++,_loops);
+					console.log("añade enemigo numero",_i);
+					console.log("max enemigos",_selEnemies.rowCount);
+					loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,_i++,_loops);
 				});
 			}
 			else
 			{
-				console.log("Pos avanzamos?");
 				// Ejecuta el loop si es un turno posible a hacer.
 				if (_loops) loop01(_name,_event,_dataPlayer,_dataEnemies);
 				// Si no lo es, envía la vuelta sin más.
