@@ -3,8 +3,8 @@
 	var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
-	//var port = process.env.PORT || 5000; // Esta línea para ONLINE.
-	var port = 8080; // Esta línea para LOCAL.
+	var port = process.env.PORT || 5000; // Esta línea para ONLINE.
+	//var port = 8080; // Esta línea para LOCAL.
 
 	// Sockets.
 	var app = express();
@@ -16,17 +16,17 @@
 	var { Pool } = require('pg');
 	var pool = new Pool({
 		// Estas líneas para ONLINE.
-		/*connectionString: process.env.DATABASE_URL,
+		connectionString: process.env.DATABASE_URL,
 		ssl: {
 			rejectUnauthorized: false
-		}*/
+		}
 		
 		// Estas líneas para LOCAL.
-		user: "postgres",
+		/*user: "postgres",
 		database: 'postgres',
 		password: 'test',
 		host: '127.0.0.1',
-		port: 5000
+		port: 5000*/
 	});
 
 	// Rutas para inicializar la ventana
