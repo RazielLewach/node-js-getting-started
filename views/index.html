@@ -75,6 +75,15 @@
 			.btnAccion {
 				margin: 2px;
 			}
+			
+			ul {
+				list-style: none;
+			}
+			
+			.liInvisible {
+				width: 0px;
+				overflow: hidden;
+			}
 		</style>
 	</head>
 	<body style="font-family: 'verdana';">
@@ -112,10 +121,12 @@
 							<!-- Los stats. -->
 							<table>
 								<tr> <!-- Categorías -->
-									<td class="tdAcc">FÍSICO</td><td class="tdAcc">AGILIDAD</td><td class="tdAcc">SIGILO</td><td class="tdAcc">MENTE</td>
+									<td class="tdAcc"></td><td class="tdAcc">FÍSICO</td><td class="tdAcc">AGILIDAD</td><td class="tdAcc">SIGILO</td><td class="tdAcc">MENTE</td>
 								</tr>
 								<tr> <!-- Stats ofensivos -->
 									<td>
+										OFENSIVOS
+									</td><td>
 										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer" class="rbChoose">
 										<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
 									</td><td>
@@ -131,6 +142,8 @@
 								</tr>
 								<tr> <!-- Stats defensivos -->
 									<td>
+										DEFENSIVOS
+									</td><td>
 										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer" class="rbChoose">
 										<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
 									</td><td>
@@ -153,7 +166,7 @@
 							<button id="btAtacarCuerpo" class="btnAccion" disabled>Atacar a cuerpo</button>
 							<button id="btAtacarPiernas" class="btnAccion" disabled>Atacar a piernas</button>
 							<button id="btRecolectar" class="btnAccion" disabled>Recolectar</button>
-							<button id="btInteractuar" class="btnAccion" disabled>Interactuar</button>
+							<button id="btManipular" class="btnAccion" disabled>Manipular</button>
 						</td>
 					</tr>
 				</table>
@@ -357,22 +370,22 @@
 			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btAtacarCabeza").click((e) => {
-					socketEmitLoop01("clickAtacar/Cabeza/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/la cabeza/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
 				});
 				$("#btAtacarBrazos").click((e) => {
-					socketEmitLoop01("clickAtacar/Brazos/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/los brazos/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
 				});
 				$("#btAtacarCuerpo").click((e) => {
-					socketEmitLoop01("clickAtacar/Cuerpo/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/el cuerpo/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
 				});
 				$("#btAtacarPiernas").click((e) => {
-					socketEmitLoop01("clickAtacar/Piernas/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/las piernas/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
 				});
 				$("#btRecolectar").click((e) => {
 					socketEmitLoop01("clickRecolectar");
 				});
-				$("#btInteractuar").click((e) => {
-					socketEmitLoop01("clickInteractuar");
+				$("#btManipular").click((e) => {
+					socketEmitLoop01("clickManipular");
 				});
 				
 				function socketEmitLoop01(_accion)
@@ -443,11 +456,19 @@
 					$("#lbVoluntadPlayer").text("[" + String(_dataPlayer.voluntadPlayer)+"] Voluntad");
 					
 					// Las posibles heridas de tu cuerpo.
+					var _nTxtHeridas = "Te sientes en perfecto estado, pero aún así te realizas un rápido análisis.";
+					var _nHeridas = _dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasPiernasPlayer;
+					if (_nHeridas >= 1) _nTxtHeridas = "Te sientes moderadamente bien, pero prefieres realizarte un análisis.";
+					else if (_nHeridas >= 5) _nTxtHeridas = "Te sientes con dolor y pesadez, así que te realizas un análisis en detalle.";
+					else if (_nHeridas >= 9) _nTxtHeridas = "Te sientes con graves heridas, así que te realizas un urgente análisis en profundidad.";
+					$("#lisVisualField").append("<li>(!) "+String(_nTxtHeridas)+"</li>");
 					var _txtCabeza = _dataPlayer.heridasCabezaPlayer == 0 ? "en perfecto estado" : (_dataPlayer.heridasCabezaPlayer == 1 ? "herida levemente." : (_dataPlayer.heridasCabezaPlayer == 2 ? "herida gravemente" : "totalmente inutilizada"));
 					var _txtBrazos = _dataPlayer.heridasBrazosPlayer == 0 ? "en perfecto estado" : (_dataPlayer.heridasBrazosPlayer == 1 ? "heridos levemente." : (_dataPlayer.heridasBrazosPlayer == 2 ? "heridos gravemente" : "totalmente inutilizados"));
 					var _txtCuerpo = _dataPlayer.heridasCuerpoPlayer == 0 ? "en perfecto estado" : (_dataPlayer.heridasCuerpoPlayer == 1 ? "herido levemente." : (_dataPlayer.heridasCuerpoPlayer == 2 ? "herido gravemente" : "totalmente inutilizada"));
-					var _txtPiernas = _dataPlayer.heridasPiernasPlayer == 0 ? "en perfecto estado" : (_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente." : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente" : "totalmente inutilizadas"));	
-					$("#lisVisualField").append("<li>Tu cabeza está "+String(_txtCabeza)+". Tu cuerpo está "+String(_txtCuerpo)+". Tus brazos están "+String(_txtBrazos)+". Tus piernas están "+String(_txtPiernas)+".</li>");			
+					var _txtPiernas = _dataPlayer.heridasPiernasPlayer == 0 ? "en perfecto estado" : (_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente." : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente" : "totalmente inutilizadas"));
+					$("#lisVisualField").append("<li>- Tu cabeza está "+String(_txtCabeza)+". Tu cuerpo está "+String(_txtCuerpo)+". Tus brazos están "+String(_txtBrazos)+". Tus piernas están "+String(_txtPiernas)+".</li>");
+					$("#lisVisualField").append("<li class='liInvisible'>.</li>");
+					$("#lisVisualField").append("<li>(!) Buscas un objetivo con el que interactuar.</li>");
 					
 					// Luego, para cada enemigo...
 					for (let i = 0; i < _dataEnemies.length; ++i)
@@ -462,19 +483,23 @@
 						var _name = "Enemy"+String(i);
 						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"' class='rbChoose'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
 						$("#rbChooseEnemy"+String(i)).change(_event => {
-							chosenObjective = "enemy"+String(i);
+							chosenObjective = "enemy/"+String(i);
 							enableAction();
 						});
 					}
 					
 					// Finalmente añade el resultado del turno procesado.
-					if (_ret != "") $("#lisVisualField").append("<li>"+String(_ret)+"</li>");
+					if (_ret != "")
+					{
+						$("#lisVisualField").append("<li class='liInvisible'>.</li>");
+						$("#lisVisualField").append("<li>- "+String(_ret)+"</li>");
+					}
 				});
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return "Observas un explorador bien tapado con ropa de abrigo densa. Sujeta una pala con sus dos manos. ";
+					if (_nameEnemy == "ExploradorPala") return "Observas un explorador bien tapado con ropa de abrigo densa, a través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque está algo indeciso y su expresión no transmite estar muy enfocado en el asunto. Sujeta una pala con sus dos manos. ";
 					else return ""
 				}
 				function getEnemyState(_stateEnemy)

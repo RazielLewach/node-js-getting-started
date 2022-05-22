@@ -3,7 +3,8 @@
 	var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
-	var port = process.env.PORT || 5000;
+	//var port = process.env.PORT || 5000; // Esta línea para ONLINE.
+	var port = 8080; // Esta línea para LOCAL.
 
 	// Sockets.
 	var app = express();
@@ -14,10 +15,18 @@
 	// PostgreSQL.
 	var { Pool } = require('pg');
 	var pool = new Pool({
-	  connectionString: process.env.DATABASE_URL,
-	  ssl: {
-		rejectUnauthorized: false
-	  }
+		// Estas líneas para ONLINE.
+		/*connectionString: process.env.DATABASE_URL,
+		ssl: {
+			rejectUnauthorized: false
+		}*/
+		
+		// Estas líneas para LOCAL.
+		user: "postgres",
+		database: 'postgres',
+		password: 'test',
+		host: '127.0.0.1',
+		port: 5000
 	});
 
 	// Rutas para inicializar la ventana
@@ -26,7 +35,7 @@
 	});
 
 	server.listen(port, () => {
-	  console.log('Listening on port');
+	  console.log('Listening hardcore on port',port);
 	});
 //}
 io.on("connection", async (_socket) => {
@@ -45,8 +54,9 @@ io.on("connection", async (_socket) => {
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');",() => {});
 						
 						// Inicializa las tablas de información permanente para cada tale.
-						doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('0','30','30','30','30','30','30','30','30','0','0','0','0');",() => {});
-						doQuery("INSERT INTO player01(name,entity,canactplayer) VALUES ('"+String(_name)+"','0','TRUE');",() => {});
+						doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"Player','30','30','30','30','30','30','30','30','0','0','0','0');",() => {
+							doQuery("INSERT INTO player01(name,entity,canactplayer) VALUES ('"+String(_name)+"','"+String(_name)+"Player','TRUE');",() => {});
+						});
 					});
 				}
 				// Caso: cuenta existe.
@@ -89,8 +99,9 @@ io.on("connection", async (_socket) => {
 								// HUMANO, SANGRE Y PETRÓLEO.
 								if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
 								{
-									doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('1','10','10','10','10','10','10','10','10','0','0','0','0');",() => {});
-									doQuery("INSERT INTO enemies01(entity,name,nameenemy,stateenemy) VALUES ('1','"+String(_name)+"','ExploradorPala','Aggressive');",() => {});
+									doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"ExploradorPala','10','10','10','10','10','10','10','10','0','0','0','0');",() => {
+										doQuery("INSERT INTO enemies01(name,entity,nameenemy,stateenemy) VALUES ('"+String(_name)+"','"+String(_name)+"ExploradorPala','ExploradorPala','Aggressive');",() => {});
+									});
 								}
 							}
 						}
@@ -220,10 +231,7 @@ io.on("connection", async (_socket) => {
 						heridasBrazosEnemy:selEnemyEntity.rows[_i].heridasbrazosentity,
 						heridasPiernasEnemy:selEnemyEntity.rows[_i].heridaspiernasentity
 					});
-					console.log("añade enemigo numero",_i);
-					console.log("max enemigos",_selEnemies.rowCount);
-					var _iTo = ++_i;
-					loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,_iTo,_loops);
+					loadEnemy(_name,_event,_dataPlayer,_selEnemies,_dataEnemies,++_i,_loops);
 				});
 			}
 			else
@@ -256,13 +264,13 @@ io.on("connection", async (_socket) => {
 		{
 			// Primero guarda el player.
 			doQuery("UPDATE player01 SET canactplayer = '"+String(true)+"' WHERE name = '"+String(_name)+"';", () => {
-				// Luego guarda cada enemigo.
 				loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0,_ret);
 			});
 		}
 		
 		function loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,_index,_ret)
 		{
+			// Luego guarda cada enemigo.
 			var _i = _index;
 			doQuery("UPDATE enemies01 SET nameenemy = '"+String(_dataEnemies[_i].nameEnemy)+"' WHERE name = '"+String(_name)+"';", () => {
 				_i++
@@ -274,37 +282,71 @@ io.on("connection", async (_socket) => {
 	//{ ####################################################### Tale 01: ejecuta un player step. #######################################################
 		function executePlayerStep(_event,_player,_enemies)
 		{
-			var _ret = "";
-			var _arr = _event.split("/");
+			let _ret = "";
+			let _arr = _event.split("/");
 			
-			// Si decides combatir contra un enemigo, le causas daño con prioridad.
+			// Atacar en general.
 			if (_arr[0] == "clickAtacar")
 			{
-				// Decide la potencia de tu ataque tomando tu stat usado.
-				var _chosenOffensive = _arr[3];
-				var _statOffensive = _player[_chosenOffensive+"Player"];
-				
-				// Decide la defensa del rival tomando su stat. Decide qué stat usará según su IA.
-				var _chosenObjective = _arr[2];
-				var _enemy = _enemies[_chosenObjective];
-				
-				// Causa daño a la parte escogida.
-				var _chosenpart = _arr[1];
-				
-				// Muestra el texto de la acción resultante.
-				//_ret += "Pues:"+String(_chosenObjective)+","+String(_chosenOffensive)+","+String(_chosenDefensive);
-				
-				// ESTA PARTE DEBE USARSE DONDE EL ENEMIGO??????
-				//var _chosenDefensive = _arr[4];
+				// Si decides combatir contra un enemigo, le causas daño con prioridad.
+				let _chosenObjective = _arr[2];
+				if (_chosenObjective == "enemy")
+				{
+					let _chosenIndex = _arr[3];
+					let _enemy = _enemies[_chosenIndex];
+					
+					// Decide la potencia de tu ataque tomando tu stat usado.
+					let _chosenOffensive = _arr[4];
+					let _statOffensive = _player[_chosenOffensive+"Player"];
+					_ret += getRolPlayerOffensive(_chosenOffensive,_statOffensive,_enemy);
+					
+					// Decide la defensa del rival tomando su stat. Utiliza su stat más elevado. Calcula la intensidad del daño y dónde es.
+					let _statObjective = Math.max(_enemy.resistenciaEnemy,_enemy.reflejosEnemy,_enemy.camuflajeEnemy,_enemy.voluntadEnemy);
+					var _danyo = Math.min(3,Math.max(1,Math.floor(_statOffensive/_statObjective)));
+					let _chosenpart = _arr[1];
+					_ret += getRolEnemyDefensive(_statObjective,_enemy,_danyo,_chosenpart);
+					
+					// ESTA PARTE DEBE USARSE DONDE EL ENEMIGO??????
+					//let _chosenDefensive = _arr[5];
+				}
 			}
 			
+			return _ret;
+		}
+		function getRolPlayerOffensive(_chosenOffensive,_statOffensive,_enemy)
+		{
+			let _ret = "Te acercas al " + getEnemyName(_enemy.nameEnemy) + " y ";
+			if (_chosenOffensive == "fuerza") _ret += "le asestas unas puñaladas frontales con tus manos puntiagudas endurecidas con sangre solidificada. ";
+			else if (_chosenOffensive == "precision") _ret += "apuntas con precisión al cuello para propinarle un tajo directo. ";
+			else if (_chosenOffensive == "percepcion") _ret += "percibes los puntos de su cuerpo con mayor flujo de sangre para rajarlos y hacerlo sangrar. ";
+			else if (_chosenOffensive == "inteligencia") _ret += "lo perforas para lograr acceso a su sangre y manipular sus células para matarlo lentamente. ";
+			return _ret;
+		}
+		function getRolEnemyDefensive(_statObjective,_enemy,_danyo,_chosenpart)
+		{
+			let _ret = "";
+			
+			// Enemigo: explorador de las nieves con una pala.
+			if (_enemy.nameEnemy == "ExploradorPala")
+			{
+				if (_statObjective == _enemy.resistenciaEnemy) _ret += "Éste intenta alzar su pala para bloquear. ";
+				else if (_statObjective == _enemy.reflejosEnemy) _ret += "Éste intenta mover su cuerpo a un lado para esquivar. ";
+				else if (_statObjective == _enemy.camuflajeEnemy) _ret += "Éste intenta camuflarse con su entorno para evitarlo. ";
+				else if (_statObjective == _enemy.voluntadEnemy) _ret += "Éste intenta, a pura fuerza de voluntad, resistir el impacto. ";
+				
+				if (_danyo == 1) _ret += "Su defensa es muy efectiva así que sólo recibe una herida leve en ";
+				else if (_danyo == 2) _ret += "Su defensa logra aguantar así que recibe una herida grave en ";
+				else if (_danyo == 3) _ret += "Su defensa fracasa así que recibe una herida mortal en ";
+				_ret += String(_chosenpart) + ". ";
+			}
+		
 			return _ret;
 		}
 	//}
 	//{ ####################################################### Tale 01: ejecuta un enemy step (ExploradorPala). #######################################################
 		function executeEnemyStep(_event,_player,_enemy)
 		{
-			var _ret = "";
+			let _ret = "";
 			
 			// Enemigo: explorador de las nieves con una pala.
 			if (_enemy.nameEnemy == "ExploradorPala")
@@ -317,6 +359,11 @@ io.on("connection", async (_socket) => {
 			}
 			
 			return _ret;
+		}
+		function getEnemyName(_nameEnemy)
+		{
+			if (_nameEnemy == "ExploradorPala") return "explorador de la pala";
+			else return ""
 		}
 	//}
 });

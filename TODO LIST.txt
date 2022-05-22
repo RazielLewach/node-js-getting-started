@@ -1,5 +1,6 @@
 ###### TODO ######
-- 
+- executePlayerStep: gestionar atacar a un rival, toda la wea, las heridas, el texto rol resultado...
+- Cuando añada otros elementos: poner los 4 atacar al final, y que al elegir un radiobutton no enemigo, se oculten los 4 y muestre "Atacar" en general, y viceversa.
 
 ###### DONE ######
 - 
@@ -26,7 +27,7 @@
 - Con este sistema de batalla las tornas están bastante equilibradas, así que la victoria es pareja. Sin embargo, en el momento que comienzan a juntarse más de un enemigo a la vez en batalla, es cuando las tornas están totalmente imposibles a tu favor, y donde tendrás que usar tu estrategia y tus otros comandos para sobrevivir, pues el combate puro ya no servirá.
 - ¿Cómo funciona el daño? Debes elegir a qué parte del cuerpo apuntar (cabeza, cuerpo, brazos o piernas). Cada parte tiene sus propias heridas (perfecto, herida leve, herida grave, inutilizada). Para ganar debes inutilizar todas las partes del cuerpo. Si atacas a una parte ya inutilizada, el daño pasará a otra. El orden en que lo hagas forma parte del factor estrategia, pues cada parte tiene varios efectos.
 - El cuerpo gobierna los atributos de Físico (Fuerza y Resistencia). Los brazos gobiernan el Sigilo (Percepción y Camuflaje). Las piernas gobiernan la Agilidad (Precisión y Reflejos). La cabeza gobierna la Mente (Inteligencia y Voluntad). Cuando la parte está sana, puedes utilizar sus atributos asociados al 100%, pero éstos se reducen en un 20% por cada herida, hasta sólo un 40% de efectividad con la parte inutilizada.
-
+- ¿Comando de analizar al enemigo para aproximar cuáles son sus stats? Gastarías turnos, morirías, pero al siguiente intento habrías aprendido. ¿Es bueno?
 
 
 
