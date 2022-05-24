@@ -1,9 +1,16 @@
 ###### TODO ######
-- executePlayerStep: gestionar atacar a un rival, toda la wea, las heridas, el texto rol resultado...
+- 
+
+###### SOMETIMES ######
 - Cuando añada otros elementos: poner los 4 atacar al final, y que al elegir un radiobutton no enemigo, se oculten los 4 y muestre "Atacar" en general, y viceversa.
 
 ###### DONE ######
-- 
+- Bloquear los radiobuttons al enviar comando. Rehabilitar al recibir.
+- Mostrar tus stats contando tus heridas.
+- No está reconociendo con qué bloqueaste, coge tu stat que no es.
+- Devolver array ret para tener varios "li", uno para ti, otro por enemigo.
+- Hacer la fase del enemigo donde usa su mejor stat para hacerte daño, apuntando según su IA a tu cuerpo (el enemigo inicial es básico y ataca a partes random). Reflejar tus heridas en tus bajadas de stats visualmente. Reflejar el rol de vuelta. ¿POR QUÉ NO REFLEJA NADA?
+- executePlayerStep: gestionar atacar a un rival, toda la wea, las heridas, el texto rol resultado...
 
 
 
