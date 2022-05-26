@@ -122,55 +122,58 @@
 							<ul id="lisVisualField"></ul>
 							<br>
 							
-							<!-- Los stats. -->
-							<table>
-								<tr> <!-- Categorías -->
-									<td class="tdAcc"></td><td class="tdAcc">MENTE (cabeza)</td><td class="tdAcc">FÍSICO (cuerpo)</td><td class="tdAcc">SIGILO (brazos)</td><td class="tdAcc">AGILIDAD (piernas)</td>
-								</tr>
-								<tr> <!-- Stats ofensivos -->
-									<td>
-										OFENSIVOS
-									</td><td>
-										<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer" class="rbChoose">
-										<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
-									</td><td>
-										<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer" class="rbChoose">
-										<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
-									</td><td>
-										<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer" class="rbChoose">
-										<label for="rbPercepcionPlayer" id="lbPercepcionPlayer">Percepción</label>
-									</td><td>
-										<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer" class="rbChoose">
-										<label for="rbPrecisionPlayer" id="lbPrecisionPlayer">Precisión</label>
-									</td>
-								</tr>
-								<tr> <!-- Stats defensivos -->
-									<td>
-										DEFENSIVOS
-									</td><td>
-										<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer" class="rbChoose">
-										<label for="rbVoluntadPlayer" id="lbVoluntadPlayer">Voluntad</label>
-									</td><td>
-										<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer" class="rbChoose">
-										<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
-									</td><td>
-										<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer" class="rbChoose">
-										<label for="rbCamuflajePlayer" id="lbCamuflajePlayer">Camuflaje</label>
-									</td><td>
-										<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer" class="rbChoose">
-										<label for="rbReflejosPlayer" id="lbReflejosPlayer">Reflejos</label>
-									</td>
-								</tr>
-							</table>
-							<br>
-							
-							<!-- Las acciones -->
-							<button id="btAtacarCabeza" class="btnAccion" disabled>Atacar a cabeza</button>
-							<button id="btAtacarCuerpo" class="btnAccion" disabled>Atacar a cuerpo</button>
-							<button id="btAtacarBrazos" class="btnAccion" disabled>Atacar a brazos</button>
-							<button id="btAtacarPiernas" class="btnAccion" disabled>Atacar a piernas</button>
-							<button id="btRecolectar" class="btnAccion" disabled>Recolectar</button>
-							<button id="btManipular" class="btnAccion" disabled>Manipular</button>
+							<div id="commands">
+								<!-- Los stats. -->
+								<table>
+									<tr> <!-- Categorías -->
+										<td class="tdAcc"></td><td class="tdAcc">MENTE (cabeza)</td><td class="tdAcc">FÍSICO (cuerpo)</td><td class="tdAcc">SIGILO (brazos)</td><td class="tdAcc">AGILIDAD (piernas)</td>
+									</tr>
+									<tr> <!-- Stats ofensivos -->
+										<td>
+											OFENSIVOS
+										</td><td>
+											<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer" class="rbChoose">
+											<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
+										</td><td>
+											<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer" class="rbChoose">
+											<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
+										</td><td>
+											<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer" class="rbChoose">
+											<label for="rbPercepcionPlayer" id="lbPercepcionPlayer">Percepción</label>
+										</td><td>
+											<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer" class="rbChoose">
+											<label for="rbPrecisionPlayer" id="lbPrecisionPlayer">Precisión</label>
+										</td>
+									</tr>
+									<tr> <!-- Stats defensivos -->
+										<td>
+											DEFENSIVOS
+										</td><td>
+											<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer" class="rbChoose">
+											<label for="rbVoluntadPlayer" id="lbVoluntadPlayer">Voluntad</label>
+										</td><td>
+											<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer" class="rbChoose">
+											<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
+										</td><td>
+											<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer" class="rbChoose">
+											<label for="rbCamuflajePlayer" id="lbCamuflajePlayer">Camuflaje</label>
+										</td><td>
+											<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer" class="rbChoose">
+											<label for="rbReflejosPlayer" id="lbReflejosPlayer">Reflejos</label>
+										</td>
+									</tr>
+								</table>
+								<br>
+								
+								<!-- Las acciones -->
+								<button id="btAtacarCabeza" class="btnAccion" disabled>Atacar a cabeza</button>
+								<button id="btAtacarCuerpo" class="btnAccion" disabled>Atacar a cuerpo</button>
+								<button id="btAtacarBrazos" class="btnAccion" disabled>Atacar a brazos</button>
+								<button id="btAtacarPiernas" class="btnAccion" disabled>Atacar a piernas</button>
+								<button id="btRecolectar" class="btnAccion" disabled>Recolectar</button>
+								<button id="btManipular" class="btnAccion" disabled>Manipular</button>
+								<button id="btResetBattle">Reiniciar enfrentamiento</button>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -265,7 +268,7 @@
 				{
 					$("#bt"+String(_tale)+"e"+String(_chapter)).click((e) => {
 						// Al clicar el botón, comprobamos que el usuario tiene acceso al chapter de esa tale y el servidor nos manda la información.
-						socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor);
+						socket.emit("loadChapter",name,pass,_tale,_chapter,currentCharacterName,currentCharacterGender,currentCharacterColor,false);
 						currentTale = _tale;
 						currentChapter = _chapter;
 					});
@@ -383,11 +386,19 @@
 				$("#btManipular").click((e) => {
 					socketEmitLoop01("clickManipular");
 				});
+				$("#btResetBattle").click((e) => {
+					setTimeout(() => {
+						socket.emit("loadChapter",name,pass,currentTale,currentChapter,currentCharacterName,currentCharacterGender,currentCharacterColor,true);
+					},2000);
+					$("#lisVisualField").removeClass("lisOpened");
+					$(".btResetBattle").attr('disabled',"true");
+				});
 				
 				setInterval(() => {
 					// Si has enviado un comando y la lista de roles se va a cerrar, va eliminando sus carácters.
 					alphaElement = tiendeAX(alphaElement,1*($("#lisVisualField").hasClass("lisOpened")),0.01);
 					$("#lisVisualField").css("opacity",alphaElement);
+					$("#commands").css("opacity",alphaElement);
 				},16);
 				
 				function socketEmitLoop01(_accion)
@@ -446,79 +457,109 @@
 				}
 				
 				// Recibe el loop del servidor y actualiza tu ventana.
-				socket.on("looped01", (_dataPlayer,_dataEnemies,_ret) => {					
+				socket.on("looped01", (_dataPlayer,_dataEnemies,_ret) => {		
+					// Calcula si has perdido o ganado.
+					var _hurt = _dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasPiernasPlayer >= 12;
+					var _won = true;
+					_dataEnemies.forEach(_enemy => {
+						if (_enemy.heridasCabezaEnemy+_enemy.heridasCuerpoEnemy+_enemy.heridasBrazosEnemy+_enemy.heridasPiernasEnemy < 12)
+						{
+							_won = false;
+							break;
+						}
+					});
+					
 					// Actualiza qué hay en la sala.
 					$("#lisVisualField").empty();
 					
 					// Setea los parámetros.
-					$("#lbFuerzaPlayer").text("[" + String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.2*_dataPlayer.heridasCuerpoPlayer)))+"] Fuerza");
-					$("#lbResistenciaPlayer").text("[" + String(Math.round(_dataPlayer.resistenciaPlayer*(1-0.2*_dataPlayer.heridasCuerpoPlayer)))+"] Resistencia");
-					$("#lbPrecisionPlayer").text("[" + String(Math.round(_dataPlayer.precisionPlayer*(1-0.2*_dataPlayer.heridasPiernasPlayer)))+"] Precisión");
-					$("#lbReflejosPlayer").text("[" + String(Math.round(_dataPlayer.reflejosPlayer*(1-0.2*_dataPlayer.heridasPiernasPlayer)))+"] Reflejos");
-					$("#lbPercepcionPlayer").text("[" + String(Math.round(_dataPlayer.percepcionPlayer*(1-0.2*_dataPlayer.heridasBrazosPlayer)))+"] Percepción");
-					$("#lbCamuflajePlayer").text("[" + String(Math.round(_dataPlayer.camuflajePlayer*(1-0.2*_dataPlayer.heridasBrazosPlayer)))+"] Camuflaje");
-					$("#lbInteligenciaPlayer").text("[" + String(Math.round(_dataPlayer.inteligenciaPlayer*(1-0.2*_dataPlayer.heridasCabezaPlayer)))+"] Inteligencia");
-					$("#lbVoluntadPlayer").text("[" + String(Math.round(_dataPlayer.voluntadPlayer*(1-0.2*_dataPlayer.heridasCabezaPlayer)))+"] Voluntad");
+					$("#lbFuerzaPlayer").text("[" + String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Fuerza");
+					$("#lbResistenciaPlayer").text("[" + String(Math.round(_dataPlayer.resistenciaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Resistencia");
+					$("#lbPrecisionPlayer").text("[" + String(Math.round(_dataPlayer.precisionPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Precisión");
+					$("#lbReflejosPlayer").text("[" + String(Math.round(_dataPlayer.reflejosPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Reflejos");
+					$("#lbPercepcionPlayer").text("[" + String(Math.round(_dataPlayer.percepcionPlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Percepción");
+					$("#lbCamuflajePlayer").text("[" + String(Math.round(_dataPlayer.camuflajePlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Camuflaje");
+					$("#lbInteligenciaPlayer").text("[" + String(Math.round(_dataPlayer.inteligenciaPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+"] Inteligencia");
+					$("#lbVoluntadPlayer").text("[" + String(Math.round(_dataPlayer.voluntadPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+"] Voluntad");
 					
 					// El resultado del turno procesado.
 					_ret.forEach(_e => {
-						$("#lisVisualField").append("<li>- "+String(_e)+"</li>");
-						$("#lisVisualField").append("<li class='liInvisible'>.</li>");
+						if (_e != "")
+						{
+							$("#lisVisualField").append("<li>- "+String(_e)+"</li>");
+							$("#lisVisualField").append("<li class='liInvisible'>.</li>");
+						}
 					});
 					
-					// Las posibles heridas de tu cuerpo.
-					if (_dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasPiernasPlayer == 0)
-						$("#lisVisualField").append("<li>- Te sientes en perfecto estado.</li>");
-					let _txtPartes = "";
-					if (_dataPlayer.heridasCabezaPlayer > 0)
-						_txtPartes += "Tu cabeza está " + String(_dataPlayer.heridasCabezaPlayer == 1 ? "herida levemente. " : (_dataPlayer.heridasCabezaPlayer == 2 ? "herida gravemente. " : "herida críticamente. "));
-					if (_dataPlayer.heridasCuerpoPlayer > 0)
-						_txtPartes += "Tu cuerpo está " + String(_dataPlayer.heridasCuerpoPlayer == 1 ? "herido levemente. " : (_dataPlayer.heridasCuerpoPlayer == 2 ? "herido gravemente. " : "herido críticamente. "));
-					if (_dataPlayer.heridasBrazosPlayer > 0)
-						_txtPartes += "Tus brazos están " + String(_dataPlayer.heridasBrazosPlayer == 1 ? "heridos levemente. " : (_dataPlayer.heridasBrazosPlayer == 2 ? "heridos gravemente. " : "heridos críticamente. "));
-					if (_dataPlayer.heridasPiernasPlayer > 0)
-						_txtPartes += "Tus piernas están " + String(_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente. " : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente. " : "heridas críticamente. "));
-					if (_txtPartes != "") $("#lisVisualField").append("<li>- "+String(_txtPartes)+"</li>");
-					$("#lisVisualField").append("<li class='liInvisible'>.</li>");
-					
-					// Luego, para cada enemigo...
-					for (let i = 0; i < _dataEnemies.length; ++i)
+					if (!_hurt && !_won)
 					{
-						// Su descripción.
-						let _txt = String(getEnemyDescription(_dataEnemies[i].nameEnemy));
-						
-						// El estado.
-						_txt += getEnemyState(_dataEnemies[i].stateEnemy);
-						
-						// Sus heridas.
+						// Las posibles heridas de tu cuerpo.
+						if (_dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasPiernasPlayer == 0)
+							$("#lisVisualField").append("<li>- Te sientes en perfecto estado.</li>");
 						let _txtPartes = "";
-						if (_dataEnemies[i].heridasCabezaEnemy > 0)
-							_txtPartes += "Su cabeza está " + String(_dataEnemies[i].heridasCabezaEnemy == 1 ? "herida levemente. " : (_dataEnemies[i].heridasCabezaEnemy == 2 ? "herida gravemente. " : "herida críticamente. "));
-						if (_dataEnemies[i].heridasCuerpoEnemy > 0)
-							_txtPartes += "Su cuerpo está " + String(_dataEnemies[i].heridasCuerpoEnemy == 1 ? "herido levemente. " : (_dataEnemies[i].heridasCuerpoEnemy == 2 ? "herido gravemente. " : "herido críticamente. "));
-						if (_dataEnemies[i].heridasBrazosEnemy > 0)
-							_txtPartes += "Sus brazos están " + String(_dataEnemies[i].heridasBrazosEnemy == 1 ? "heridos levemente. " : (_dataEnemies[i].heridasBrazosEnemy == 2 ? "heridos gravemente. " : "heridos críticamente. "));
-						if (_dataEnemies[i].heridasPiernasEnemy > 0)
-							_txtPartes += "Sus piernas están " + String(_dataEnemies[i].heridasPiernasEnemy == 1 ? "heridas levemente. " : (_dataEnemies[i].heridasPiernasEnemy == 2 ? "heridas gravemente. " : "heridas críticamente. "));
-						if (_txtPartes != "") _txt += _txtPartes;
+						if (_dataPlayer.heridasCabezaPlayer > 0)
+							_txtPartes += "Tu cabeza está " + String(_dataPlayer.heridasCabezaPlayer == 1 ? "herida levemente. " : (_dataPlayer.heridasCabezaPlayer == 2 ? "herida gravemente. " : "herida críticamente. "));
+						if (_dataPlayer.heridasCuerpoPlayer > 0)
+							_txtPartes += "Tu cuerpo está " + String(_dataPlayer.heridasCuerpoPlayer == 1 ? "herido levemente. " : (_dataPlayer.heridasCuerpoPlayer == 2 ? "herido gravemente. " : "herido críticamente. "));
+						if (_dataPlayer.heridasBrazosPlayer > 0)
+							_txtPartes += "Tus brazos están " + String(_dataPlayer.heridasBrazosPlayer == 1 ? "heridos levemente. " : (_dataPlayer.heridasBrazosPlayer == 2 ? "heridos gravemente. " : "heridos críticamente. "));
+						if (_dataPlayer.heridasPiernasPlayer > 0)
+							_txtPartes += "Tus piernas están " + String(_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente. " : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente. " : "heridas críticamente. "));
+						if (_txtPartes != "") $("#lisVisualField").append("<li>- "+String(_txtPartes)+"</li>");
+						$("#lisVisualField").append("<li class='liInvisible'>.</li>");
 						
-						// Añade el objetivo a la lista de visualizaciones.
-						let _name = "Enemy"+String(i);
-						$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"' class='rbChoose'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
-						$("#rbChooseEnemy"+String(i)).change(_event => {
-							chosenObjective = "enemy/"+String(i);
-							enableAction();
-						});
+						// Luego, para cada enemigo...
+						for (let i = 0; i < _dataEnemies.length; ++i)
+						{
+							// Su descripción.
+							var _descr = getEnemyDescription(_dataEnemies[i].nameEnemy);
+							let _txt = _descr[0];
+							
+							if (_dataEnemies[i].stateEnemy != "Dead")
+							{
+								// El estado.
+								_txt += _descr[1];
+								_txt += getEnemyState(_dataEnemies[i].stateEnemy);
+								
+								// Sus heridas.
+								let _txtPartes = "";
+								if (_dataEnemies[i].heridasCabezaEnemy > 0)
+									_txtPartes += "Su cabeza está " + String(_dataEnemies[i].heridasCabezaEnemy == 1 ? "herida levemente. " : (_dataEnemies[i].heridasCabezaEnemy == 2 ? "herida gravemente. " : "herida críticamente. "));
+								if (_dataEnemies[i].heridasCuerpoEnemy > 0)
+									_txtPartes += "Su cuerpo está " + String(_dataEnemies[i].heridasCuerpoEnemy == 1 ? "herido levemente. " : (_dataEnemies[i].heridasCuerpoEnemy == 2 ? "herido gravemente. " : "herido críticamente. "));
+								if (_dataEnemies[i].heridasBrazosEnemy > 0)
+									_txtPartes += "Sus brazos están " + String(_dataEnemies[i].heridasBrazosEnemy == 1 ? "heridos levemente. " : (_dataEnemies[i].heridasBrazosEnemy == 2 ? "heridos gravemente. " : "heridos críticamente. "));
+								if (_dataEnemies[i].heridasPiernasEnemy > 0)
+									_txtPartes += "Sus piernas están " + String(_dataEnemies[i].heridasPiernasEnemy == 1 ? "heridas levemente. " : (_dataEnemies[i].heridasPiernasEnemy == 2 ? "heridas gravemente. " : "heridas críticamente. "));
+								if (_txtPartes != "") _txt += _txtPartes;
+								
+								// Añade el objetivo a la lista de visualizaciones.
+								let _name = "Enemy"+String(i);
+								$("#lisVisualField").append("<li><input type='radio' id='rbChooseEnemy"+String(i)+"' name='objectiveChosen' value='ChooseEnemy"+String(i)+"' class='rbChoose'><label for='rbChooseEnemy"+String(i)+"'>"+String(_txt)+"</label></li>");
+								$("#rbChooseEnemy"+String(i)).change(_event => {
+									chosenObjective = "enemy/"+String(i);
+									enableAction();
+								});
+							}
+							else
+							{
+								_txt += "Su cuerpo yace sin vida en el suelo. ";
+							}
+						}
 					}
 					
 					$("#lisVisualField").addClass("lisOpened");
 					$(".rbChoose").removeAttr('disabled');
+					
+					// Oculta todos los comandos si no puedes jugar más (totalmente herido).
+					$("#commands").css("visibility",_hurt || _won ? "hidden" : "visible");
+					$("#btResetBattle").css("visibility",_hurt || _won ? "visible" : "hidden");
 				});
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return "Observas un explorador bien tapado con ropa de abrigo densa, a través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque está algo indeciso y su expresión no transmite estar muy enfocado en el asunto. Sujeta una pala con sus dos manos. ";
+					if (_nameEnemy == "ExploradorPala") return ["Observas un explorador bien tapado con ropa de abrigo densa. ","A través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque está algo indeciso y su expresión no transmite estar muy enfocado en el asunto. Sujeta una pala con sus dos manos. "];
 					else return ""
 				}
 				function getEnemyState(_stateEnemy)
@@ -530,7 +571,7 @@
 			if (true){ // ####################################################### Scripts. #######################################################
 				function tiendeAX(_val,_obj,_inc)
 				{
-					var _ret = _val;
+					let _ret = _val;
 
 					if ( _inc == 0 ) return _obj;
 
