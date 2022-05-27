@@ -54,7 +54,7 @@ io.on("connection", async (_socket) => {
 						doQuery("INSERT INTO characters(name, tale, character, gender, color) VALUES ('"+String(_name)+"',01,'"+String(_name)+"','M','0');",() => {});
 						
 						// Inicializa las tablas de información permanente para cada tale.
-						doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"Player','30','30','30','30','30','30','30','30','0','0','0','0');",() => {
+						doQuery("INSERT INTO entity01(entity,inteligenciaEntity,fuerzaEntity,sigiloEntity,agilidadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"Player','30','30','30','30','0','0','0','0');",() => {
 							doQuery("INSERT INTO player01(name,entity,canactplayer) VALUES ('"+String(_name)+"','"+String(_name)+"Player','T');",() => {});
 						});
 					});
@@ -70,7 +70,7 @@ io.on("connection", async (_socket) => {
 			});
 		});
 	//}
-	//{ ####################################################### Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido (async). #######################################################
+	//{ ####################################################### Cargar capítulo. Comprobar si el usuario tiene acceso al chapter de la tale y enviar el contenido (async). #######################################################
 		_socket.on("loadChapter", async (_name,_pass,_tale,_chapter,_character,_gender,_color,_reset) => {
 			doQuery("SELECT * FROM users WHERE name = '"+String(_name)+"' and pass = '"+String(_pass)+"';", (selUsers) => {
 				if (selUsers.rowCount > 0)
@@ -79,42 +79,50 @@ io.on("connection", async (_socket) => {
 					doQuery("SELECT * FROM chapters WHERE name = '"+String(_name)+"' and tale = "+String(_tale)+" and chapter >= "+String(_chapter)+";", (selChapter) => {
 						if (selChapter.rowCount > 0)
 						{
-							// Si tiene acceso al chapter, carga su contenido en texto...
-							fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
-								if (_error) throw _error;
-								_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
-							});
-							
 							// ... y posteriormente accede a BD para ver si inicializar los datos del chapter si no existen o si estabas con otro anterior.
 							// Si no estás viendo ningún chapter, o es distinto al que has seleccionado, o pides reset, inicializa los datos de ese chapter y tale. En caso contrario no hará nada: los datos ya son válidos y "carga partida".
 							if ((selUsers.rows[0].taleplaying == '00' && selUsers.rows[0].chapterplaying == '00') || (selUsers.rows[0].taleplaying != _tale && selUsers.rows[0].chapterplaying != _chapter) || _reset)
 							{
 								// Actualiza qué tale y chapter estás leyendo.
-								doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapterplaying = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';",() => {});
-								
-								// Resetea las heridas del player y otras weas.
-								doQuery("UPDATE entity01 set heridascabezaentity = '0', heridascuerpoentity = '0', heridasbrazosentity = '0', heridaspiernasentity = '0' WHERE entity = '"+String(_name)+"Player';",() => {});
-								
-								// Limpia todos los enemigos y sus entities asociadas.
-								doQuery("DELETE FROM enemies01 where name = '"+String(_name)+"';",() => {
-									doQuery("DELETE FROM entity01 where entity <> '"+String(_name)+"Player';",() => {
-										// Crea el entorno según el tale y chapter.
-										// HUMANO, SANGRE Y PETRÓLEO.
-										if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
-										{
-											doQuery("INSERT INTO entity01(entity,fuerzaEntity,resistenciaEntity,precisionEntity,reflejosEntity,percepcionEntity,camuflajeEntity,inteligenciaEntity,voluntadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"ExploradorPala','25','20','15','15','5','10','5','5','0','0','0','0');",() => {
-												doQuery("INSERT INTO enemies01(name,entity,nameenemy,stateenemy) VALUES ('"+String(_name)+"','"+String(_name)+"ExploradorPala','ExploradorPala','Aggressive');",() => {});
+								doQuery("UPDATE users set taleplaying = '"+String(_tale)+"', chapterplaying = '"+String(_chapter)+"' WHERE name = '"+String(_name)+"';",() => {
+									// Resetea las heridas del player y otras weas.
+									doQuery("UPDATE entity01 set heridascabezaentity = '0', heridascuerpoentity = '0', heridasbrazosentity = '0', heridaspiernasentity = '0' WHERE entity = '"+String(_name)+"Player';",() => {
+										// Limpia todos los enemigos y sus entities asociadas.
+										doQuery("DELETE FROM enemies01 where name = '"+String(_name)+"';",() => {
+											doQuery("DELETE FROM entity01 where entity <> '"+String(_name)+"Player' and name = '"+String(_name)+"';",() => {
+												// Crea el entorno según el tale y chapter.
+												// HUMANO, SANGRE Y PETRÓLEO.
+												if (_tale == "01" && _chapter == "01") // Primera batalla contra el tipo con pala por haber matado a su amigo en el hielo.
+												{
+													doQuery("INSERT INTO entity01(name,entity,inteligenciaEntity,fuerzaEntity,sigiloEntity,agilidadEntity,heridasCabezaEntity,heridasCuerpoEntity,heridasBrazosEntity,heridasPiernasEntity) VALUES ('"+String(_name)+"','"+String(_name)+"ExploradorPala','5','25','10','15','0','0','0','0');",() => {
+														doQuery("INSERT INTO enemies01(name,entity,nameenemy,stateenemy) VALUES ('"+String(_name)+"','"+String(_name)+"ExploradorPala','ExploradorPala','Aggressive');",() => {
+															chapterSuccess(_tale,_chapter,_character,_gender,_color);
+														});
+													});
+												}
+												else _socket.emit("chapterFail");
 											});
-										}
+										});
 									});
 								});
 							}
+							// Si no, entonces no reinicias nada. Has cargado un chapter ya iniciado y sus datos se mantienen.
+							else chapterSuccess(_tale,_chapter,_character,_gender,_color);
 						}
 						else _socket.emit("chapterFail");
 					});
 				}
+				else _socket.emit("chapterFail");
 			});
 		});
+		
+		function chapterSuccess(_tale,_chapter,_character,_gender,_color)
+		{
+			fs.readFile(__dirname + "/tales/t"+String(_tale)+"/t"+String(_tale)+"c"+String(_chapter)+".txt", (_error, _data) => {
+				if (_error) throw _error;
+				_socket.emit("chapterSuccess",_data.toString().replaceAll("$CHA",_character).replaceAll("$GEN",_gender == "M" ? "o" : "a").replaceAll("$COL",_color));
+			});
+		}
 	//}
 	//{ ####################################################### Setear character name. #######################################################
 		_socket.on("setCharacterName", async (_name,_pass,_tale,_character) => {
@@ -190,14 +198,10 @@ io.on("connection", async (_socket) => {
 									// Crea la estructura de datos del player.
 									var _dataPlayer = {
 										canActPlayer:selPlayer.rows[0].canactplayer,
-										fuerzaPlayer:selPlayerEntity.rows[0].fuerzaentity,
-										resistenciaPlayer:selPlayerEntity.rows[0].resistenciaentity,
-										precisionPlayer:selPlayerEntity.rows[0].precisionentity,
-										reflejosPlayer:selPlayerEntity.rows[0].reflejosentity,
-										percepcionPlayer:selPlayerEntity.rows[0].percepcionentity,
-										camuflajePlayer:selPlayerEntity.rows[0].camuflajeentity,
 										inteligenciaPlayer:selPlayerEntity.rows[0].inteligenciaentity,
-										voluntadPlayer:selPlayerEntity.rows[0].voluntadentity,
+										fuerzaPlayer:selPlayerEntity.rows[0].fuerzaentity,
+										sigiloPlayer:selPlayerEntity.rows[0].sigiloentity,
+										agilidadPlayer:selPlayerEntity.rows[0].agilidadentity,
 										heridasCabezaPlayer:selPlayerEntity.rows[0].heridascabezaentity,
 										heridasCuerpoPlayer:selPlayerEntity.rows[0].heridascuerpoentity,
 										heridasBrazosPlayer:selPlayerEntity.rows[0].heridasbrazosentity,
@@ -224,14 +228,10 @@ io.on("connection", async (_socket) => {
 					_dataEnemies.push({
 						nameEnemy:_selEnemies.rows[_i].nameenemy,
 						stateEnemy:_selEnemies.rows[_i].stateenemy,
-						fuerzaEnemy:selEnemyEntity.rows[_i].fuerzaentity,
-						resistenciaEnemy:selEnemyEntity.rows[_i].resistenciaentity,
-						precisionEnemy:selEnemyEntity.rows[_i].precisionentity,
-						reflejosEnemy:selEnemyEntity.rows[_i].reflejosentity,
-						percepcionEnemy:selEnemyEntity.rows[_i].percepcionentity,
-						camuflajeEnemy:selEnemyEntity.rows[_i].camuflajeentity,
 						inteligenciaEnemy:selEnemyEntity.rows[_i].inteligenciaentity,
-						voluntadEnemy:selEnemyEntity.rows[_i].voluntadentity,
+						fuerzaEnemy:selEnemyEntity.rows[_i].fuerzaentity,
+						sigiloEnemy:selEnemyEntity.rows[_i].sigiloentity,
+						agilidadEnemy:selEnemyEntity.rows[_i].agilidadentity,
 						heridasCabezaEnemy:selEnemyEntity.rows[_i].heridascabezaentity,
 						heridasCuerpoEnemy:selEnemyEntity.rows[_i].heridascuerpoentity,
 						heridasBrazosEnemy:selEnemyEntity.rows[_i].heridasbrazosentity,
@@ -260,11 +260,14 @@ io.on("connection", async (_socket) => {
 				
 				// Los enemigos actúan.
 				_dataEnemies.forEach(_enemy => {
-					_ret.push(executeEnemyStep(_event,_dataPlayer,_enemy))
+					let _aux = executeEnemyStep(_event,_dataPlayer,_enemy);
+					if (_aux != "") _ret.push(_aux);
 				});
 				
 				_ret.push(checkPlayerDeathGeneral(_dataPlayer));
-				_ret.push(checkPlayerVictoryGeneral(_dataEnemies));
+				var _victory = checkPlayerVictoryGeneral(_dataEnemies);
+				_ret.push(_victory[0]);
+				_ret.push(_victory[1]);
 			}
 			
 			// Guarda los datos.
@@ -276,7 +279,14 @@ io.on("connection", async (_socket) => {
 			// Primero guarda el player.
 			doQuery("UPDATE player01 SET canactplayer = 'T' WHERE name = '"+String(_name)+"';", () => {
 				doQuery("UPDATE entity01 SET heridascabezaentity = '"+String(_dataPlayer.heridasCabezaPlayer)+"', heridascuerpoentity = '"+String(_dataPlayer.heridasCuerpoPlayer)+"', heridasbrazosentity = '"+String(_dataPlayer.heridasBrazosPlayer)+"', heridaspiernasentity = '"+String(_dataPlayer.heridasPiernasPlayer)+"' WHERE entity = '"+String(_name)+"Player';", () => {
-					loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0,_ret);
+					// Chequea si ganaste y guarda desbloquear el siguiente capítulo. Hay que leer en BD qué capítulo estamos jugando para haber llegado a este punto (inequívoco) y asignarnos ese +1.
+					if (checkPlayerVictoryGeneral(_dataEnemies)[0] != "")
+						doQuery("SELECT * from users WHERE name = '"+String(_name)+"';", (_selUsers) => {
+							doQuery("UPDATE chapters SET chapter = '"+String(_selUsers.rows[0].chapterplaying+1)+"' WHERE name = '"+String(_name)+"' and tale = '"+String(_selUsers.rows[0].taleplaying)+"';", () => {
+								loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0,_ret);
+							});
+						});
+					else loop01SaveDataEnemy(_name,_dataPlayer,_dataEnemies,0,_ret);
 				});
 			});
 		}
@@ -313,20 +323,20 @@ io.on("connection", async (_socket) => {
 					// Decide la potencia de tu ataque tomando tu stat usado.
 					let _chosenOffensive = _arr[4];
 					var _partOffensive;
-					if (_chosenOffensive == "fuerza") _partOffensive = "Cuerpo";
-					else if (_chosenOffensive == "percepcion") _partOffensive = "Brazos";
-					else if (_chosenOffensive == "precision") _partOffensive = "Piernas";
-					else if (_chosenOffensive == "inteligencia") _partOffensive = "Cabeza";
-					let _statOffensive = _player[_chosenOffensive+"Player"]*(1-0.25*_player["heridas"+String(_partOffensive)+"Player"]);
+					if (_chosenOffensive == "inteligencia") _partOffensive = "Cabeza";
+					else if (_chosenOffensive == "fuerza") _partOffensive = "Cuerpo";
+					else if (_chosenOffensive == "sigilo") _partOffensive = "Brazos";
+					else if (_chosenOffensive == "agilidad") _partOffensive = "Piernas";
+					let _statOffensive = Math.round(_player[_chosenOffensive+"Player"]*(1-0.25*_player["heridas"+String(_partOffensive)+"Player"]));
 					_ret += getRolPlayerOffensive(_chosenOffensive,_statOffensive,_enemy);
 					
 					// Decide la defensa del rival tomando su stat. Utiliza su stat más elevado.
-					let _statDefensive = Math.max(
-						_enemy.resistenciaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy),
-						_enemy.reflejosEnemy*(1-0.25*_enemy.heridasPiernasEnemy),
-						_enemy.camuflajeEnemy*(1-0.25*_enemy.heridasBrazosEnemy),
-						_enemy.voluntadEnemy*(1-0.25*_enemy.heridasCabezaEnemy)
-					);
+					let _statDefensive = Math.round(Math.max(
+						_enemy.inteligenciaEnemy*(1-0.25*_enemy.heridasCabezaEnemy),
+						_enemy.fuerzaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy),
+						_enemy.sigiloEnemy*(1-0.25*_enemy.heridasBrazosEnemy),
+						_enemy.agilidadEnemy*(1-0.25*_enemy.heridasPiernasEnemy)
+					));
 					
 					// Calcula la intensidad del daño y dónde es.
 					let _danyo = Math.min(3,Math.max(1,Math.floor(_statOffensive/_statDefensive)));
@@ -348,24 +358,24 @@ io.on("connection", async (_socket) => {
 		function getRolPlayerOffensive(_chosenOffensive,_statOffensive,_enemy)
 		{
 			let _ret = "Te acercas al " + getEnemyName(_enemy.nameEnemy) + " y ";
-			if (_chosenOffensive == "fuerza") _ret += "le asestas unas puñaladas frontales con tus manos puntiagudas endurecidas con sangre solidificada. ";
-			else if (_chosenOffensive == "precision") _ret += "apuntas con precisión al cuello para propinarle un tajo directo. ";
-			else if (_chosenOffensive == "percepcion") _ret += "percibes los puntos de su cuerpo con mayor flujo de sangre para rajarlos y hacerlo sangrar. ";
-			else if (_chosenOffensive == "inteligencia") _ret += "lo perforas para lograr acceso a su sangre y manipular sus células para matarlo lentamente. ";
+			if (_chosenOffensive == "inteligencia") _ret += "lo perforas para lograr acceso a su sangre y debilitar sus células. ";
+			else if (_chosenOffensive == "fuerza") _ret += "le realizas un ataque fuerte pero extremadamente lento con tus manos. ";
+			else if (_chosenOffensive == "sigilo") _ret += "logras camuflarte en el entorno para realizarle un ataque sigiloso con tus manos. ";
+			else if (_chosenOffensive == "agilidad") _ret += "le realizas un ataque débil pero extremadamente rápido con tus manos. ";
 			return _ret;
 		}
 		function getRolPlayerDefensive(_chosenDefensive,_player,_danyo,_chosenpart)
 		{
 			let _ret = "";
 			
-			if (_chosenDefensive == "resistencia") _ret += "Tú intentas colocar tus brazos al frente para bloquear. ";
-			else if (_chosenDefensive == "reflejos") _ret += "Tú intentas mover tu cuerpo a un lado para esquivar. ";
-			else if (_chosenDefensive == "camuflaje") _ret += "Tú intentas camuflarte con tu entorno para evitarlo. ";
-			else if (_chosenDefensive == "voluntad") _ret += "Tú intentas reorganizar tus células para resistir el impacto. ";
+			if (_chosenDefensive == "inteligencia") _ret += "Reorganizas tus células para resistir el impacto ";
+			else if (_chosenDefensive == "fuerza") _ret += "Colocas tus brazos al frente para bloquear ";
+			else if (_chosenDefensive == "sigilo") _ret += "Te camuflas con tu entorno para evitarlo ";
+			else if (_chosenDefensive == "agilidad") _ret += "Mueves tu cuerpo a un lado para esquivar ";
 			
-			if (_danyo == 1) _ret += "Tu defensa es muy efectiva así que sólo recibes una herida leve en ";
-			else if (_danyo == 2) _ret += "Tu defensa flaquea así que recibes una herida grave en ";
-			else if (_danyo == 3) _ret += "Tu defensa fracasa así que recibes una herida crítica en ";
+			if (_danyo == 1) _ret += "moderadamente, recibiendo una herida leve en ";
+			else if (_danyo == 2) _ret += "con dificultad, recibiendo una herida grave en ";
+			else if (_danyo == 3) _ret += "desastrosamente, recibiendo una herida crítica en ";
 			var _part = "";
 			if (_chosenpart == 0) _part = "tu cabeza";
 			else if (_chosenpart == 1) _part = "tu cuerpo";
@@ -388,21 +398,21 @@ io.on("connection", async (_socket) => {
 				if (_enemy.stateEnemy == "Aggressive")
 				{
 					// Decide la potencia de su ataque tomando tu stat más alto.
-					let _statOffensive = Math.max(
+					let _statOffensive = Math.round(Math.max(
+						_enemy.inteligenciaEnemy*(1-0.25*_enemy.heridasCabezaEnemy),
 						_enemy.fuerzaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy),
-						_enemy.precisionEnemy*(1-0.25*_enemy.heridasPiernasEnemy),
-						_enemy.percepcionEnemy*(1-0.25*_enemy.heridasBrazosEnemy),
-						_enemy.inteligenciaEnemy*(1-0.25*_enemy.heridasCabezaEnemy)
-					);
+						_enemy.sigiloEnemy*(1-0.25*_enemy.heridasBrazosEnemy),
+						_enemy.agilidadEnemy*(1-0.25*_enemy.heridasPiernasEnemy)
+					));
 					_ret += getRolEnemyOffensive(_statOffensive,_enemy);
 					
 					// El stat de defensa que has elegido.
-					let _chosenDefensive = _arr[5];
+					let _chosenDefensive = _arr[4];
 					var _partDefensive;
-					if (_chosenDefensive == "resistencia") _partDefensive = "Cuerpo";
-					else if (_chosenDefensive == "camuflaje") _partDefensive = "Brazos";
-					else if (_chosenDefensive == "reflejos") _partDefensive = "Piernas";
-					else if (_chosenDefensive == "voluntad") _partDefensive = "Cabeza";
+					if (_chosenDefensive == "inteligencia") _partDefensive = "Cabeza";
+					else if (_chosenDefensive == "fuerza") _partDefensive = "Cuerpo";
+					else if (_chosenDefensive == "sigilo") _partDefensive = "Brazos";
+					else if (_chosenDefensive == "agilidad") _partDefensive = "Piernas";
 					let _statDefensive = _player[_chosenDefensive+"Player"]*(1-0.25*_player["heridas"+String(_partDefensive)+"Player"]);
 					
 					// Calcula la intensidad del daño y ataca a una zona aleatoria.
@@ -431,10 +441,10 @@ io.on("connection", async (_socket) => {
 			if (_enemy.nameEnemy == "ExploradorPala")
 			{
 				_ret = "El " + getEnemyName(_enemy.nameEnemy) + " se acerca a ti y ";
-				if (_statOffensive == _enemy.fuerzaEnemy) _ret += "te propina un golpe directo con su pala. ";
-				else if (_statOffensive == _enemy.precisionEnemy) _ret += "ladea su pala para golpearte con precisión con el canto. ";
-				else if (_statOffensive == _enemy.percepcionEnemy) _ret += "trata de localizar tus puntos vitales para golpearlos con su pala. ";
-				else if (_statOffensive == _enemy.inteligenciaEnemy) _ret += "trata de romper tu mente con tonos agresivos mientras te aprieta el cuello con sus manos desnudas. ";
+				if (_statOffensive == Math.round(_enemy.inteligenciaEnemy*(1-0.25*_enemy.heridasCabezaEnemy))) _ret += "grita haciendo alarde de su estupidez a tal punto que te duele. ";
+				else if (_statOffensive == Math.round(_enemy.fuerzaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy))) _ret += "te realiza un ataque fuerte pero extremadamente lento con la pala. ";
+				else if (_statOffensive == Math.round(_enemy.sigiloEnemy*(1-0.25*_enemy.heridasBrazosEnemy))) _ret += "logra camuflarse en el entorno para realizarte un ataque sigiloso con su pala. ";
+				else if (_statOffensive == Math.round(_enemy.agilidadEnemy*(1-0.25*_enemy.heridasPiernasEnemy))) _ret += "te realiza un ataque débil pero extremadamente rápido con la pala. ";
 			}
 			return _ret;
 		}
@@ -446,14 +456,14 @@ io.on("connection", async (_socket) => {
 			// Enemigo: explorador de las nieves con una pala.
 			if (_enemy.nameEnemy == "ExploradorPala")
 			{
-				if (_statObjective == _enemy.resistenciaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy)) _ret += "Éste intenta alzar su pala para bloquear. ";
-				else if (_statObjective == _enemy.reflejosEnemy*(1-0.25*_enemy.heridasPiernasEnemy)) _ret += "Éste intenta mover su cuerpo a un lado para esquivar. ";
-				else if (_statObjective == _enemy.camuflajeEnemy*(1-0.25*_enemy.heridasBrazosEnemy)) _ret += "Éste intenta camuflarse con su entorno para evitarlo. ";
-				else if (_statObjective == _enemy.voluntadEnemy*(1-0.25*_enemy.heridasCabezaEnemy)) _ret += "Éste intenta, a pura fuerza de voluntad, resistir el impacto. ";
+				if (_statObjective == Math.round(_enemy.inteligenciaEnemy*(1-0.25*_enemy.heridasCabezaEnemy))) _ret += "Grita para motivarse y resistir el impacto ";
+				else if (_statObjective == Math.round(_enemy.fuerzaEnemy*(1-0.25*_enemy.heridasCuerpoEnemy))) _ret += "Alza su pala para bloquear ";
+				else if (_statObjective == Math.round(_enemy.sigiloEnemy*(1-0.25*_enemy.heridasBrazosEnemy))) _ret += "Se camufla con su entorno para evitarlo ";
+				else if (_statObjective == Math.round(_enemy.agilidadEnemy*(1-0.25*_enemy.heridasPiernasEnemy))) _ret += "Mueve su cuerpo a un lado para esquivar ";
 				
-				if (_danyo == 1) _ret += "Su defensa es muy efectiva así que sólo recibe una herida leve en ";
-				else if (_danyo == 2) _ret += "Su defensa flaquea así que recibe una herida grave en ";
-				else if (_danyo == 3) _ret += "Su defensa fracasa así que recibe una herida crítica en ";
+				if (_danyo == 1) _ret += "moderadamente, recibiendo una herida leve en ";
+				else if (_danyo == 2) _ret += "con dificultad, recibiendo una herida grave en ";
+				else if (_danyo == 3) _ret += "desastrosamente, recibiendo una herida crítica en ";
 				_ret += String(_chosenpart) + ". ";
 			}
 		
@@ -473,18 +483,14 @@ io.on("connection", async (_socket) => {
 			}
 			return _ret;
 		}
-		function checkPlayerVictoryGeneral(_player)
+		function checkPlayerVictoryGeneral(_dataEnemies)
 		{
-			let _ret = "";
+			let _ret = ["",""];
 			let _won = true;
 			_dataEnemies.forEach(_enemy => {
-				if (_player.heridasCabezaEnemy+_player.heridasCuerpoEnemy+_player.heridasBrazosEnemy+_player.heridasPiernasEnemy < 12)
-				{
-					_won = false;
-					break;
-				}
+				if (_enemy.heridasCabezaEnemy+_enemy.heridasCuerpoEnemy+_enemy.heridasBrazosEnemy+_enemy.heridasPiernasEnemy < 12) _won = false;
 			});
-			if (won) _ret = "El explorador cae frente a ti y sin vida. Su pala resuena contra la roca y pronto su sangre se une a la de su compañero. Ya nada ni nadie te impide salir de aquí.\n\n¡SIGUIENTE CAPÍTULO DESBLOQUEADO!";
+			if (_won) _ret = ["El explorador cae frente a ti y sin vida. Su pala resuena contra la roca y pronto su sangre se une a la de su compañero. Ya nada ni nadie te impide salir de aquí.","¡SIGUIENTE CAPÍTULO DESBLOQUEADO!"];
 			return _ret;
 		}
 	//}

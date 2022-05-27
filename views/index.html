@@ -126,40 +126,21 @@
 								<!-- Los stats. -->
 								<table>
 									<tr> <!-- Categorías -->
-										<td class="tdAcc"></td><td class="tdAcc">MENTE (cabeza)</td><td class="tdAcc">FÍSICO (cuerpo)</td><td class="tdAcc">SIGILO (brazos)</td><td class="tdAcc">AGILIDAD (piernas)</td>
+										<td class="tdAcc">Cabeza</td><td class="tdAcc">Cuerpo</td><td class="tdAcc">Brazos</td><td class="tdAcc">Piernas</td>
 									</tr>
 									<tr> <!-- Stats ofensivos -->
 										<td>
-											OFENSIVOS
-										</td><td>
-											<input type="radio" id="rbInteligenciaPlayer" name="offensiveStat" value="inteligenciaPlayer" class="rbChoose">
+											<input type="radio" id="rbInteligenciaPlayer" name="stat" value="inteligenciaPlayer" class="rbChoose">
 											<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
 										</td><td>
-											<input type="radio" id="rbFuerzaPlayer" name="offensiveStat" value="fuerzaPlayer" class="rbChoose">
+											<input type="radio" id="rbFuerzaPlayer" name="stat" value="fuerzaPlayer" class="rbChoose">
 											<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
 										</td><td>
-											<input type="radio" id="rbPercepcionPlayer" name="offensiveStat" value="percepcionPlayer" class="rbChoose">
-											<label for="rbPercepcionPlayer" id="lbPercepcionPlayer">Percepción</label>
+											<input type="radio" id="rbSigiloPlayer" name="stat" value="sigiloPlayer" class="rbChoose">
+											<label for="rbSigiloPlayer" id="lbSigiloPlayer">Sigilo</label>
 										</td><td>
-											<input type="radio" id="rbPrecisionPlayer" name="offensiveStat" value="precisionPlayer" class="rbChoose">
-											<label for="rbPrecisionPlayer" id="lbPrecisionPlayer">Precisión</label>
-										</td>
-									</tr>
-									<tr> <!-- Stats defensivos -->
-										<td>
-											DEFENSIVOS
-										</td><td>
-											<input type="radio" id="rbVoluntadPlayer" name="deffensiveStat" value="voluntadPlayer" class="rbChoose">
-											<label for="rbVoluntadPlayer" id="lbVoluntadPlayer">Voluntad</label>
-										</td><td>
-											<input type="radio" id="rbResistenciaPlayer" name="deffensiveStat" value="resistenciaPlayer" class="rbChoose">
-											<label for="rbResistenciaPlayer" id="lbResistenciaPlayer">Resistencia</label>
-										</td><td>
-											<input type="radio" id="rbCamuflajePlayer" name="deffensiveStat" value="camuflajePlayer" class="rbChoose">
-											<label for="rbCamuflajePlayer" id="lbCamuflajePlayer">Camuflaje</label>
-										</td><td>
-											<input type="radio" id="rbReflejosPlayer" name="deffensiveStat" value="reflejosPlayer" class="rbChoose">
-											<label for="rbReflejosPlayer" id="lbReflejosPlayer">Reflejos</label>
+											<input type="radio" id="rbAgilidadPlayer" name="stat" value="agilidadPlayer" class="rbChoose">
+											<label for="rbAgilidadPlayer" id="lbAgilidadPlayer">Agilidad</label>
 										</td>
 									</tr>
 								</table>
@@ -194,8 +175,7 @@
 				var currentTale = 00; // ¿Qué tale andas viendo?
 				var currentChapter = 00; // ¿Qué episodio andas viendo?
 				var chosenObjective = ""; // ¿Sobre qué actúas?
-				var chosenOffensive = ""; // ¿Cómo actúas ofensivamente?
-				var chosenDefensive = ""; // ¿Cómo actúas defensivamente?
+				var chosenStat = ""; // ¿Cómo actúas?
 				var heightPercentageLis = 0; // El porcentaje de altura para verlo gradual en listas con elementos.
 				var alphaElement = 0; // Pos eso.
 			}
@@ -369,16 +349,16 @@
 			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btAtacarCabeza").click((e) => {
-					socketEmitLoop01("clickAtacar/la cabeza/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/la cabeza/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarCuerpo").click((e) => {
-					socketEmitLoop01("clickAtacar/el cuerpo/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/el cuerpo/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarBrazos").click((e) => {
-					socketEmitLoop01("clickAtacar/los brazos/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/los brazos/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarPiernas").click((e) => {
-					socketEmitLoop01("clickAtacar/las piernas/"+String(chosenObjective)+"/"+String(chosenOffensive)+"/"+String(chosenDefensive));
+					socketEmitLoop01("clickAtacar/las piernas/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btRecolectar").click((e) => {
 					socketEmitLoop01("clickRecolectar");
@@ -411,46 +391,29 @@
 					$(".rbChoose").attr('disabled',"true");
 					$("#lisVisualField").removeClass("lisOpened");
 					chosenObjective = "";
-					chosenOffensive = "";
-					chosenDefensive = "";
+					chosenStat = "";
 				}
 				
-				$("#rbFuerzaPlayer").change(_event => {
-					chosenOffensive = "fuerza";
-					enableAction();
-				});
-				$("#rbPrecisionPlayer").change(_event => {
-					chosenOffensive = "precision";
-					enableAction();
-				});
-				$("#rbPercepcionPlayer").change(_event => {
-					chosenOffensive = "percepcion";
-					enableAction();
-				});
 				$("#rbInteligenciaPlayer").change(_event => {
-					chosenOffensive = "inteligencia";
+					chosenStat = "inteligencia";
 					enableAction();
 				});
-				$("#rbResistenciaPlayer").change(_event => {
-					chosenDefensive = "resistencia";
+				$("#rbFuerzaPlayer").change(_event => {
+					chosenStat = "fuerza";
 					enableAction();
 				});
-				$("#rbReflejosPlayer").change(_event => {
-					chosenDefensive = "reflejos";
+				$("#rbSigiloPlayer").change(_event => {
+					chosenStat = "sigilo";
 					enableAction();
 				});
-				$("#rbCamuflajePlayer").change(_event => {
-					chosenDefensive = "camuflaje";
-					enableAction();
-				});
-				$("#rbVoluntadPlayer").change(_event => {
-					chosenDefensive = "voluntad";
+				$("#rbAgilidadPlayer").change(_event => {
+					chosenStat = "agilidad";
 					enableAction();
 				});
 				
 				function enableAction()
 				{
-					if (chosenObjective != "" && chosenOffensive != "" && chosenDefensive != "")
+					if (chosenObjective != "" && chosenStat != "")
 					{
 						$(".btnAccion").removeAttr("disabled");
 					}
@@ -462,25 +425,17 @@
 					var _hurt = _dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasPiernasPlayer >= 12;
 					var _won = true;
 					_dataEnemies.forEach(_enemy => {
-						if (_enemy.heridasCabezaEnemy+_enemy.heridasCuerpoEnemy+_enemy.heridasBrazosEnemy+_enemy.heridasPiernasEnemy < 12)
-						{
-							_won = false;
-							break;
-						}
+						if (_enemy.heridasCabezaEnemy+_enemy.heridasCuerpoEnemy+_enemy.heridasBrazosEnemy+_enemy.heridasPiernasEnemy < 12) _won = false;
 					});
 					
 					// Actualiza qué hay en la sala.
 					$("#lisVisualField").empty();
 					
 					// Setea los parámetros.
-					$("#lbFuerzaPlayer").text("[" + String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Fuerza");
-					$("#lbResistenciaPlayer").text("[" + String(Math.round(_dataPlayer.resistenciaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Resistencia");
-					$("#lbPrecisionPlayer").text("[" + String(Math.round(_dataPlayer.precisionPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Precisión");
-					$("#lbReflejosPlayer").text("[" + String(Math.round(_dataPlayer.reflejosPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Reflejos");
-					$("#lbPercepcionPlayer").text("[" + String(Math.round(_dataPlayer.percepcionPlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Percepción");
-					$("#lbCamuflajePlayer").text("[" + String(Math.round(_dataPlayer.camuflajePlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Camuflaje");
 					$("#lbInteligenciaPlayer").text("[" + String(Math.round(_dataPlayer.inteligenciaPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+"] Inteligencia");
-					$("#lbVoluntadPlayer").text("[" + String(Math.round(_dataPlayer.voluntadPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+"] Voluntad");
+					$("#lbFuerzaPlayer").text("[" + String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Fuerza");
+					$("#lbSigiloPlayer").text("[" + String(Math.round(_dataPlayer.sigiloPlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Sigilo");
+					$("#lbAgilidadPlayer").text("[" + String(Math.round(_dataPlayer.agilidadPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Agilidad");
 					
 					// El resultado del turno procesado.
 					_ret.forEach(_e => {
@@ -518,7 +473,6 @@
 							if (_dataEnemies[i].stateEnemy != "Dead")
 							{
 								// El estado.
-								_txt += _descr[1];
 								_txt += getEnemyState(_dataEnemies[i].stateEnemy);
 								
 								// Sus heridas.
@@ -532,6 +486,9 @@
 								if (_dataEnemies[i].heridasPiernasEnemy > 0)
 									_txtPartes += "Sus piernas están " + String(_dataEnemies[i].heridasPiernasEnemy == 1 ? "heridas levemente. " : (_dataEnemies[i].heridasPiernasEnemy == 2 ? "heridas gravemente. " : "heridas críticamente. "));
 								if (_txtPartes != "") _txt += _txtPartes;
+								
+								// El lore.
+								_txt += "<i style='color:#888888;'>"+String(_descr[1])+"</i>";
 								
 								// Añade el objetivo a la lista de visualizaciones.
 								let _name = "Enemy"+String(i);
@@ -559,7 +516,7 @@
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
 				function getEnemyDescription(_nameEnemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return ["Observas un explorador bien tapado con ropa de abrigo densa. ","A través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque está algo indeciso y su expresión no transmite estar muy enfocado en el asunto. Sujeta una pala con sus dos manos. "];
+					if (_nameEnemy == "ExploradorPala") return ["Observas un explorador con una pala. ","Está bien tapado con ropa de abrigo densa, a través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque lo notas muy indeciso e inquieto. "];
 					else return ""
 				}
 				function getEnemyState(_stateEnemy)

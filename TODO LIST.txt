@@ -1,12 +1,13 @@
 ###### TODO ######
-- Que al ganar desbloquee el proximo capitulo. Juicy todo.
-- Que los enemigos muertos no hagan su turno (si tú lo matas en tu turno, no contraataca).
 - Rearrange la foto para que esté más ¿horizontal? Arriba y dejar más espacio a la batalla. ¿Improvisar sistema para reasignar stats?
 
 ###### SOMETIMES ######
 - Cuando añada otros elementos: poner los 4 atacar al final, y que al elegir un radiobutton no enemigo, se oculten los 4 y muestre "Atacar" en general, y viceversa.
 
 ###### DONE ######
+- Que al ganar desbloquee el proximo capitulo. Juicy todo.
+- Diseño: ¿juntar stats ofensivos y defensivos y sólo elegir stat? Ahora mismo puedes elegir el mejor stat para atacar y el mejor para defender (aburrido). De la otra forma te obliga a atacar-defender con el mismo y hay decisiones.
+- Que los enemigos muertos no hagan su turno (si tú lo matas en tu turno, no contraataca).
 - Que al morir reinicie la batalla (loadchapter: reiniciar bien heridas del player, limpiar entities de enemigos...). 
 - El turno no se está ejecutando. Está mal mi comprobacion de _hurt, heridas?
 - Testear sistema de batalla.
