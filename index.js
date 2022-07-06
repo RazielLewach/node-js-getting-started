@@ -3,8 +3,8 @@
 	var express = require('express');
 	var http = require("http");
 	var fs = require("fs");
-	//var port = process.env.PORT || 5000; // Esta línea para ONLINE.
-	var port = 8080; // Esta línea para LOCAL.
+	var port = process.env.PORT || 5000; // Esta línea para ONLINE.
+	//var port = 8080; // Esta línea para LOCAL.
 
 	// Sockets.
 	var app = express();
