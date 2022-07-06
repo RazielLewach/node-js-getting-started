@@ -2,24 +2,6 @@
 cd node-js-getting-started
 heroku login
 
-- OPEN DATABASE TO DO QUERIES
-FOR ONLINE
-heroku pg:psql
-
-FOR LOCAL (PASS test)
-psql -p 5000 -U postgres
-
-drop table enemies01; drop table player01; drop table entity01; drop table characters; drop table chapters; drop table users;
-create table users (name varchar(255) not null unique, pass varchar(255) not null, taleplaying int not null, chapterplaying int not null, primary key (name, pass));
-create table chapters (name varchar(255) not null, tale int not null, chapter int not null, primary key (name, tale, chapter), CONSTRAINT hasChapter FOREIGN KEY(name) REFERENCES users(name));
-create table characters (name varchar(255) not null, tale int not null, character varchar(255) not null, gender varchar(1) not null, color varchar(3) not null, primary key (name, tale, character, gender), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
-create table entity01 (name varchar(255), entity varchar(255) not null, inteligenciaEntity int not null, fuerzaEntity int not null, sigiloEntity int not null, agilidadEntity int not null, heridasCabezaEntity int not null, heridasCuerpoEntity int not null, heridasBrazosEntity int not null, heridasPiernasEntity int not null, primary key (entity), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name));
-create table player01 (name varchar(255) not null, entity varchar(255) not null, canActPlayer varchar(1) not null, primary key (name,entity), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name), CONSTRAINT isEntity FOREIGN KEY(entity) REFERENCES entity01(entity));
-create table enemies01 (name varchar(255) not null, entity varchar(255) not null, nameEnemy varchar(255) not null, stateEnemy varchar(255) not null, primary key (name,entity), CONSTRAINT hasCharacter FOREIGN KEY(name) REFERENCES users(name), CONSTRAINT isEntity FOREIGN KEY(entity) REFERENCES entity01(entity));
-
-\q para cerrar
-\dt show tables
-
 - EXECUTE IN LOCAL
 heroku local web
 
@@ -31,17 +13,3 @@ heroku logs --tail
 
 - COMANDOS CONSOLA
 cls (limpiar, clear)
-
-
-
-
-
-
-
-
-
-
-- POSTGRESQL (OLD?)
-https://cheatcode.co/tutorials/how-to-use-postgresql-with-node-js
-pass tomato12
-puerto 5000

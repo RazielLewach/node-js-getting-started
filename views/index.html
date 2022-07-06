@@ -69,7 +69,7 @@
 			
 			/* Tabla de acciones */
 			.tdAcc {
-				width: 200px;
+				width: 280px;
 			}
 			
 			.btnAccion {
@@ -111,12 +111,9 @@
 			</div>
 			
 			<br>
-			<div id="game" style="display: none; height: 670px">
+			<div id="game" style="display:none; height:670px;">
 				<table>
 					<tr>
-						<td style="width:300px;"> <!-- La imagen del PJ-->
-							<img src="https://preview.redd.it/cwso6msrejj01.jpg?width=640&crop=smart&auto=webp&s=b5ade9302ff40165a35284f9073c670cea31f4a7" width="300">
-						</td>
 						<td>
 							<!-- Los datos a mostrar-->
 							<ul id="lisVisualField"></ul>
@@ -126,33 +123,35 @@
 								<!-- Los stats. -->
 								<table>
 									<tr> <!-- Categorías -->
-										<td class="tdAcc">Cabeza</td><td class="tdAcc">Cuerpo</td><td class="tdAcc">Brazos</td><td class="tdAcc">Piernas</td>
+										<td class="tdAcc"><span id="spCabeza">Cabeza</span></td><td class="tdAcc"><span id="spBrazos">Brazos</span></td><td class="tdAcc"><span id="spPiernas">Piernas</span></td><td class="tdAcc"><span id="spCuerpo">Cuerpo</span></td>
 									</tr>
 									<tr> <!-- Stats ofensivos -->
 										<td>
 											<input type="radio" id="rbInteligenciaPlayer" name="stat" value="inteligenciaPlayer" class="rbChoose">
 											<label for="rbInteligenciaPlayer" id="lbInteligenciaPlayer">Inteligencia</label>
-										</td><td>
-											<input type="radio" id="rbFuerzaPlayer" name="stat" value="fuerzaPlayer" class="rbChoose">
-											<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
+											<span title="Duplica el valor contra Sigilo. Tu enemigo no es capaz de ocultarse si tu mente puede detectar la suya.">[?]</span>
 										</td><td>
 											<input type="radio" id="rbSigiloPlayer" name="stat" value="sigiloPlayer" class="rbChoose">
 											<label for="rbSigiloPlayer" id="lbSigiloPlayer">Sigilo</label>
+											<span title="Duplica el valor contra Agilidad. Tu enemigo no es capaz de esquivar un ataque que no puede ver.">[?]</span>
 										</td><td>
 											<input type="radio" id="rbAgilidadPlayer" name="stat" value="agilidadPlayer" class="rbChoose">
 											<label for="rbAgilidadPlayer" id="lbAgilidadPlayer">Agilidad</label>
+											<span title="Duplica el valor contra Fuerza. Tu enemigo no es capaz de bloquear un ataque si no es capaz de reaccionar a tiempo a él.">[?]</span>
+										</td><td>
+											<input type="radio" id="rbFuerzaPlayer" name="stat" value="fuerzaPlayer" class="rbChoose">
+											<label for="rbFuerzaPlayer" id="lbFuerzaPlayer">Fuerza</label>
+											<span title="Duplica el valor contra Inteligencia. Tu enemigo no es capaz de usar el poder de su mente ante un ataque que se mueve por pura inercia.">[?]</span>
 										</td>
 									</tr>
 								</table>
 								<br>
 								
 								<!-- Las acciones -->
-								<button id="btAtacarCabeza" class="btnAccion" disabled>Atacar a cabeza</button>
-								<button id="btAtacarCuerpo" class="btnAccion" disabled>Atacar a cuerpo</button>
-								<button id="btAtacarBrazos" class="btnAccion" disabled>Atacar a brazos</button>
-								<button id="btAtacarPiernas" class="btnAccion" disabled>Atacar a piernas</button>
-								<button id="btRecolectar" class="btnAccion" disabled>Recolectar</button>
-								<button id="btManipular" class="btnAccion" disabled>Manipular</button>
+								<button id="btAtacarCabeza" class="btnAccion" disabled>Atacar cabeza</button>
+								<button id="btAtacarBrazos" class="btnAccion" disabled>Atacar brazos</button>
+								<button id="btAtacarPiernas" class="btnAccion" disabled>Atacar piernas</button>
+								<button id="btAtacarCuerpo" class="btnAccion" disabled>Atacar cuerpo</button>
 								<button id="btResetBattle">Reiniciar enfrentamiento</button>
 							</div>
 						</td>
@@ -349,22 +348,16 @@
 			if (true){ // ####################################################### Tale 01: Lógica. #######################################################
 				// Varios botones con los que interactuar y enviar el loop al servidor.
 				$("#btAtacarCabeza").click((e) => {
-					socketEmitLoop01("clickAtacar/la cabeza/"+String(chosenObjective)+"/"+String(chosenStat));
+					socketEmitLoop01("T/la cabeza/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarCuerpo").click((e) => {
-					socketEmitLoop01("clickAtacar/el cuerpo/"+String(chosenObjective)+"/"+String(chosenStat));
+					socketEmitLoop01("T/el cuerpo/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarBrazos").click((e) => {
-					socketEmitLoop01("clickAtacar/los brazos/"+String(chosenObjective)+"/"+String(chosenStat));
+					socketEmitLoop01("T/los brazos/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btAtacarPiernas").click((e) => {
-					socketEmitLoop01("clickAtacar/las piernas/"+String(chosenObjective)+"/"+String(chosenStat));
-				});
-				$("#btRecolectar").click((e) => {
-					socketEmitLoop01("clickRecolectar");
-				});
-				$("#btManipular").click((e) => {
-					socketEmitLoop01("clickManipular");
+					socketEmitLoop01("T/las piernas/"+String(chosenObjective)+"/"+String(chosenStat));
 				});
 				$("#btResetBattle").click((e) => {
 					setTimeout(() => {
@@ -432,10 +425,10 @@
 					$("#lisVisualField").empty();
 					
 					// Setea los parámetros.
-					$("#lbInteligenciaPlayer").text("[" + String(Math.round(_dataPlayer.inteligenciaPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+"] Inteligencia");
-					$("#lbFuerzaPlayer").text("[" + String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+"] Fuerza");
-					$("#lbSigiloPlayer").text("[" + String(Math.round(_dataPlayer.sigiloPlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+"] Sigilo");
-					$("#lbAgilidadPlayer").text("[" + String(Math.round(_dataPlayer.agilidadPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+"] Agilidad");
+					$("#lbInteligenciaPlayer").text(String(Math.round(_dataPlayer.inteligenciaPlayer*(1-0.25*_dataPlayer.heridasCabezaPlayer)))+" Inteligencia");
+					$("#lbFuerzaPlayer").text(String(Math.round(_dataPlayer.fuerzaPlayer*(1-0.25*_dataPlayer.heridasCuerpoPlayer)))+" Fuerza");
+					$("#lbSigiloPlayer").text(String(Math.round(_dataPlayer.sigiloPlayer*(1-0.25*_dataPlayer.heridasBrazosPlayer)))+" Sigilo");
+					$("#lbAgilidadPlayer").text(String(Math.round(_dataPlayer.agilidadPlayer*(1-0.25*_dataPlayer.heridasPiernasPlayer)))+" Agilidad");
 					
 					// El resultado del turno procesado.
 					_ret.forEach(_e => {
@@ -449,25 +442,22 @@
 					if (!_hurt && !_won)
 					{
 						// Las posibles heridas de tu cuerpo.
-						if (_dataPlayer.heridasCabezaPlayer+_dataPlayer.heridasBrazosPlayer+_dataPlayer.heridasCuerpoPlayer+_dataPlayer.heridasPiernasPlayer == 0)
-							$("#lisVisualField").append("<li>- Te sientes en perfecto estado.</li>");
-						let _txtPartes = "";
-						if (_dataPlayer.heridasCabezaPlayer > 0)
-							_txtPartes += "Tu cabeza está " + String(_dataPlayer.heridasCabezaPlayer == 1 ? "herida levemente. " : (_dataPlayer.heridasCabezaPlayer == 2 ? "herida gravemente. " : "herida críticamente. "));
-						if (_dataPlayer.heridasCuerpoPlayer > 0)
-							_txtPartes += "Tu cuerpo está " + String(_dataPlayer.heridasCuerpoPlayer == 1 ? "herido levemente. " : (_dataPlayer.heridasCuerpoPlayer == 2 ? "herido gravemente. " : "herido críticamente. "));
-						if (_dataPlayer.heridasBrazosPlayer > 0)
-							_txtPartes += "Tus brazos están " + String(_dataPlayer.heridasBrazosPlayer == 1 ? "heridos levemente. " : (_dataPlayer.heridasBrazosPlayer == 2 ? "heridos gravemente. " : "heridos críticamente. "));
-						if (_dataPlayer.heridasPiernasPlayer > 0)
-							_txtPartes += "Tus piernas están " + String(_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente. " : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente. " : "heridas críticamente. "));
-						if (_txtPartes != "") $("#lisVisualField").append("<li>- "+String(_txtPartes)+"</li>");
-						$("#lisVisualField").append("<li class='liInvisible'>.</li>");
+						$("#spCabeza").empty(); $("#spCuerpo").empty(); $("#spBrazos").empty(); $("#spPiernas").empty();
+						
+						$("#spCabeza").append("Cabeza " + String(_dataPlayer.heridasCabezaPlayer == 0 ? "en buen estado" : (_dataPlayer.heridasCabezaPlayer == 1 ? "herida levemente" : (_dataPlayer.heridasCabezaPlayer == 2 ? "herida gravemente" : "herida críticamente"))) + " <span title='Tu inteligencia se reduce en un 25/50/75% si tu cabeza está herida leve/grave/críticamente'>[?]</span>");
+						$("#spCabeza").css("color",getColorHerida(_dataPlayer.heridasCabezaPlayer));
+						$("#spCuerpo").append("Cuerpo " + String(_dataPlayer.heridasCuerpoPlayer == 0 ? "en buen estado" : (_dataPlayer.heridasCuerpoPlayer == 1 ? "herido levemente" : (_dataPlayer.heridasCuerpoPlayer == 2 ? "herido gravemente" : "herido críticamente"))) + " <span title='Tu fuerza se reduce en un 25/50/75% si tu cuerpo está herido leve/grave/críticamente'>[?]</span>");
+						$("#spCuerpo").css("color",getColorHerida(_dataPlayer.heridasCuerpoPlayer));
+						$("#spBrazos").append("Brazos " + String(_dataPlayer.heridasBrazosPlayer == 0 ? "en buen estado" : (_dataPlayer.heridasBrazosPlayer == 1 ? "heridos levemente" : (_dataPlayer.heridasBrazosPlayer == 2 ? "heridos gravemente" : "heridos críticamente"))) + " <span title='Tu sigilo se reduce en un 25/50/75% si tus brazos están heridos leve/grave/críticamente'>[?]</span>");
+						$("#spBrazos").css("color",getColorHerida(_dataPlayer.heridasBrazosPlayer));
+						$("#spPiernas").append("Piernas " + String(_dataPlayer.heridasPiernasPlayer == 0 ? "en buen estado" : (_dataPlayer.heridasPiernasPlayer == 1 ? "heridas levemente" : (_dataPlayer.heridasPiernasPlayer == 2 ? "heridas gravemente" : "heridas críticamente"))) + " <span title='Tu agilidad se reduce en un 25/50/75% si tus piernas están heridas leve/grave/críticamente'>[?]</span>");
+						$("#spPiernas").css("color",getColorHerida(_dataPlayer.heridasPiernasPlayer));
 						
 						// Luego, para cada enemigo...
 						for (let i = 0; i < _dataEnemies.length; ++i)
 						{
 							// Su descripción.
-							var _descr = getEnemyDescription(_dataEnemies[i].nameEnemy);
+							var _descr = getEnemyDescription(_dataEnemies[i]);
 							let _txt = _descr[0];
 							
 							if (_dataEnemies[i].stateEnemy != "Dead")
@@ -477,15 +467,12 @@
 								
 								// Sus heridas.
 								let _txtPartes = "";
-								if (_dataEnemies[i].heridasCabezaEnemy > 0)
-									_txtPartes += "Su cabeza está " + String(_dataEnemies[i].heridasCabezaEnemy == 1 ? "herida levemente. " : (_dataEnemies[i].heridasCabezaEnemy == 2 ? "herida gravemente. " : "herida críticamente. "));
-								if (_dataEnemies[i].heridasCuerpoEnemy > 0)
-									_txtPartes += "Su cuerpo está " + String(_dataEnemies[i].heridasCuerpoEnemy == 1 ? "herido levemente. " : (_dataEnemies[i].heridasCuerpoEnemy == 2 ? "herido gravemente. " : "herido críticamente. "));
-								if (_dataEnemies[i].heridasBrazosEnemy > 0)
-									_txtPartes += "Sus brazos están " + String(_dataEnemies[i].heridasBrazosEnemy == 1 ? "heridos levemente. " : (_dataEnemies[i].heridasBrazosEnemy == 2 ? "heridos gravemente. " : "heridos críticamente. "));
-								if (_dataEnemies[i].heridasPiernasEnemy > 0)
-									_txtPartes += "Sus piernas están " + String(_dataEnemies[i].heridasPiernasEnemy == 1 ? "heridas levemente. " : (_dataEnemies[i].heridasPiernasEnemy == 2 ? "heridas gravemente. " : "heridas críticamente. "));
-								if (_txtPartes != "") _txt += _txtPartes;
+								_txtPartes += "<font style='color:"+String(getColorHerida(_dataEnemies[i].heridasCabezaEnemy))+"'>Cabeza " + String(_dataEnemies[i].heridasCabezaEnemy == 0 ? "en buen estado. " : (_dataEnemies[i].heridasCabezaEnemy == 1 ? "herida levemente. " : (_dataEnemies[i].heridasCabezaEnemy == 2 ? "herida gravemente. " : "herida críticamente. ")));
+								_txtPartes += "</font><font style='color:"+String(getColorHerida(_dataEnemies[i].heridasCuerpoEnemy))+"'>Cuerpo " + String(_dataEnemies[i].heridasCuerpoEnemy == 0 ? "en buen estado. " : (_dataEnemies[i].heridasCuerpoEnemy == 1 ? "herido levemente. " : (_dataEnemies[i].heridasCuerpoEnemy == 2 ? "herido gravemente. " : "herido críticamente. ")));
+								_txtPartes += "</font><font style='color:"+String(getColorHerida(_dataEnemies[i].heridasBrazosEnemy))+"'>Brazos " + String(_dataEnemies[i].heridasBrazosEnemy == 0 ? "en buen estado. " : (_dataEnemies[i].heridasBrazosEnemy == 1 ? "heridos levemente. " : (_dataEnemies[i].heridasBrazosEnemy == 2 ? "heridos gravemente. " : "heridos críticamente. ")));
+								_txtPartes += "</font><font style='color:"+String(getColorHerida(_dataEnemies[i].heridasPiernasEnemy))+"'>Piernas " + String(_dataEnemies[i].heridasPiernasEnemy == 0 ? "en buen estado. " : (_dataEnemies[i].heridasPiernasEnemy == 1 ? "heridas levemente. " : (_dataEnemies[i].heridasPiernasEnemy == 2 ? "heridas gravemente. " : "heridas críticamente. ")));
+								_txtPartes += "</font>";
+								_txt += _txtPartes;
 								
 								// El lore.
 								_txt += "<i style='color:#888888;'>"+String(_descr[1])+"</i>";
@@ -512,12 +499,26 @@
 					$("#commands").css("visibility",_hurt || _won ? "hidden" : "visible");
 					$("#btResetBattle").css("visibility",_hurt || _won ? "visible" : "hidden");
 				});
+				
+				function getColorHerida(_nHeridas)
+				{
+					let _ret = "";
+					if (_nHeridas == 0) _ret += "#00FF00";
+					else if (_nHeridas == 1) _ret += "#FFFF00";
+					else if (_nHeridas == 2) _ret += "#FF8800";
+					else if (_nHeridas == 3) _ret += "#FF0000";
+					return _ret;
+				}
 			}
 			if (true){ // ####################################################### Tale 01: obtén la descripción completa del enemigo para identificarlo (async). #######################################################
-				function getEnemyDescription(_nameEnemy)
+				function getEnemyDescription(_enemy)
 				{
-					if (_nameEnemy == "ExploradorPala") return ["Observas un explorador con una pala. ","Está bien tapado con ropa de abrigo densa, a través de la cual puedes distinguir su fornida musculatura. Presenta ágiles movimientos y sus gritos te hacen notar su presencia, aunque lo notas muy indeciso e inquieto. "];
-					else return ""
+					var _descr = "";
+					if (_enemy.nameEnemy == "ExploradorPala")
+					{
+						_descr = "Observas un explorador con una pala. ";
+					}
+					return [_descr,_enemy.statChosenEnemy]
 				}
 				function getEnemyState(_stateEnemy)
 				{

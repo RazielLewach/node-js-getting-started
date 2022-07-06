@@ -1,10 +1,18 @@
 ###### TODO ######
-- Rearrange la foto para que esté más ¿horizontal? Arriba y dejar más espacio a la batalla. ¿Improvisar sistema para reasignar stats?
+- 
 
 ###### SOMETIMES ######
-- Cuando añada otros elementos: poner los 4 atacar al final, y que al elegir un radiobutton no enemigo, se oculten los 4 y muestre "Atacar" en general, y viceversa.
+- ¿Botones de sabotear, robar, etc a los enemigos?
+- Rearrange la foto para que esté más ¿horizontal? Arriba y dejar más espacio a la batalla. ¿Improvisar sistema para reasignar stats?
+- Cuando añada otros elementos: poner los 4 atacar al final, y que al elegir un radiobutton no enemigo, se oculten los 4 y muestre "Interactuar" en general, y viceversa.
 
 ###### DONE ######
+- Hacer que la frase indicando qué hará sea dinámicamente construida a cachos o algo así, siempre nueva, con algun algoritmo guay y probabilidades.
+- A veces la CUENTA se queda rallada con el loop a false pa siempre. FORZAR canAct a true al ABRIR el capitulo.
+- Colores o iconos juicy.
+- Que funcione el sistema de piedra-papel-tijeras y testear
+- statchosenenemy no se guarda en BD, cuando la query lo tiene correctamente.
+- Que el rival ataque y defienda con el mismo stat.
 - Que al ganar desbloquee el proximo capitulo. Juicy todo.
 - Diseño: ¿juntar stats ofensivos y defensivos y sólo elegir stat? Ahora mismo puedes elegir el mejor stat para atacar y el mejor para defender (aburrido). De la otra forma te obliga a atacar-defender con el mismo y hay decisiones.
 - Que los enemigos muertos no hagan su turno (si tú lo matas en tu turno, no contraataca).
@@ -36,9 +44,6 @@
 
 
 ####### LLUVIA DE IDEAS #########
-- 
-
-
 
 
 
